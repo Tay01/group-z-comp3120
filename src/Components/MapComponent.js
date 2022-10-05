@@ -1,19 +1,22 @@
 import React from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import dotenv from "dotenv";
 import { useState } from "react";
 
+
 export default function MapComponent() {
-  const { isMapLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+    
+  const { isLoaded, isNotLoaded } = useLoadScript({
+    googleMapsApiKey:"AIzaSyDu_da3gQIs8G9RB9_CLdDRNyNCXUW-EJ8",
   });
 
   const [state, setState] = useState({ position: undefined });
 
   const getLocation = () => {
+    console.log("gl call")
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (successPosition) => {
+            console.log("success call")
           setState({
             ...state,
             position: {
@@ -30,11 +33,21 @@ export default function MapComponent() {
       alert("Geolocation is not supported by this browser.");
     }
   };
-  if (!isMapLoaded || state.position == undefined) {
-    return <div>Loading...</div>;
+
+  
+
+  console.log(isLoaded)
+
+  if (!isLoaded || state.position == undefined) {
+    getLocation();
+    return <div>loading...</div>;
   }
-  if (isMapLoaded && state.position != undefined) {
+ 
+  if (isLoaded && state.position != undefined) {
+    return <div>yeet</div>
   }
+
+  console.log(state);
 
   return <div>MapComponent</div>;
 }
