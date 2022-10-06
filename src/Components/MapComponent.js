@@ -253,14 +253,15 @@ export default function MapComponent() {
             lng: e.latLng.lng(),
         };
         console.log(e)
+        console.log(position)
         dropMarker(position);
     }
 
     
 
   const dropMarker = (pos) => {
-    console.log("fuck")
-    setState({...state, markers:[... pos] });
+    console.log("dropmarker fn")
+    setState({...state, markers:[...state.markers, pos] });
     };
 
   const initMapObject = () => {
@@ -294,14 +295,7 @@ export default function MapComponent() {
 
   console.log(isLoaded)
 
-  function GoogleMap(props){
-    const map = new google.maps.Map(document.getElementById("googlemap"), {
-        zoom: 15,
-        center: { lat: 37.7749, lng: -122.4194 },
-        mapId: "99308a9fa065e968"})
-
-        map.addListener("click", onMapClick(e))
-  }
+  
 
   if (!isLoaded || state.position == undefined) {
     getLocation();
@@ -317,13 +311,11 @@ export default function MapComponent() {
           mapContainerClassName="mapcontainer"
           mapId={"99308a9fa065e968"}
           id="googlemap"
+          onClick={onMapClick}
         ></GoogleMap>
       </div>
     );
   }
-
-  //event listeners
-  document.getElementById("googlemap").addEventListener("touch", onMapClick, {passive: true});
 
   console.log(state);
 
