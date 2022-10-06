@@ -3,7 +3,7 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { useState } from "react";
 
 
-export default function MapComponent() {
+export default function MapComponent(props) {
     
   const { isLoaded, isNotLoaded } = useLoadScript({
     googleMapsApiKey:"AIzaSyDu_da3gQIs8G9RB9_CLdDRNyNCXUW-EJ8",
@@ -242,6 +242,7 @@ export default function MapComponent() {
     },
   ];
 
+  props.appState["mapCursorMode"] = "default";
   
 
   const [state, setState] = useState({ position: undefined, markers: [] });
@@ -254,7 +255,17 @@ export default function MapComponent() {
         };
         console.log(e)
         console.log(position)
-        dropMarker(position);
+        console.log(props.appState.mapCursorMode)
+        if(props.appState.mapCursorMode == "marker"){
+            dropMarker(position);
+        }
+        
+    }
+
+    const onMarkerClick = (marker) => {
+        if(props.appState.mapCursorMode == "delete"){
+            deleteMarker(marker);
+        }
     }
 
     
@@ -263,6 +274,11 @@ export default function MapComponent() {
     console.log("dropmarker fn")
     setState({...state, markers:[...state.markers, pos] });
     };
+
+  const deleteMarker = (pos) => {
+    setState({...state, markers: state.markers.filter((marker) => marker !== pos)});
+  }
+
 
   const initMapObject = () => {
   }
@@ -312,7 +328,11 @@ export default function MapComponent() {
           mapId={"99308a9fa065e968"}
           id="googlemap"
           onClick={onMapClick}
-        ></GoogleMap>
+        >
+            {state.markers.map((marker, index) => (
+                <Marker key={index} position={marker} onClick={() => {onMarkerClick(marker)}}/>
+            ))}
+        </GoogleMap>
       </div>
     );
   }
