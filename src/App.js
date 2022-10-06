@@ -1,12 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import LoginButton from './Components/LoginButton';
+import LogoutButton from './Components/LogoutButton';
+import Profile from './Components/Profile';
+import Content from './Components/Content';
+import dotenv from 'dotenv';
 
 function App() {
   
   
   return (
     <div className="App">
+      <LoginButton /> 
+      <LogoutButton /> 
+      <Profile /> 
+      <Content />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
