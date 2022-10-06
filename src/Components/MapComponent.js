@@ -308,6 +308,7 @@ export default function MapComponent(props) {
   };
 
   
+  
 
   console.log(isLoaded)
 

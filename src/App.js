@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import MapComponent from './Components/MapComponent.js';
-import ButtonComponent from './Components/ButtonComponent';
+import ButtonComponent from './Components/ButtonComponent.js';
 import StateWrapper from './StateWrapper.js';
 
 function App() {
