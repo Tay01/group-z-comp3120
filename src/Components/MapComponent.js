@@ -11,6 +11,9 @@ export default function MapComponent() {
 
   const [state, setState] = useState({ position: undefined });
 
+  const initMapObject = () => {
+  }
+
   const getLocation = () => {
     console.log("gl call")
     if (navigator.geolocation) {
@@ -23,7 +26,8 @@ export default function MapComponent() {
               lat: successPosition.coords.latitude,
               lng: successPosition.coords.longitude,
             },
-          });
+          })
+          initMapObject();
         },
         (errorPosition) => {
           console.log(errorPosition);
@@ -40,14 +44,23 @@ export default function MapComponent() {
 
   if (!isLoaded || state.position == undefined) {
     getLocation();
-    return <div>loading...</div>;
+    return <div id="mapcomponent">loading...</div>;
   }
  
   if (isLoaded && state.position != undefined) {
-    return <div>yeet</div>
+
+    return (
+      <div id="mapcomponent">
+        <GoogleMap
+          zoom={15}
+          center={state.position}
+          mapContainerClassName="mapcontainer"
+        ></GoogleMap>
+      </div>
+    );
   }
 
   console.log(state);
 
-  return <div>MapComponent</div>;
+
 }
