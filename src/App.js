@@ -9,6 +9,7 @@ import MapComponent from './Components/MapComponent.js';
 import ButtonComponent from './Components/ButtonComponent.js';
 import StateWrapper from './StateWrapper.js';
 import { setState, useState } from 'react'
+import MapWrapper from './Components/MapWrapper';
 
 function App() {
   //use this when you want state changes to reflect for all components, such as on login/logout
@@ -30,7 +31,7 @@ function App() {
       <LogoutButton /> 
       <Profile /> 
       <Content />
-      <MapComponent appState={proxyState}/>
+      <MapWrapper/>
       <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {proxyState["mapCursorMode"] = "marker"}}/>
       <ButtonComponent id="deleteMarkerButton" text="Delete Marker" onClick={() => {proxyState["mapCursorMode"] = "delete"}}/>
       <ButtonComponent id="accountButton" text="Account" />
