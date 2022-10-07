@@ -1,10 +1,12 @@
 import React from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 export default function MapComponent(props) {
-    
+const { user, isAuthenticated, isLoading } = useAuth0();
+
   const { isLoaded, isNotLoaded } = useLoadScript({
     googleMapsApiKey:"AIzaSyDu_da3gQIs8G9RB9_CLdDRNyNCXUW-EJ8",
   });
@@ -314,9 +316,15 @@ export default function MapComponent(props) {
 
   
 
-  if (!isLoaded || state.position == undefined) {
+  if (!isLoaded ||state.position == undefined) {
     getLocation();
     return <div id="mapcomponent">loading...</div>;
+  }
+
+  if(!isAuthenticated){
+    return <div> 
+        You have not logged in :(
+    </div>
   }
  
   if (isLoaded && state.position != undefined) {
