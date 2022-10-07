@@ -24,5 +24,5 @@ console.log(app)
 console.log(db)
 
 console.log("-----------------")
-console.log("SUCCESS")
+console.log("SUCCESSFULLY CONNECTED TO DB")
 console.log("-----------------")

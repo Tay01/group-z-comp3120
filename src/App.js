@@ -1,11 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import LoginButton from './Components/LoginButton';
-import LogoutButton from './Components/LogoutButton';
-import Profile from './Components/Profile';
-import Content from './Components/Content';
-import dotenv from 'dotenv';
+import LoginButton from './Components/LoginButton.js';
+import LogoutButton from './Components/LogoutButton.js';
+import Profile from './Components/Profile.js';
+import Content from './Components/Content.js';
 
 function App() {
   
