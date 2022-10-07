@@ -8,7 +8,11 @@ import Content from './Components/Content.js';
 import MapComponent from './Components/MapComponent.js';
 import ButtonComponent from './Components/ButtonComponent.js';
 import StateWrapper from './StateWrapper.js';
-import { setState, useState } from 'react'
+import { setState, useState } from 'react';
+
+//DB Testing Imports
+
+import {Crud} from './server/crud/index.js';
 
 function App() {
   //use this when you want state changes to reflect for all components, such as on login/logout
@@ -30,6 +34,7 @@ function App() {
       <LogoutButton /> 
       <Profile /> 
       <Content />
+      <Crud />
       <MapComponent appState={proxyState}/>
       <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {proxyState["mapCursorMode"] = "marker"}}/>
       <ButtonComponent id="deleteMarkerButton" text="Delete Marker" onClick={() => {proxyState["mapCursorMode"] = "delete"}}/>
