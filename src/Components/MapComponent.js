@@ -320,6 +320,7 @@ export default function MapComponent(props) {
   }
  
   if (isLoaded && state.position != undefined) {
+    console.log("I am re rendering")
     return (
       <div id="mapcomponent">
         <GoogleMap
@@ -338,6 +339,7 @@ export default function MapComponent(props) {
     );
   }
 
+  
   console.log(state);
 
 
