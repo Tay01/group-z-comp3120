@@ -12,9 +12,7 @@ import MapWrapper from './Components/MapWrapper.js';
 import { setState, useState } from 'react';
 
 //DB Testing Imports
-
-import {Crud} from './Components/server/crud/index.js';
-import {CreateComment} from './Components/server/crud/index2.js'
+import {CreateComment} from './Components/server/crud/template.js'
 
 
 function App() {
