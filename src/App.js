@@ -8,12 +8,13 @@ import Content from './Components/Content.js';
 import MapComponent from './Components/MapComponent.js';
 import ButtonComponent from './Components/ButtonComponent.js';
 import StateWrapper from './StateWrapper.js';
-import MapWrapper from './Components/MapWrapper';
+import MapWrapper from './Components/MapWrapper.js';
 import { setState, useState } from 'react';
 
 //DB Testing Imports
 
-import {Crud} from './server/crud/index.js';
+import {Crud} from './Components/server/crud/index.js';
+import {CreateComment} from './Components/server/crud/index2.js'
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
       <LogoutButton /> 
       <Profile /> 
       <Content />
-      <Crud />
+      <CreateComment />
       <MapWrapper/>
       <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {proxyState["mapCursorMode"] = "marker"}}/>
       <ButtonComponent id="deleteMarkerButton" text="Delete Marker" onClick={() => {proxyState["mapCursorMode"] = "delete"}}/>
