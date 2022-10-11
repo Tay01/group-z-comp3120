@@ -36,7 +36,7 @@ function App() {
       <Profile /> 
       <Content />
       <CreateComment />
-      <MapWrapper/>
+      <MapWrapper proxyState={proxyState}/>
       <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {proxyState["mapCursorMode"] = "marker"}}/>
       <ButtonComponent id="deleteMarkerButton" text="Delete Marker" onClick={() => {proxyState["mapCursorMode"] = "delete"}}/>
       <ButtonComponent id="accountButton" text="Account" />
