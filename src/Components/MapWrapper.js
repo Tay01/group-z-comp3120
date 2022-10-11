@@ -10,6 +10,7 @@ export default function MapWrapper(props) {
     const appState = props.proxyState;
     appState["userLocation"] = {lat: 0, lng: 0};
     appState["markers"] = [];
+    appState["markerPositions"] = [];
 
     //define the loader for the map
     const loader = new Loader({
@@ -91,7 +92,7 @@ export default function MapWrapper(props) {
         map: appState.mapObject,
       });
       marker.addListener("click", () => {onMarkerClick(marker)})
-      appState["markers"].push(marker);
+      appState["markers"].push({markerPos: pos, markerObject: marker});
     };
 
 
@@ -121,7 +122,13 @@ export default function MapWrapper(props) {
     };
 
     
-
+    function getMarkersFromServer(){
+      const resultFromServer = [{}]
+      var newMarkers = resultFromServer.filter(e => !appState.markers.map((marker) => {return marker.markerPos}).includes(e))
+      newMarkers.forEach((newMarker) => {
+        dropMarker(pos)
+      })
+    }
   
   
 
