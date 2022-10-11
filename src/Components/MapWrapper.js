@@ -126,7 +126,7 @@ export default function MapWrapper(props) {
       const resultFromServer = [{}]
       var newMarkers = resultFromServer.filter(e => !appState.markers.map((marker) => {return marker.markerPos}).includes(e))
       newMarkers.forEach((newMarker) => {
-        dropMarker(pos)
+        dropMarker(newMarker.pos)
       })
     }
   
