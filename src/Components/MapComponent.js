@@ -1,12 +1,13 @@
 import React from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+
+//DB test
+import {SetPing} from './server/crud/SetPing.js'
 
 
 export default function MapComponent(props) {
-const { user, isAuthenticated, isLoading } = useAuth0();
-
+    
   const { isLoaded, isNotLoaded } = useLoadScript({
     googleMapsApiKey:"AIzaSyDu_da3gQIs8G9RB9_CLdDRNyNCXUW-EJ8",
   });
@@ -249,12 +250,14 @@ const { user, isAuthenticated, isLoading } = useAuth0();
 
   const [state, setState] = useState({ position: undefined, markers: [] });
 
+  const [position, setPosition] = useState({});
+
   //event listeners
     const onMapClick = (e) => {
-        const position = {
+        setPosition({
             lat: e.latLng.lat(),
             lng: e.latLng.lng(),
-        };
+        });
         console.log(e)
         console.log(position)
         console.log(props.appState.mapCursorMode)
@@ -316,15 +319,9 @@ const { user, isAuthenticated, isLoading } = useAuth0();
 
   
 
-  if (!isLoaded ||state.position == undefined) {
+  if (!isLoaded || state.position == undefined) {
     getLocation();
     return <div id="mapcomponent">loading...</div>;
-  }
-
-  if(!isAuthenticated){
-    return <div> 
-        You have not logged in :(
-    </div>
   }
  
   if (isLoaded && state.position != undefined) {
@@ -343,6 +340,10 @@ const { user, isAuthenticated, isLoading } = useAuth0();
                 <Marker key={index} position={marker} onClick={() => {onMarkerClick(marker)}}/>
             ))}
         </GoogleMap>
+        <SetPing
+          lat={position.lat}
+          lng={position.lng}
+        />
       </div>
     );
   }

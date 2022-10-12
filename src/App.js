@@ -15,6 +15,7 @@ import { setState, useState } from 'react';
 import {CreateComment} from './Components/server/crud/template.js'
 
 
+
 function App() {
   //use this when you want state changes to reflect for all components, such as on login/logout
   const [state, setState] = useState({})
@@ -23,8 +24,10 @@ function App() {
   const proxyState = {}
   const setProxyState = (stateName, stateValue) => {
     proxyState[stateName] = stateValue;
+    console.log(proxyState)
   }
   const getProxyState = (stateName) => {
+    console.log(proxyState)
     return proxyState[stateName];
   }
 
@@ -36,8 +39,8 @@ function App() {
       <Profile /> 
       <Content />
       <CreateComment />
-      <MapWrapper/>
-      <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {proxyState["mapCursorMode"] = "marker"}}/>
+      <MapComponent appState={proxyState}/>
+      <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {setProxyState('mapCursorMode', 'marker')}}/>
       <ButtonComponent id="deleteMarkerButton" text="Delete Marker" onClick={() => {proxyState["mapCursorMode"] = "delete"}}/>
       <ButtonComponent id="accountButton" text="Account" />
       <ButtonComponent id="settingsButton" text="Settings" />
