@@ -60,7 +60,6 @@ export default function MapWrapper(props) {
       return controlButton;
     }
 
-    
 
     // //event listeners for the map
     const onMapClick = (e) => {
