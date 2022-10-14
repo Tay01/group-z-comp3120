@@ -12,6 +12,11 @@ export default function MapWrapper(props) {
     appState["markers"] = [];
     appState["markerPositions"] = [];
 
+    //set to false if you want the map to render. Otherwise, it is just here to limit api calls
+    if(false){
+      return(<div id="mapWrapper" style={{backgroundColor:"red"}}></div>)
+    }
+
     //define the loader for the map
     const loader = new Loader({
         apiKey: "AIzaSyDu_da3gQIs8G9RB9_CLdDRNyNCXUW-EJ8",
@@ -85,7 +90,7 @@ export default function MapWrapper(props) {
 
     const dropMarker = (pos) => {
       console.log(pos)
-      console.log(document.getElementById("mapcomponent"))
+      console.log(document.getElementById("mapWrapper"))
       const marker = new window.google.maps.Marker({
         position: pos,
         map: appState.mapObject,
@@ -135,6 +140,7 @@ export default function MapWrapper(props) {
       const map = new window.google.maps.Map(mapRef.current, {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 18,
+        disableDefaultUI: true,
       });
       //after map is loaded, we can bind event listeners to it
       map.addListener("click", onMapClick);
@@ -158,7 +164,7 @@ export default function MapWrapper(props) {
     getLocation()
 
   return (
-    <div ref={mapRef} id="mapcomponent"></div>
+    <div ref={mapRef} id="mapWrapper"></div>
   )
 
   

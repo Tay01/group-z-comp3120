@@ -1,23 +1,103 @@
+:root{
+  --speed: 500ms;
+  --text-color: black;
+  --icon-size: 50px;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a{
+  color: var(--text-color);
+  text-decoration:none;
+}
+
 .App{
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-.mapcontainer {
-  height: 100%;
-  width: 100%;
-  background-color: red;
-  position: relative;
-  text-align: center;
+  pointer-events: none;
 }
 
-#mapcomponent{
+.menuOverlayContainer{
+  position: relative;
+  grid-column: 1/10;
+  grid-row: 1/9;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+  grid-template-rows: 1fr 10fr 1fr;
+  pointer-events: none;
+}
+
+.expandableMenu{
+  pointer-events: auto;
+}
+
+.dropdown{
+  position:absolute;
+  top: var(--icon-size) + 3px;
+  width: 30vw;
+  height: 80vh;
+  overflow: visible;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownReverse>*{
+  transform: translateX(var(--icon-size));
+}
+
+.dropdownRight{
+  top: 0px;
+  transform: translateX(100%);
+}
+
+.dropdownLeft{
+  top: 0px;
+  transform: translateX(-100%);
+}
+
+.dropdownDown{
+  top: var(--icon-size);
+}
+
+.dropdownUp{
+  top: var(--icon-size)*-1;
+}
+
+.dropdownItem{
+  display: inline-block;
+  width: 100%;
+  background-color: white;
+}
+
+.dropdownItem:hover{
+  background-color: #f1f1f1;
+}
+
+
+.accountButton{
+  grid-column: 2/3;
+  grid-row: 1/2;
+  justify-content: center;
+  align-items: center;
+}
+
+#mapWrapper{
+  position: absolute;
+  z-index: 0;
   height: 100%;
   width: 100%;
-  grid-column: 3/8;
-  grid-row: 2/7;
+  grid-column: 2/9;
+  grid-row: 1/9;
+  pointer-events: auto;
 }
 
 #dropMarkerButton{
@@ -31,8 +111,9 @@
 }
 
 #accountButton{
-  grid-column: 9/10;
+  grid-column: 8/9;
   grid-row: 1/2;
+  transform: translateX(-50%);
 }
 
 #settingsButton{
@@ -40,3 +121,34 @@
   grid-row: 1/2;
 
 }
+
+.burgerMenu{
+  height: var(--icon-size);
+  width: var(--icon-size);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+
+.burgerMenu__line{
+  width: 100%;
+  height: 5px;
+  background-color: black;
+  border: solid black;
+  border-width: 0px;
+  transform: rotate(0deg);
+  transition: border-width 1s ease-in-out 0s;
+  
+
+  
+  
+}
+
+.burgerMenu:hover>.burgerMenu__line{
+  border-width: 2px;
+}
+

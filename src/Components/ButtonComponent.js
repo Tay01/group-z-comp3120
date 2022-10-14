@@ -6,9 +6,15 @@ export default function ButtonComponent(props) {
 
   
 
-  
-
-  return (
-    <button id={state.id} className={state.class} onClick={state.onClick} >{state.text}</button>
-  )
+  //if we do not pass a visual component to the button, we will make it into an actual button component
+  if(props.visualComponent == undefined){
+    return (
+      <button id={state.id} className={state.class} onClick={state.onClick} >{state.text}</button>
+    )
+  }else{
+    //else, if we do have a visual component that we can use, we will display that instead.
+    return (
+      <div id={state.id} className={state.class} onClick={state.onClick} >{props.visualComponent}</div>
+    )
+  }
 }
