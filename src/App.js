@@ -54,9 +54,25 @@ function App() {
                 proxyState={proxyState}
               >
                 <Dropdown openRight={true}>
-                  <DropdownItem>penis</DropdownItem>
-                  <DropdownItem>penis</DropdownItem>
-                  <DropdownItem>penis</DropdownItem>
+                  <DropdownItem>
+                    <ButtonComponent
+                      id="dropMarkerButton"
+                      text="Drop Marker"
+                      onClick={() => {
+                        proxyState["mapCursorMode"] = "marker";
+                      }}
+                    />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <ButtonComponent
+                      id="deleteMarkerButton"
+                      text="Delete Marker"
+                      onClick={() => {
+                        proxyState["mapCursorMode"] = "delete";
+                      }}
+                    />
+                  </DropdownItem>
+                  <DropdownItem>Nothing rude</DropdownItem>
                 </Dropdown>
               </ExpandableMenu>
             </DropdownItem>
@@ -79,9 +95,9 @@ function App() {
                 proxyState={proxyState}
               >
                 <Dropdown openLeft={true}>
-                  <DropdownItem>penis</DropdownItem>
-                  <DropdownItem>penis</DropdownItem>
-                  <DropdownItem>penis</DropdownItem>
+                  <DropdownItem>Nothing rude</DropdownItem>
+                  <DropdownItem>Nothing rude</DropdownItem>
+                  <DropdownItem>Nothing rude</DropdownItem>
                 </Dropdown>
               </ExpandableMenu>
             </DropdownItem>
@@ -95,21 +111,6 @@ function App() {
       <Profile />
       <Content />
       <CreateComment />
-
-      <ButtonComponent
-        id="dropMarkerButton"
-        text="Drop Marker"
-        onClick={() => {
-          proxyState["mapCursorMode"] = "marker";
-        }}
-      />
-      <ButtonComponent
-        id="deleteMarkerButton"
-        text="Delete Marker"
-        onClick={() => {
-          proxyState["mapCursorMode"] = "delete";
-        }}
-      />
     </div>
   );
 }

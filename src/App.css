@@ -40,6 +40,7 @@ a{
 }
 
 .dropdown{
+  pointer-events: none;
   position:absolute;
   top: var(--icon-size) + 3px;
   width: 30vw;
@@ -73,6 +74,7 @@ a{
 }
 
 .dropdownItem{
+  pointer-events: all;
   display: inline-block;
   width: 100%;
   background-color: white;
