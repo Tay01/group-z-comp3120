@@ -12,8 +12,7 @@ import MapWrapper from './Components/MapWrapper.js';
 import { setState, useState } from 'react';
 
 //DB Testing Imports
-import {CreateComment} from './Components/server/crud/template.js'
-
+import {CreateComment} from './Components/server DONT USE/crud/template.js'
 
 
 function App() {
@@ -24,13 +23,10 @@ function App() {
   const proxyState = {}
   const setProxyState = (stateName, stateValue) => {
     proxyState[stateName] = stateValue;
-    console.log(proxyState)
   }
   const getProxyState = (stateName) => {
-    console.log(proxyState)
     return proxyState[stateName];
   }
-
   
   return (
     <div className="App">
@@ -39,13 +35,8 @@ function App() {
       <Profile /> 
       <Content />
       <CreateComment />
-<<<<<<< HEAD
-      <MapComponent appState={proxyState}/>
-      <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {setProxyState('mapCursorMode', 'marker')}}/>
-=======
       <MapWrapper proxyState={proxyState}/>
       <ButtonComponent id="dropMarkerButton" text="Drop Marker" onClick={() => {proxyState["mapCursorMode"] = "marker"}}/>
->>>>>>> master
       <ButtonComponent id="deleteMarkerButton" text="Delete Marker" onClick={() => {proxyState["mapCursorMode"] = "delete"}}/>
       <ButtonComponent id="accountButton" text="Account" />
       <ButtonComponent id="settingsButton" text="Settings" />

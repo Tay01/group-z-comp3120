@@ -3,7 +3,7 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { useState } from "react";
 
 //DB test
-import {SetPing} from './server/crud/SetPing.js'
+import {SetPing} from './server DONT USE/crud/SetPing.js'
 
 
 export default function MapComponent(props) {
