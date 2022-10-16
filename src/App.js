@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import Typewriter from 'typewriter-effect';
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
@@ -42,8 +43,14 @@ function App() {
   if (!isAuthenticated){
     return (
       <>
-      {/* //add all pre auth content here  */}
       <LoginButton />
+      <Typewriter
+  options={{
+    strings: ['Hello welcome to safe spot', 'or whatever our name is'],
+    autoStart: true,
+    loop: true,
+  }}
+/>
       </>
     )
   }
