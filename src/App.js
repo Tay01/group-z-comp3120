@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import LoginButton from "./Components/LoginButton.js";
@@ -19,6 +20,9 @@ import ExpandableMenu from "./Components/ExpandableMenu";
 import DropdownItem from "./Components/DropdownItem";
 
 function App() {
+
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
   //use this when you want state changes to reflect for all components, such as on login/logout
   const [state, setState] = useState({});
 
@@ -30,6 +34,20 @@ function App() {
   const getProxyState = (stateName) => {
     return proxyState[stateName];
   };
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  if (!isAuthenticated){
+    return (
+      <>
+      {/* //add all pre auth content here  */}
+      <LoginButton />
+      </>
+    )
+  }
+else {
 
   return (
     <div className="App">
@@ -72,7 +90,8 @@ function App() {
                       }}
                     />
                   </DropdownItem>
-                  <DropdownItem>Nothing rude</DropdownItem>
+                  <DropdownItem> <LogoutButton />
+                  </DropdownItem>
                 </Dropdown>
               </ExpandableMenu>
             </DropdownItem>
@@ -113,6 +132,6 @@ function App() {
       <CreateComment />
     </div>
   );
-}
+} };
 
 export default App;
