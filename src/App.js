@@ -1,22 +1,34 @@
+//Styles
 import logo from "./logo.svg";
 import "./App.css";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+
+//React
+import { setState, useState } from "react";
+
+//????
 import LoginButton from "./Components/LoginButton.js";
 import LogoutButton from "./Components/LogoutButton.js";
 import Profile from "./Components/Profile.js";
+
+//Components - Main
+//These are the major, complex sections that make up our overall App. They can be pages or represent large components, such as the map
 import Content from "./Components/Content.js";
-import MapComponent from "./Components/MapComponent.js";
-import ButtonComponent from "./Components/ButtonComponent.js";
-import Dropdown from "./Components/Dropdown";
-import StateWrapper from "./StateWrapper.js";
 import MapWrapper from "./Components/MapWrapper.js";
-import { setState, useState } from "react";
+
 
 //DB Testing Imports
 import { CreateComment } from "./Components/server DONT USE/crud/template.js";
-import BurgerMenu from "./Components/VisualComponents/BurgerMenu";
+
+//Components - GUI
+import ButtonComponent from "./Components/ButtonComponent.js";
 import ExpandableMenu from "./Components/ExpandableMenu";
+import Dropdown from "./Components/Dropdown";
 import DropdownItem from "./Components/DropdownItem";
+
+//VisualComponents - these are simple, reusable visual components that can be used to graphically represent a more complex component.
+//Think of these components as an image file, or an icon. 
+import BurgerMenu from "./Components/VisualComponents/BurgerMenu";
+
 
 function App() {
   //use this when you want state changes to reflect for all components, such as on login/logout

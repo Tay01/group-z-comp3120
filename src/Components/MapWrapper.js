@@ -23,6 +23,21 @@ export default function MapWrapper(props) {
         version: "weekly",
     });
 
+    //server methods for pushing and pulling data:
+    const pushMarker = (pos) => {
+        fetch("http://localhost:5000/api/markers", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({pos: pos}),
+        })
+        .then(res => console.log(res))
+        .then(data => {
+            console.log(data)
+        })
+    }
+
     //create a reference to the map, so we can call map methods
     const mapRef = React.createRef()
 
@@ -77,6 +92,7 @@ export default function MapWrapper(props) {
       console.log(appState.mapCursorMode);
       if (appState.mapCursorMode == "marker") {
         dropMarker(position);
+        pushMarker(position);
         console.log("yeet")
       }
     };
