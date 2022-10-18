@@ -8,9 +8,12 @@ import LogoutButton from "./LogoutButton.js";
 import LoginButton from "./LoginButton.js";
 import Profile from "./Profile.js";
 
+
 //VisualComponents - these are simple, reusable visual components that can be used to graphically represent a more complex component.
 //Think of these components as an image file, or an icon.
 import BurgerMenu from "./VisualComponents/BurgerMenu";
+import Marker from "./VisualComponents/Marker"
+import { Button } from "react-native-web";
 
 export default function MenuOverlayContainer(props) {
   return (
@@ -88,39 +91,52 @@ export default function MenuOverlayContainer(props) {
         </Dropdown>
       </ExpandableMenu>
 
-      <div id="bottomRowMenuContainer">
-        <div className="dropMarkerButtonsDiv">
-          <button
-            id="dropRedMarkerButton"
-            className="dropMarkerButton"
-            onClick={() => {
-              props.proxyState["mapCursorMode"] = "marker";
-              props.proxyState["markerDropType"] = "red";
-            }}
-          >
-            Red
-          </button>
-          <button
-            id="dropBlueMarkerButton"
-            className="dropMarkerButton"
-            onClick={() => {
-              props.proxyState["mapCursorMode"] = "marker";
-              props.proxyState["markerDropType"] = "blue";
-            }}
-          >
-            Blue
-          </button>
-          <button
-            id="dropGreenMarkerButton"
-            className="dropMarkerButton"
-            onClick={() => {
-              props.proxyState["mapCursorMode"] = "marker";
-              props.proxyState["markerDropType"] = "green";
-            }}
-          >
-            Green
-          </button>
+        <div className="selectMarkerTypeDiv">
+              <ExpandableMenu
+                id="selectMarkerTypeButton"
+                visualComponent={<Marker/>}
+                text="Marker"
+                proxyState={props.proxyState}
+              >
+                <Dropdown openRight={true}>
+                  <DropdownItem>
+                    <ButtonComponent
+                      id="dropRedMarkerButton"
+                      className="dropMarkerButton"
+                      text="Red"
+                      onClick={() => {
+                        props.proxyState["mapCursorMode"] = "marker";
+                        props.proxyState["markerDropType"] = "red";
+                      }}
+                    />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <ButtonComponent
+                      id="dropBlueMarkerButton"
+                      className="dropMarkerButton"
+                      text="Blue"
+                      onClick={() => {
+                        props.proxyState["mapCursorMode"] = "marker";
+                        props.proxyState["markerDropType"] = "blue";
+                      }}
+                    />
+                  </DropdownItem>
+                  <DropdownItem>
+                    <ButtonComponent
+                      id="dropGreenMarkerButton"
+                      className="dropMarkerButton"
+                      text="Green"
+                      onClick={() => {
+                        props.proxyState["mapCursorMode"] = "marker";
+                        props.proxyState["markerDropType"] = "green";
+                      }}
+                    />
+                  </DropdownItem>
+                </Dropdown>
+              </ExpandableMenu>
         </div>
+
+      <div id="bottomRowMenuContainer">
 
         <div className="viewMarkersButtonsDiv">
           <ButtonComponent
