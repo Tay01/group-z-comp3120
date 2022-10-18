@@ -34,7 +34,15 @@ function App() {
   //use this when you dont want state to update the entire app, such as when you want to set some click behaviour
   const proxyState = {};
   proxyState["markerDropType"] = "red"
-  proxyState["markerViewType"] = "all"
+  proxyState["markerViewType"] = {red: true, blue: true, green: true}
+
+
+  //some custom events for our app
+  
+  const filterEvent = new Event("filterEvent");
+  const eventsObject = {
+    filterEvent: filterEvent,
+  };
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -59,7 +67,7 @@ else {
   return (
     <div className="App">
       <MapWrapper proxyState={proxyState} />
-      <MenuOverlayContainer proxyState={proxyState}/>
+      <MenuOverlayContainer proxyState={proxyState} eventsObject={eventsObject}/>
 
 
     </div>

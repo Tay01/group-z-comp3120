@@ -34,4 +34,17 @@ router.post(
   }
 );
 
+router.get("/", async (req, res) => {
+  try {
+    const markers = await db.collection("markers").get();
+    var markerList = [];
+    markers.forEach((marker) => {
+      markerList.push(marker.data());
+    });
+    res.json(markerList);
+  } catch (error) {
+    res.status(500).send(`Server Error ${error}`);
+  }
+});
+
 module.exports = router;

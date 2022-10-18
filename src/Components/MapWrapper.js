@@ -94,20 +94,8 @@ export default function MapWrapper(props) {
       console.log(position);
       console.log(appState.mapCursorMode);
       if (appState.mapCursorMode == "marker") {
-        var color = 1; //we will replace this with more complicated stuff later, but for now lets just use opacity to differenciate
-        switch (appState.markerDropType) {
-          case "red":
-            color = 1;
-            break;
-          case "green":
-            color = 0.6;
-            break;
-          case "blue":
-            color = 0.25;
-            break;
-        }
-        dropMarker(position,{color: color});
-        pushMarker(position,{color: color});
+        dropMarker(position,{color: appState.markerDropType});
+        pushMarker(position,{color: appState.markerDropType});
         console.log("yeet")
       }
     };
@@ -120,6 +108,15 @@ export default function MapWrapper(props) {
     };
 
     const dropMarker = (pos,markerSettings) => {
+      var opacity = 1
+      if(markerSettings != undefined){
+        switch(markerSettings.color){
+          case "red": opacity = 1; break;
+          case "green": opacity = 0.25; break;
+          case "blue": opacity = 0.5; break;
+      }
+      }
+
       
       console.log(pos)
       console.log(appState.markerDropType)
@@ -127,10 +124,14 @@ export default function MapWrapper(props) {
       const marker = new window.google.maps.Marker({
         position: pos,
         map: appState.mapObject,
-        opacity: markerSettings.color,
+        opacity: opacity,
       });
       marker.addListener("click", () => {onMarkerClick(marker)})
-      appState["markers"].push({markerPos: pos, markerObject: marker});
+      appState["markers"].push({
+        markerPos: pos,
+        markerObject: marker,
+        markerSettings: markerSettings,
+      });
     };
 
 
@@ -159,13 +160,45 @@ export default function MapWrapper(props) {
       }
     };
 
+    function filterMarkers(){
+      console.log("filtering markers")
+      console.log(appState.markers)
+      appState.markers.forEach((marker) => {
+        if (marker["markerSettings"] != undefined && !appState["markerViewType"][marker["markerSettings"].color]){
+          marker.markerObject.setMap(null)
+        }else{
+          marker.markerObject.setMap(appState.mapObject)
+        }
+      })
+      console.log(appState.markers)
+
+    }
+
+    
+
     
     function getMarkersFromServer(){
-      const resultFromServer = [{}]
-      var newMarkers = resultFromServer.filter(e => !appState.markers.map((marker) => {return marker.markerPos}).includes(e))
-      newMarkers.forEach((newMarker) => {
-        dropMarker(newMarker.pos)
-      })
+      fetch("http://localhost:5000/api/markers").then(
+        (res) => res.json()).then(
+          (data) => {
+          const resultFromServer = data;
+          console.log(data)
+          var newMarkers = resultFromServer.filter(
+            (e) =>
+              !appState.markers
+                .map((marker) => {
+                  return marker.markerPos;
+                })
+                .includes(e)
+          );
+          newMarkers.forEach((newMarker) => {
+            dropMarker(newMarker.pos,newMarker.markerSettings);
+          });
+          filterMarkers();
+          
+        }
+      )
+      
     }
   
   
@@ -178,6 +211,8 @@ export default function MapWrapper(props) {
       });
       //after map is loaded, we can bind event listeners to it
       map.addListener("click", onMapClick);
+      window.addEventListener("filterEvent", filterMarkers);
+      
       // Create the DIV to hold the control.
       const centerControlDiv = document.createElement("div");
       // Create the control.
@@ -192,6 +227,7 @@ export default function MapWrapper(props) {
       //give a reference to our application to call map methods
       appState["mapObject"] = map
       getLocation((location) => {map.setCenter(appState.userLocation)})
+      getMarkersFromServer()
     });
 
   //On initialisation, we want to get the user's location to allow the smooth centreing of the map. Then, whenenver we click center we can buffer the nnext location call to give an illusion of smooth movement until we devevlop some livve updating stuff
