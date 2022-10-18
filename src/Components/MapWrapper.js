@@ -108,14 +108,18 @@ export default function MapWrapper(props) {
     };
 
     const dropMarker = (pos,markerSettings) => {
-      var opacity = 1
+      var whichColor = "red"
+      var iconURL = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
       if(markerSettings != undefined){
-        switch(markerSettings.color){
-          case "red": opacity = 1; break;
-          case "green": opacity = 0.25; break;
-          case "blue": opacity = 0.5; break;
-      }
-      }
+        whichColor = markerSettings.color
+        switch(whichColor){
+          case "red": iconURL = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"; break;
+          case "blue": iconURL = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"; break;
+          case "green": iconURL = "http://maps.google.com/mapfiles/ms/icons/green-dot.png"; break;
+        }
+        
+        }
+      
 
       
       console.log(pos)
@@ -124,7 +128,7 @@ export default function MapWrapper(props) {
       const marker = new window.google.maps.Marker({
         position: pos,
         map: appState.mapObject,
-        opacity: opacity,
+        icon: iconURL,
       });
       marker.addListener("click", () => {onMarkerClick(marker)})
       appState["markers"].push({

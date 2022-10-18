@@ -54,7 +54,7 @@ function App() {
       <LoginButton />
       <Typewriter
   options={{
-    strings: ['Hello welcome to safe spot', 'or whatever our name is'],
+    strings: ['Hello welcome to PINGER', 'or whatever our name is'],
     autoStart: true,
     loop: true,
   }}
