@@ -1,17 +1,16 @@
-import React from 'react'
+import React from "react";
 //Components - GUI
 import ButtonComponent from "./ButtonComponent.js";
 import ExpandableMenu from "./ExpandableMenu";
 import Dropdown from "./Dropdown";
 import DropdownItem from "./DropdownItem";
-import LogoutButton from './LogoutButton.js';
+import LogoutButton from "./LogoutButton.js";
 import LoginButton from "./LoginButton.js";
 import Profile from "./Profile.js";
 
 //VisualComponents - these are simple, reusable visual components that can be used to graphically represent a more complex component.
-//Think of these components as an image file, or an icon. 
+//Think of these components as an image file, or an icon.
 import BurgerMenu from "./VisualComponents/BurgerMenu";
-
 
 export default function MenuOverlayContainer(props) {
   return (
@@ -90,68 +89,69 @@ export default function MenuOverlayContainer(props) {
       </ExpandableMenu>
 
       <div id="bottomRowMenuContainer">
-
         <div className="dropMarkerButtonsDiv">
-            <button
-              id="dropRedMarkerButton"
-              className="dropMarkerButton"
-              onClick={() => {
-                props.proxyState["mapCursorMode"] = "marker";
-                props.proxyState["markerDropType"] = "red";
-              }}
-            >
-              Red
-            </button>
-            <button
-              id="dropBlueMarkerButton"
-              className="dropMarkerButton"
-              onClick={() => {
-                props.proxyState["mapCursorMode"] = "marker";
-                props.proxyState["markerDropType"] = "blue";
-                
-              }}
-            >
-              Blue
-            </button>
-            <button
-              id="dropGreenMarkerButton"
-              className="dropMarkerButton"
-              onClick={() => {
-                props.proxyState["mapCursorMode"] = "marker";
-                props.proxyState["markerDropType"] = "green";
-                
-              }}
-            >
-              Green
-            </button>
+          <button
+            id="dropRedMarkerButton"
+            className="dropMarkerButton"
+            onClick={() => {
+              props.proxyState["mapCursorMode"] = "marker";
+              props.proxyState["markerDropType"] = "red";
+            }}
+          >
+            Red
+          </button>
+          <button
+            id="dropBlueMarkerButton"
+            className="dropMarkerButton"
+            onClick={() => {
+              props.proxyState["mapCursorMode"] = "marker";
+              props.proxyState["markerDropType"] = "blue";
+            }}
+          >
+            Blue
+          </button>
+          <button
+            id="dropGreenMarkerButton"
+            className="dropMarkerButton"
+            onClick={() => {
+              props.proxyState["mapCursorMode"] = "marker";
+              props.proxyState["markerDropType"] = "green";
+            }}
+          >
+            Green
+          </button>
         </div>
 
         <div className="viewMarkersButtonsDiv">
-          <button id="viewRedMarkersButton" className="viewMarkersButton" onClick={(e) => {
-            props.proxyState["mapCursorMode"] = "default";
-            props.proxyState["markerViewType"]["red"] = !props.proxyState["markerViewType"]["red"];
-            dispatchEvent(props.eventsObject["filterEvent"]);
-          }}>
-            Toggle Red markers
-          </button>
-          <button id="viewBlueMarkersButton" className="viewMarkersButton" onClick={(e) => {
-            props.proxyState["mapCursorMode"] = "default";
-            props.proxyState["markerViewType"]["blue"] = !props.proxyState["markerViewType"]["blue"];
-            dispatchEvent(props.eventsObject["filterEvent"]);
-          }}>
-            Toggle Blue markers
-          </button>
-          <button id="viewGreenMarkersButton" className="viewMarkersButton" onClick={(e) => {
-            props.proxyState["mapCursorMode"] = "default";
-            props.proxyState["markerViewType"]["green"] = !props.proxyState["markerViewType"]["green"];
-            dispatchEvent(props.eventsObject["filterEvent"]);
-          }}>
-            Toggle Green markers
-          </button>
+          <ButtonComponent
+            id="viewRedMarkersButton"
+            text="Hide Red Markers"
+            onClick={() => {
+              props.proxyState["mapCursorMode"] = "default"
+              props.proxyState["markerViewType"]["red"] =
+                !props.proxyState["markerViewType"]["red"];
+              document.getElementById("viewRedMarkersButton").innerHTML = props.proxyState["markerViewType"]["red"] ? "Hide Red Markers" : "Show Red Markers";
+              dispatchEvent(props.eventsObject["filterEvent"]);
+            }}
+          />
+          <ButtonComponent id="viewBlueMarkersButton" text="Hide Blue Markers" onClick={() => {
+              props.proxyState["mapCursorMode"] = "default";
+              props.proxyState["markerViewType"]["blue"] =
+                !props.proxyState["markerViewType"]["blue"];
+              document.getElementById("viewBlueMarkersButton").innerHTML = props.proxyState["markerViewType"]["blue"] ? "Hide Blue Markers" : "Show Blue Markers";
+              dispatchEvent(props.eventsObject["filterEvent"]);
+            }}
+           />
+          <ButtonComponent id="viewGreenMarkersButton" text="Hide Green Markers" onClick={() => {
+              props.proxyState["mapCursorMode"] = "default";
+              props.proxyState["markerViewType"]["green"] =
+                !props.proxyState["markerViewType"]["green"];
+              document.getElementById("viewGreenMarkersButton").innerHTML = props.proxyState["markerViewType"]["green"] ? "Hide Green Markers" : "Show Green Markers";
+              dispatchEvent(props.eventsObject["filterEvent"]);
+            }
+          }/>
         </div>
-
       </div>
-
     </div>
   );
 }

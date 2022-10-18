@@ -139,6 +139,15 @@ export default function MapWrapper(props) {
     };
 
 
+    const trackLocation = (successCB = () => {}, failureCB = () => {}) => {
+      if (navigator.geolocation) {
+        return navigator.geolocation.watchPosition(successCB,failureCB)
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+
+
 
     const getLocation = (successCB = () => {}, failureCB = () => {}) => {
       console.log("gl call");
@@ -208,11 +217,22 @@ export default function MapWrapper(props) {
   
 
     loader.load().then(() => {
+      //define map
       const map = new window.google.maps.Map(mapRef.current, {
         center: { lat: -34.397, lng: 150.644 },
         zoom: 18,
         disableDefaultUI: true,
       });
+      //define the user marker
+      const userMarker = new window.google.maps.Marker({
+        position: { lat: -34.397, lng: 150.644 },
+        map: map,
+        icon: "http://maps.google.com/mapfiles/ms/micons/man.png",
+      });
+
+
+
+
       //after map is loaded, we can bind event listeners to it
       map.addListener("click", onMapClick);
       window.addEventListener("filterEvent", filterMarkers);
@@ -231,11 +251,13 @@ export default function MapWrapper(props) {
       //give a reference to our application to call map methods
       appState["mapObject"] = map
       getLocation((location) => {map.setCenter(appState.userLocation)})
+      trackLocation((pos) => {console.log(pos); userMarker.setPosition({"lat": pos.coords.latitude, "lng": pos.coords.longitude}); appState.userLocation = {"lat": pos.coords.latitude, "lng": pos.coords.longitude}},(err) => {console.log(err)})
       getMarkersFromServer()
     });
 
   //On initialisation, we want to get the user's location to allow the smooth centreing of the map. Then, whenenver we click center we can buffer the nnext location call to give an illusion of smooth movement until we devevlop some livve updating stuff
     getLocation()
+
 
   return (
     <div ref={mapRef} id="mapWrapper"></div>
