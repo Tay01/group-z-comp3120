@@ -35,6 +35,23 @@ a{
   pointer-events: none;
 }
 
+.dropMarkerButtonsDiv{
+  grid-column: 1/4;
+  grid-row: 3/4;
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+}
+
+.dropMarkerButton{
+  pointer-events: auto;
+}
+
+
+
 .expandableMenu{
   pointer-events: auto;
 }

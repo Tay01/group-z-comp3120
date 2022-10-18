@@ -24,13 +24,13 @@ export default function MapWrapper(props) {
     });
 
     //server methods for pushing and pulling data:
-    const pushMarker = (pos) => {
+    const pushMarker = (pos,markerSettings) => {
         fetch("http://localhost:5000/api/markers", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({pos: pos}),
+            body: JSON.stringify({pos: pos, markerSettings: markerSettings}),
         })
         .then(res => console.log(res))
         .then(data => {
@@ -54,7 +54,7 @@ export default function MapWrapper(props) {
     function createCenterControl(map) {
       const controlButton = document.createElement("button");
 
-      // Set CSS for the control.
+      // Set CSS for the control. - Refactor this into the css file later by adding some ids/ classes
       controlButton.style.backgroundColor = "#fff";
       controlButton.style.border = "2px solid #fff";
       controlButton.style.borderRadius = "3px";
@@ -72,13 +72,16 @@ export default function MapWrapper(props) {
       controlButton.title = "Click to recenter the map";
       controlButton.type = "button";
 
-      // Setup the click event listeners: simply set the map to Chicago.
+      // Setup the click event listeners: simply set the map to current user location.
       controlButton.addEventListener("click", () => {
-        setCenter(map)
-      })
-
+        setCenter(map);
+      });
       return controlButton;
     }
+
+    
+
+      
 
 
     // //event listeners for the map
@@ -91,8 +94,20 @@ export default function MapWrapper(props) {
       console.log(position);
       console.log(appState.mapCursorMode);
       if (appState.mapCursorMode == "marker") {
-        dropMarker(position);
-        pushMarker(position);
+        var color = 1; //we will replace this with more complicated stuff later, but for now lets just use opacity to differenciate
+        switch (appState.markerDropType) {
+          case "red":
+            color = 1;
+            break;
+          case "green":
+            color = 0.6;
+            break;
+          case "blue":
+            color = 0.25;
+            break;
+        }
+        dropMarker(position,{color: color});
+        pushMarker(position,{color: color});
         console.log("yeet")
       }
     };
@@ -104,12 +119,15 @@ export default function MapWrapper(props) {
       }
     };
 
-    const dropMarker = (pos) => {
+    const dropMarker = (pos,markerSettings) => {
+      
       console.log(pos)
+      console.log(appState.markerDropType)
       console.log(document.getElementById("mapWrapper"))
       const marker = new window.google.maps.Marker({
         position: pos,
         map: appState.mapObject,
+        opacity: markerSettings.color,
       });
       marker.addListener("click", () => {onMarkerClick(marker)})
       appState["markers"].push({markerPos: pos, markerObject: marker});
