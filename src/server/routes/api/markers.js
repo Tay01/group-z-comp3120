@@ -27,8 +27,12 @@ router.post(
     console.log(newMarker);
 
     try {
-        db.collection("markers").add(newMarker);
+      let docRefData = await db.collection("markers").add(newMarker)
+      let docRefID = docRefData._path.segments[1];
+      console.log(docRefID)
+      res.status(200).send({ id: docRefID });
     } catch (error) {
+      console.log(error)
       res.status(500).send(`Server Error ${error}`);
     }
   }
@@ -42,6 +46,21 @@ router.get("/", async (req, res) => {
       markerList.push(marker.data());
     });
     res.json(markerList);
+  } catch (error) {
+    res.status(500).send(`Server Error ${error}`);
+  }
+});
+
+router.put("/", async (req, res) => {
+  console.log(req.body);
+  try {
+    const marker = await db.collection("markers").doc(req.body.id).get();
+    if (!marker.exists) {
+      res.status(404).send("Marker not found");
+    } else {
+      await db.collection("markers").doc(req.body.id).update(req.body.payload);
+      res.status(200).send("Marker updated");
+    }
   } catch (error) {
     res.status(500).send(`Server Error ${error}`);
   }

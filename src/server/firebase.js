@@ -18,6 +18,8 @@ app.use('/api/register', require('./routes/api/register'));
 
 app.use('/api/markers', require('./routes/api/markers'));
 
+
+
 app.get('/', (req, res) => {
     res.send('Hello');
 });

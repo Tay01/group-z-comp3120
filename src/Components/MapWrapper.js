@@ -38,6 +38,7 @@ export default function MapWrapper(props) {
 
     class markerWrapper{
       constructor(pos, color, metadata){
+        this.docID = "default"
         this.pos = pos
         this.color = color
         this.metadata = metadata
@@ -47,7 +48,7 @@ export default function MapWrapper(props) {
             "likes": 0,
             "dislikes": 0,
             "comments": [],
-            "markerContent": "I am a default marker!",
+            "markerContent": this.metadata.markerContent==undefined?"I am a default marker!":this.metadata.markerContent,
           }
 
           this.metadata.icon = "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"
@@ -112,15 +113,25 @@ export default function MapWrapper(props) {
             },
             body: JSON.stringify({ pos: this.pos, color: this.color, metadata: this.metadata }),
           })
-            .then((res) => console.log(res))
-            .then((data) => {
-              console.log(data);
+            .then((res) => res.json()).then((data) => {
+              console.log(data)
+              this.docID = data.id
             });
       }
 
       update(){
         //update db
         console.log("saving to db")
+        fetch("http://localhost:5000/api/markers", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ "id": this.docID, "payload": { pos: this.pos, color: this.color, metadata: this.metadata } } ),
+        }).then(
+          (res) => console.log(res)
+        )
+          
       }
 
       editMarkerContent(newContent){
@@ -279,7 +290,7 @@ export default function MapWrapper(props) {
                 .includes(e)
           );
           newMarkers.forEach((newMarker) => {
-            dropMarker(newMarker.pos,newMarker.color,newMarker.markerSettings);
+            dropMarker(newMarker.pos,newMarker.color,newMarker.metadata);
           });
           filterMarkers();
           
