@@ -13,7 +13,6 @@ import Profile from "./Profile.js";
 //Think of these components as an image file, or an icon.
 import BurgerMenu from "./VisualComponents/BurgerMenu";
 import Marker from "./VisualComponents/Marker"
-import { Button } from "react-native-web";
 
 export default function MenuOverlayContainer(props) {
   return (

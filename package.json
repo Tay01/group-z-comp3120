@@ -18,12 +18,14 @@
     "firebase": "^9.12.1",
     "firebase-admin": "^11.1.0",
     "jsonwebtoken": "^8.5.1",
+    "native": "^0.3.3",
     "password-generator": "^2.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "typewriter-effect": "^2.19.0",
     "uuidv4": "^6.2.13",
+    "web": "^0.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

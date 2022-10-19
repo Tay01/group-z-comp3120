@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect, shouldComponentUpdate } from 'react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { Loader, Marker, GoogleMap } from '@googlemaps/js-api-loader';
+import MarkerPopup from './MarkerPopup';
 
 
 export default function MapWrapper(props) {
@@ -24,19 +25,7 @@ export default function MapWrapper(props) {
     });
 
     //server methods for pushing and pulling data:
-    const pushMarker = (pos,markerSettings) => {
-        fetch("http://localhost:5000/api/markers", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({pos: pos, markerSettings: markerSettings}),
-        })
-        .then(res => console.log(res))
-        .then(data => {
-            console.log(data)
-        })
-    }
+    
 
     //create a reference to the map, so we can call map methods
     const mapRef = React.createRef()
@@ -45,6 +34,97 @@ export default function MapWrapper(props) {
     const setCenter = (map) => {
       map.setCenter(appState.userLocation)
       getLocation()
+    }
+
+    class markerWrapper{
+      constructor(pos, color, metadata){
+        this.pos = pos
+        this.color = color
+        this.metadata = metadata
+        if(metadata == undefined){
+          //create default marker settings if none are provided
+          this.metadata = {
+            "likes": 0,
+            "dislikes": 0,
+            "comments": [],
+            "markerContent": "I am a default marker!",
+          }
+
+          this.metadata.icon = "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"
+        }
+        this.DOMMarker = this.createDOMMarker();
+      }
+      //this object exists because though we reference a marker as one thing, it actually has two formats/states
+      //1: A metadata object that can be stored in the database
+      //2: A google maps marker object that is in the DOM and must be treated as such
+      //to merge these two states into one object, we create a wrapper object with methods that will simplify the process of handling markers.
+      
+      
+      createDOMMarker(){
+        //this method creates a google maps marker object and returns it
+
+        //create infowindow for the marker
+        const infoWindow = new window.google.maps.InfoWindow({})
+        var infoWindowContent = document.createElement("div")
+        infoWindowContent.contentEditable = true
+        infoWindowContent.innerHTML = this.metadata.markerContent
+        infoWindowContent.addEventListener("onchange", () => {})
+        infoWindow.setContent(infoWindowContent)
+
+        const marker = new window.google.maps.Marker({
+          map: appState.mapObject,
+          position: this.pos,
+          icon: this.metadata.icon,
+          infoWindow: infoWindow,
+        })
+
+        //bind event listeners
+        marker.addListener("click", () => {onMarkerClick(this)})
+
+        return marker
+      }
+
+      getDOMMarker(){
+        return this.DOMMarker
+      }
+
+      setMap(map){
+        this.getDOMMarker().setMap(map)
+      }
+
+      openInfoWindow(){
+        this.getDOMMarker().infoWindow.open({map: appState.mapObject, anchor: this.getDOMMarker()})
+      }
+
+      delete(){
+        this.getDOMMarker().setMap(null)
+        //then do logic for db removal
+      }
+
+      save(){
+        //save to db
+          console.log(this.metadata);
+          fetch("http://localhost:5000/api/markers", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ pos: this.pos, color: this.color, metadata: this.metadata }),
+          })
+            .then((res) => console.log(res))
+            .then((data) => {
+              console.log(data);
+            });
+      }
+
+      update(){
+        //update db
+      }
+
+     
+
+
+
     }
 
     
@@ -94,48 +174,28 @@ export default function MapWrapper(props) {
       console.log(position);
       console.log(appState.mapCursorMode);
       if (appState.mapCursorMode == "marker") {
-        dropMarker(position,{color: appState.markerDropType});
-        pushMarker(position,{color: appState.markerDropType});
+        //if we are creating a new marker,,,
+
+        const marker = dropMarker(position, appState.markerDropType);
+        marker.save();
         console.log("yeet")
       }
     };
 
-    const onMarkerClick = (marker) => {
+    const onMarkerClick = (markerWrapper) => {
       //each marker should hold a reference to this "onMarkerClick" function, where pos is set on the creation of the marker.
       if (appState.mapCursorMode == "delete") {
-        marker.setMap(null)
+        markerWrapper.delete()
+      }
+      if(appState.mapCursorMode == "default"){
+        markerWrapper.openInfoWindow()
       }
     };
 
-    const dropMarker = (pos,markerSettings) => {
-      var whichColor = "red"
-      var iconURL = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-      if(markerSettings != undefined){
-        whichColor = markerSettings.color
-        switch(whichColor){
-          case "red": iconURL = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"; break;
-          case "blue": iconURL = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"; break;
-          case "green": iconURL = "http://maps.google.com/mapfiles/ms/icons/green-dot.png"; break;
-        }
-        
-        }
-      
-
-      
-      console.log(pos)
-      console.log(appState.markerDropType)
-      console.log(document.getElementById("mapWrapper"))
-      const marker = new window.google.maps.Marker({
-        position: pos,
-        map: appState.mapObject,
-        icon: iconURL,
-      });
-      marker.addListener("click", () => {onMarkerClick(marker)})
-      appState["markers"].push({
-        markerPos: pos,
-        markerObject: marker,
-        markerSettings: markerSettings,
-      });
+    const dropMarker = (pos,color,markerSettings) => {
+      const marker = new markerWrapper(pos, color, markerSettings);
+      appState["markers"].push(marker);
+      return marker;
     };
 
 
@@ -177,10 +237,10 @@ export default function MapWrapper(props) {
       console.log("filtering markers")
       console.log(appState.markers)
       appState.markers.forEach((marker) => {
-        if (marker["markerSettings"] != undefined && !appState["markerViewType"][marker["markerSettings"].color]){
-          marker.markerObject.setMap(null)
+        if (!appState["markerViewType"][marker.color]){
+          marker.setMap(null)
         }else{
-          marker.markerObject.setMap(appState.mapObject)
+          marker.setMap(appState.mapObject)
         }
       })
       console.log(appState.markers)
@@ -205,7 +265,7 @@ export default function MapWrapper(props) {
                 .includes(e)
           );
           newMarkers.forEach((newMarker) => {
-            dropMarker(newMarker.pos,newMarker.markerSettings);
+            dropMarker(newMarker.pos,newMarker.color,newMarker.markerSettings);
           });
           filterMarkers();
           
