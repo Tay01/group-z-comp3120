@@ -67,8 +67,8 @@ export default function MapWrapper(props) {
         const infoWindow = new window.google.maps.InfoWindow({})
         var infoWindowContent = document.createElement("div")
         infoWindowContent.contentEditable = true
+        infoWindowContent.oninput = (e) => {this.infoWindowContentChange(e)}
         infoWindowContent.innerHTML = this.metadata.markerContent
-        infoWindowContent.addEventListener("onchange", () => {})
         infoWindow.setContent(infoWindowContent)
 
         const marker = new window.google.maps.Marker({
@@ -80,6 +80,7 @@ export default function MapWrapper(props) {
 
         //bind event listeners
         marker.addListener("click", () => {onMarkerClick(this)})
+        infoWindow.addListener("closeclick", () => {this.update()})
 
         return marker
       }
@@ -119,6 +120,19 @@ export default function MapWrapper(props) {
 
       update(){
         //update db
+        console.log("saving to db")
+      }
+
+      editMarkerContent(newContent){
+        //edit infowindow content
+        this.metadata.markerContent = newContent;
+
+
+      }
+
+      infoWindowContentChange(e){
+        console.log(e)
+        this.editMarkerContent(e.target.innerText)
       }
 
      
