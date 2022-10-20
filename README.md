@@ -1,12 +1,8 @@
-# Getting Started with Create React App
+# Pinger
+Pinger is a functional social media that integrates user proximity with the app experience, introducing a real-world component for online communication between users.
 
-
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+## Documents
+[Pinger - Concepts and Design](https://docs.google.com/presentation/d/1pv8PWti0bhJQTk2DIm3SGqhi-XeERzFZrlI5VrNP2KY/edit?usp=sharing) :: This is a document for pitch ideas, value propositions and other conceptual points that the team wishes to note down. The aim of this document is to let the idea evolve in ways that we can all see, and ensure that decisions made have substance behind them.
 
 ### `npm start`
 
