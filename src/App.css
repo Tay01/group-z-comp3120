@@ -219,3 +219,43 @@ a{
   top: 80%;
   left: 50%;
 }
+
+.landingpage {
+  justify-content: center;
+  color: white;
+  font-size: 150px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+
+.landingpage .loginpage {
+  display: flex;
+ 
+}
+
+.loginButton{
+  font-size: 80px;
+  background-color: white;
+  border-radius: 10px;
+  width: auto;
+  height: auto;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+}
+.loginButton :hover{
+  background-color: gray;
+
+}
+
+.App {
+  background: none;
+}
+
+
+
+
+
+
+
+

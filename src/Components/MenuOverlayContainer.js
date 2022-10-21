@@ -5,7 +5,6 @@ import ExpandableMenu from "./ExpandableMenu";
 import Dropdown from "./Dropdown";
 import DropdownItem from "./DropdownItem";
 import LogoutButton from "./LogoutButton.js";
-import LoginButton from "./LoginButton.js";
 import Profile from "./Profile.js";
 
 

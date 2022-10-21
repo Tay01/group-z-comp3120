@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import Typewriter from 'typewriter-effect';
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
+import React, { useEffect } from "react";
 
 //React
 import { setState, useState } from "react";
@@ -26,7 +27,12 @@ import { CreateComment } from "./Components/server DONT USE/crud/template.js";
 
 function App() {
 
+  // Placeholder image
+
+  useEffect(() => { document.body.style.backgroundImage = 'url("https://wallpaperaccess.com/full/1713147.jpg")' }, [])
+
   const { user, isAuthenticated, isLoading } = useAuth0();
+ 
 
   //use this when you want state changes to reflect for all components, such as on login/logout
   const [state, setState] = useState({});
@@ -50,19 +56,20 @@ function App() {
 
   if (!isAuthenticated){
     return (
-      <>
-      <LoginButton />
-      <Typewriter
+      <section className="landingpage">
+      <LoginButton className="loginpage" />
+      <Typewriter id="landingtext"
   options={{
-    strings: ['Hello welcome to PINGER', 'or whatever our name is'],
+    strings: ['Hello welcome to PINGER'],
     autoStart: true,
     loop: true,
+    pauseFor: 1500,
   }}
 />
-      </>
+      </section>
     )
   }
-else {
+else if(isAuthenticated) {
 
   return (
     <div className="App">
