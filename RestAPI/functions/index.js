@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 //Add all urls to CORS whitelist - change later for security
-app.use(cors())
+app.use(cors({origin: true}));
 
 app.use('/api/markers', require('./routes/api/markers'));
 

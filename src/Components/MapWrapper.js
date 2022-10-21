@@ -113,7 +113,7 @@ export default function MapWrapper(props) {
     async save() {
       //save to db
       console.log(this.metadata);
-      await fetch("/api/markers", {
+      await fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -137,7 +137,7 @@ export default function MapWrapper(props) {
     update() {
       //update db
       console.log("saving to db");
-      fetch("/api/markers", {
+      fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -271,7 +271,7 @@ export default function MapWrapper(props) {
   }
 
   function getMarkersFromServer() {
-    fetch("/api/markers")
+    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers")
       .then((res) => {
         console.log(res);
         return res.json();
