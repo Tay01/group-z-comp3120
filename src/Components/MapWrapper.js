@@ -106,14 +106,16 @@ export default function MapWrapper(props) {
       save(){
         //save to db
           console.log(this.metadata);
-          fetch("/api/markers", {
+          fetch("http://localhost:5001/group-z/us-central1/app/api/markers", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ pos: this.pos, color: this.color, metadata: this.metadata }),
           })
-            .then((res) => res.json()).then((data) => {
+            .then((res) => {
+              res.json()
+            }).then((data) => {
               console.log(data)
               this.docID = data.id
             });
@@ -276,31 +278,31 @@ export default function MapWrapper(props) {
 
     
     function getMarkersFromServer(){
-      fetch("/api/markers").then(
-        (res) => {
+      fetch("/api/markers")
+      .then((res) => {
         console.log(res)
         return res.json()
-    }).then(
-          (data) => {
-          const resultFromServer = data;
-          console.log(data)
-          var newMarkers = resultFromServer.filter(
-            (e) =>
-              !appState.markers
-                .map((marker) => {
-                  return marker.markerPos;
-                })
-                .includes(e)
-          );
-          newMarkers.forEach((newMarker) => {
-            dropMarker(newMarker.pos,newMarker.color,newMarker.metadata);
-          });
+      })
+      .then((data) => {
+        const resultFromServer = data;
+        console.log(data)
+        var newMarkers = resultFromServer.filter((e) =>
+          !appState.markers
+          .map((marker) => {
+            return marker.markerPos;
+          })
+          .includes(e)
+        );
+
+        newMarkers.forEach((newMarker) => {
+          dropMarker(newMarker.pos,newMarker.color,newMarker.metadata);
+        });
           filterMarkers();
           
-        }
-      )
+      }
+    )
       
-    }
+  }
   
   
 
