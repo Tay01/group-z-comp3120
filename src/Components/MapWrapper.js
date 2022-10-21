@@ -48,7 +48,7 @@ export default function MapWrapper(props) {
             "likes": 0,
             "dislikes": 0,
             "comments": [],
-            "markerContent": this.metadata.markerContent==undefined?"I am a default marker!":this.metadata.markerContent,
+            //  "markerContent": this.metadata.markerContent==undefined?"I am a default marker!":this.metadata.markerContent,
           }
 
           this.metadata.icon = "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"
@@ -106,7 +106,7 @@ export default function MapWrapper(props) {
       save(){
         //save to db
           console.log(this.metadata);
-          fetch("http://localhost:5000/api/markers", {
+          fetch("/api/markers", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export default function MapWrapper(props) {
       update(){
         //update db
         console.log("saving to db")
-        fetch("http://localhost:5000/api/markers", {
+        fetch("/api/markers", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -276,8 +276,11 @@ export default function MapWrapper(props) {
 
     
     function getMarkersFromServer(){
-      fetch("http://localhost:5000/api/markers").then(
-        (res) => res.json()).then(
+      fetch("/api/markers").then(
+        (res) => {
+        console.log(res)
+        return res.json()
+    }).then(
           (data) => {
           const resultFromServer = data;
           console.log(data)

@@ -19,9 +19,6 @@ import MapWrapper from "./Components/MapWrapper.js";
 import MenuOverlayContainer from "./Components/MenuOverlayContainer.js";
 
 
-//DB Testing Imports
-import { CreateComment } from "./Components/server DONT USE/crud/template.js";
-
 
 
 function App() {
@@ -48,21 +45,21 @@ function App() {
     return <div>Loading ...</div>;
   }
 
-  if (!isAuthenticated){
-    return (
-      <>
-      <LoginButton />
-      <Typewriter
-  options={{
-    strings: ['Hello welcome to PINGER', 'or whatever our name is'],
-    autoStart: true,
-    loop: true,
-  }}
-/>
-      </>
-    )
-  }
-else {
+//   if (isAuthenticated){
+//     return (
+//       <>
+//       <LoginButton />
+//       <Typewriter
+//   options={{
+//     strings: ['Hello welcome to PINGER', 'or whatever our name is'],
+//     autoStart: true,
+//     loop: true,
+//   }}
+// />
+//       </>
+//     )
+//   }
+// else {
 
   return (
     <div className="App">
@@ -72,6 +69,6 @@ else {
 
     </div>
   );
-} };
+};
 
 export default App;

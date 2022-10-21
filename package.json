@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.11.0",
+    "@google-cloud/tasks": "^3.0.4",
     "@googlemaps/js-api-loader": "^1.14.3",
     "@react-google-maps/api": "^2.13.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -28,12 +29,14 @@
     "web": "^0.0.2",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "http://localhost:5001",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node src/server/firebase.js"
+    "server": "node src/server/firebase.js",
+    "move": "Move-Item -Path ./build - Destination ./RestAPI/public"
   },
   "eslintConfig": {
     "extends": [
