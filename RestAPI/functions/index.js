@@ -13,21 +13,23 @@ admin.initializeApp({
 });
 
 const app = express();
+
 app.use(express.json());
 
+// Later Use. For more security.
+const corsOptions = {
+    origin: "*",
+    credentials: true,
+    optionSuccessStatus: 200,
+}
+
 //Add all urls to CORS whitelist - change later for security
-app.use(cors({origin: true}));
+app.use(cors(corsOptions));
 
 app.use('/api/markers', require('./routes/api/markers'));
 
 app.get('/', (req, res) => {
     res.send('Hello');
 });
-
-// const port = process.env.PORT || 5001
-
-// app.listen(port, () => {
-//     console.log(`Listening on port ${port}`)
-// })
 
 exports.app = functions.https.onRequest(app)

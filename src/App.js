@@ -45,21 +45,22 @@ function App() {
     return <div>Loading ...</div>;
   }
 
-//   if (isAuthenticated){
-//     return (
-//       <>
-//       <LoginButton />
-//       <Typewriter
-//   options={{
-//     strings: ['Hello welcome to PINGER', 'or whatever our name is'],
-//     autoStart: true,
-//     loop: true,
-//   }}
-// />
-//       </>
-//     )
-//   }
-// else {
+  if (!isAuthenticated){
+    return (
+      <>
+      {/* <LoginWrapper /> */}
+      <LoginButton />
+      <Typewriter
+  options={{
+    strings: ['Hello welcome to PINGER', 'or whatever our name is'],
+    autoStart: true,
+    loop: true,
+  }}
+/>
+      </>
+    )
+  }
+else {
 
   return (
     <div className="App">
@@ -69,6 +70,6 @@ function App() {
 
     </div>
   );
-};
+}};
 
 export default App;

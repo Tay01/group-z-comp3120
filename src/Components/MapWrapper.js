@@ -271,7 +271,12 @@ export default function MapWrapper(props) {
   }
 
   function getMarkersFromServer() {
-    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers")
+    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
+      method: "GET"
+      // headers: {
+      //   "Access-Control-Allow-Origin" : "https://group-z.web.app/",
+      // }
+    })
       .then((res) => {
         console.log(res);
         return res.json();
