@@ -20,9 +20,6 @@ import MapWrapper from "./Components/MapWrapper.js";
 import MenuOverlayContainer from "./Components/MenuOverlayContainer.js";
 
 
-//DB Testing Imports
-import { CreateComment } from "./Components/server DONT USE/crud/template.js";
-
 
 
 function App() {
@@ -57,6 +54,7 @@ function App() {
   if (!isAuthenticated){
     return (
       <section className="landingpage">
+      {/* <LoginWrapper /> */}
       <LoginButton className="loginpage" />
       <Typewriter id="landingtext"
   options={{
@@ -79,6 +77,6 @@ else if(isAuthenticated) {
 
     </div>
   );
-} };
+}};
 
 export default App;

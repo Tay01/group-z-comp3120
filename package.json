@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.11.0",
+    "@google-cloud/tasks": "^3.0.4",
     "@googlemaps/js-api-loader": "^1.14.3",
     "@react-google-maps/api": "^2.13.1",
     "@testing-library/jest-dom": "^5.16.5",
@@ -17,6 +18,7 @@
     "express-validator": "^6.14.2",
     "firebase": "^9.12.1",
     "firebase-admin": "^11.1.0",
+    "firebase-tools": "^11.15.0",
     "jsonwebtoken": "^8.5.1",
     "native": "^0.3.3",
     "password-generator": "^2.3.2",
@@ -33,7 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node src/server/firebase.js"
+    "server": "node src/server/firebase.js",
+    "move": "Move-Item -Path ./build - Destination ./RestAPI/public"
   },
   "eslintConfig": {
     "extends": [
