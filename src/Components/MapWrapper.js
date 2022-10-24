@@ -126,7 +126,7 @@ export default function MapWrapper(props) {
       })
         .then((res) => {
           console.log(res);
-          res.json();
+          return res.json();
         })
         .then((data) => {
           console.log(data);
@@ -257,8 +257,8 @@ export default function MapWrapper(props) {
   }
 
   function getMarkersFromServer() {
-    fetch("/api/markers", {
-      method: "GET"
+    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
+      method: "GET",
       // headers: {
       //   "Access-Control-Allow-Origin" : "https://group-z.web.app/",
       // }
