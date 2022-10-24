@@ -11,7 +11,7 @@
       width: 0%;
     }
     100%{
-      width: 30%;
+      width: 100%;
       opacity: 100%;
     }
   }
@@ -102,6 +102,10 @@ a{
   margin-left: 50%;
 }
 
+.selfExpandableMenu{
+  pointer-events: auto;
+}
+
 .dropdown{
   pointer-events: none;
   position:absolute;
@@ -135,12 +139,20 @@ a{
   position: relative;
   height: 100%;
   display: block;
-  overflow-y: hidden;
+  overflow-y: visible;
   align-items: center;
   justify-content: right;
-  z-index: 2;
+  
   text-align: left;
   width: var(--icon-size)
+}
+
+.selfExpandOpen{
+  margin-left: 50%;
+}
+
+.selfExpandClosed{
+  margin-left: 50%;
 }
 
 .dropdownReverse>*{

@@ -8,6 +8,7 @@ import LogoutButton from "./LogoutButton.js";
 import Profile from "./Profile.js";
 import SelfExpander from "./SelfExpander.js";
 import SelfExpanderItem from "./SelfExpanderItem.js";
+import SelfExpandableMenu from "./SelfExpandableMenu.js";
 
 //VisualComponents - these are simple, reusable visual components that can be used to graphically represent a more complex component.
 //Think of these components as an image file, or an icon.
@@ -100,7 +101,7 @@ export default function MenuOverlayContainer(props) {
 
       {/* Select Marker Type Div start ----------------------------------- */}
       <div className="selectMarkerTypeDiv">
-        <ExpandableMenu
+        <SelfExpandableMenu
           id="selectMarkerTypeButton"
           visualComponent={<Marker color="white"/>}
           text="Marker"
@@ -145,7 +146,7 @@ export default function MenuOverlayContainer(props) {
               />
             </SelfExpanderItem>
           </SelfExpander>
-        </ExpandableMenu>
+        </SelfExpandableMenu>
       </div>
       {/* Select Marker Type Div end ----------------------------------- */}
       
