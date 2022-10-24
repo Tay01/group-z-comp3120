@@ -1,23 +1,24 @@
 import React from 'react';
 
 function Marker(props) {
-    //const useInlineCSS = false;
+    var markerVisualColor = "#fff"
+    if(props != undefined){
+        if(props.color != undefined){
+            markerVisualColor = props.color
+        }
+    }
+   
+    
 
-    //if(!useInlineCSS){
-        return (
-            <div className="markerBG">
-                <div class="marker"/>
-            </div>
-            )
-    // }else{
-    //     return (
-    //         <div class="marker" style={{position: "relative", top: "0", left: "0", width: "3em", height: "3em", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center", padding: "0.5em", boxSizing: "border-box"}}>
-    //             <div class="burgerMenu__line burgerMenu__line--top" style={{width: "100%", height: "5px", backgroundColor: "black"}}></div>
-    //             <div class="burgerMenu__line burgerMenu__line--middle" style={{width: "100%", height: "5px", backgroundColor: "black"}}></div>
-    //             <div class="burgerMenu__line burgerMenu__line--bottom" style={{width: "100%", height: "5px", backgroundColor: "black"}}></div>
-    //         </div>
-    //     )
-    // }
+
+
+    return (
+      <div className="markerVisualBG" style={{ backgroundColor: "rgba(0,0,0,0.65)" }}>
+        <div className="markerVisual" style={{color: markerVisualColor, borderColor: markerVisualColor}}>
+        </div>
+      </div>
+    );
+
 }
 
 export default Marker;

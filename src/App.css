@@ -2,7 +2,19 @@
   --speed: 500ms;
   --text-color: black;
   --icon-size: 50px;
+  --transformX-offset: calc(var(--icon-size)/-2);
 }
+
+@keyframes spawnLR{
+    0%{
+      opacity: 0%;
+      width: 0%;
+    }
+    100%{
+      width: 30%;
+      opacity: 100%;
+    }
+  }
 
 ul{
   list-style: none;
@@ -33,6 +45,21 @@ a{
   grid-template-columns: 1fr 10fr 1fr;
   grid-template-rows: 1fr 10fr 1fr;
   pointer-events: none;
+}
+
+.menuIconButton{
+  height: 100%;
+  width: 100%;
+  position: relative;
+  transform: translateX(var(--transformX-offset));
+
+  text-align: center;
+  align-items: center;
+}
+
+.menuIconButton>*:hover{
+  transform: scale(1.05);
+
 }
 
 #bottomRowMenuContainer{
@@ -72,6 +99,7 @@ a{
 
 .expandableMenu{
   pointer-events: auto;
+  margin-left: 50%;
 }
 
 .dropdown{
@@ -84,6 +112,35 @@ a{
   display: inline-block;
   align-items: center;
   justify-content: center;
+}
+
+
+
+.spawnLR{
+  display: flex;
+  pointer-events: none;
+  position: absolute;
+  justify-content: space-evenly;
+  overflow-x: hidden;
+  overflow-y: visible;
+  flex-direction: row;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 100%;
+  animation: spawnLR var(--speed) ease-in-out alternate both;
+}
+
+.selfExpanderItem{
+  pointer-events: auto;
+  position: relative;
+  height: 100%;
+  display: block;
+  overflow-y: hidden;
+  align-items: center;
+  justify-content: right;
+  z-index: 2;
+  text-align: left;
+  width: var(--icon-size)
 }
 
 .dropdownReverse>*{
@@ -167,12 +224,13 @@ a{
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   box-sizing: border-box;
 }
 
 .burgerMenu__line{
-  width: 100%;
+  width: 80%;
   height: 5px;
   background-color: black;
   border: solid black;
@@ -189,17 +247,32 @@ a{
   border-width: 2px;
 }
 
-.marker {
+
+
+.selectMarkerTypeDiv{
+  grid-column: 2/3;
+  grid-row: 3/3;
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+}
+
+#selectMarkerTypeButton{
+  grid-column: 2/3;
+
+}
+
+.markerVisual {
   position: inherit;
   border-radius: 50%;
-  border: 8px solid #fff;
+  border: 8px solid;
   width: 8px;
   height: 8px;
   right: 13px;
   top: 7px;
 }
 
-.marker::after {
+.markerVisual::after {
   position: inherit;
   content: '';
   width: 0px;
@@ -207,17 +280,14 @@ a{
   bottom: -30px;
   left: -6px;
   border: 10px solid transparent;
-  border-top: 17px solid #fff;
+  border-top: 17px solid;
 }
 
-.markerBG {
-  background-color: rgba(0, 0, 0, 0.75);
+.markerVisualBG {
   border-radius: 50%;
   position: absolute;
   width: 50px;
   height: 50px;
-  top: 80%;
-  left: 50%;
 }
 
 .landingpage {
@@ -259,3 +329,17 @@ a{
 
 
 
+.mapCustomControl{
+  background-color: "#fff";
+  border: "2px solid #fff";
+  border-radius: "3px";
+  box-shadow: "0 2px 6px rgba(0,0,0,.3)";
+  color: "rgb(25,25,25)";
+  cursor: "pointer";
+  font-family: "Roboto,Arial,sans-serif";
+  font-size: "16px";
+  line-height: "38px";
+  margin: "8px 0 22px";
+  padding: "0 5px";
+  text-align: "center";
+}

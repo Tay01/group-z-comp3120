@@ -6,7 +6,8 @@ import Dropdown from "./Dropdown";
 import DropdownItem from "./DropdownItem";
 import LogoutButton from "./LogoutButton.js";
 import Profile from "./Profile.js";
-
+import SelfExpander from "./SelfExpander.js";
+import SelfExpanderItem from "./SelfExpanderItem.js";
 
 //VisualComponents - these are simple, reusable visual components that can be used to graphically represent a more complex component.
 //Think of these components as an image file, or an icon.
@@ -14,11 +15,14 @@ import BurgerMenu from "./VisualComponents/BurgerMenu";
 import Marker from "./VisualComponents/Marker"
 
 export default function MenuOverlayContainer(props) {
+  /*this container is relatively positioned so that its components can be positioned absolutely within the overlay.
+  this will allow us to have buttons that appear over the map, but are unrelated to map controls. */
+  
   return (
     <div className="menuOverlayContainer">
-      {/*this container is relatively positioned so that its components can be positioned absolutely within the overlay.
-        this will allow us to have buttons that appear over the map, but are unrelated to map controls. */}
 
+
+      {/* Top Left Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="settingsButton"
         visualComponent={<BurgerMenu />}
@@ -63,6 +67,10 @@ export default function MenuOverlayContainer(props) {
           <DropdownItem>Communities</DropdownItem>
         </Dropdown>
       </ExpandableMenu>
+      {/* Top Left Menu Burger end ----------------------------------- */}
+
+
+      {/* Top Right Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="accountButton"
         visualComponent={<BurgerMenu />}
@@ -88,84 +96,109 @@ export default function MenuOverlayContainer(props) {
           <DropdownItem>Communities</DropdownItem>
         </Dropdown>
       </ExpandableMenu>
+      {/* Top Right Menu Burger end ----------------------------------- */}
 
-        <div className="selectMarkerTypeDiv">
-              <ExpandableMenu
-                id="selectMarkerTypeButton"
-                visualComponent={<Marker/>}
-                text="Marker"
-                proxyState={props.proxyState}
-              >
-                <Dropdown openRight={true}>
-                  <DropdownItem>
-                    <ButtonComponent
-                      id="dropRedMarkerButton"
-                      className="dropMarkerButton"
-                      text="Red"
-                      onClick={() => {
-                        props.proxyState["mapCursorMode"] = "marker";
-                        props.proxyState["markerDropType"] = "red";
-                      }}
-                    />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <ButtonComponent
-                      id="dropBlueMarkerButton"
-                      className="dropMarkerButton"
-                      text="Blue"
-                      onClick={() => {
-                        props.proxyState["mapCursorMode"] = "marker";
-                        props.proxyState["markerDropType"] = "blue";
-                      }}
-                    />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <ButtonComponent
-                      id="dropGreenMarkerButton"
-                      className="dropMarkerButton"
-                      text="Green"
-                      onClick={() => {
-                        props.proxyState["mapCursorMode"] = "marker";
-                        props.proxyState["markerDropType"] = "green";
-                      }}
-                    />
-                  </DropdownItem>
-                </Dropdown>
-              </ExpandableMenu>
-        </div>
+      {/* Select Marker Type Div start ----------------------------------- */}
+      <div className="selectMarkerTypeDiv">
+        <ExpandableMenu
+          id="selectMarkerTypeButton"
+          visualComponent={<Marker color="white"/>}
+          text="Marker"
+          proxyState={props.proxyState}
+        >
+          <SelfExpander spawnLR={true}>
+            <SelfExpanderItem>
+              <ButtonComponent
+                id="dropRedMarkerButton"
+                className="dropMarkerButton"
+                visualComponent={<Marker color="red"/>}
+                text="Red"
 
+                onClick={() => {
+                  props.proxyState["mapCursorMode"] = "marker";
+                  props.proxyState["markerDropType"] = "red";
+                }}
+              />
+            </SelfExpanderItem>
+            <SelfExpanderItem>
+              <ButtonComponent
+                id="dropBlueMarkerButton"
+                className="dropMarkerButton"
+                visualComponent={<Marker color="blue"/>}
+                text="Blue"
+                onClick={() => {
+                  props.proxyState["mapCursorMode"] = "marker";
+                  props.proxyState["markerDropType"] = "blue";
+                }}
+              />
+            </SelfExpanderItem>
+            <SelfExpanderItem>
+              <ButtonComponent
+                id="dropGreenMarkerButton"
+                className="dropMarkerButton"
+                visualComponent={<Marker color="green"/>}
+                text="Green"
+                onClick={() => {
+                  props.proxyState["mapCursorMode"] = "marker";
+                  props.proxyState["markerDropType"] = "green";
+                }}
+              />
+            </SelfExpanderItem>
+          </SelfExpander>
+        </ExpandableMenu>
+      </div>
+      {/* Select Marker Type Div end ----------------------------------- */}
+      
+
+      {/* Bottom Row Menu container start ----------------------------------- 
       <div id="bottomRowMenuContainer">
-
         <div className="viewMarkersButtonsDiv">
           <ButtonComponent
             id="viewRedMarkersButton"
             text="Hide Red Markers"
             onClick={() => {
-              props.proxyState["mapCursorMode"] = "default"
+              props.proxyState["mapCursorMode"] = "default";
               props.proxyState["markerViewType"]["red"] =
                 !props.proxyState["markerViewType"]["red"];
-              document.getElementById("viewRedMarkersButton").innerHTML = props.proxyState["markerViewType"]["red"] ? "Hide Red Markers" : "Show Red Markers";
+              document.getElementById("viewRedMarkersButton").innerHTML = props
+                .proxyState["markerViewType"]["red"]
+                ? "Hide Red Markers"
+                : "Show Red Markers";
               dispatchEvent(props.eventsObject["filterEvent"]);
             }}
           />
-          <ButtonComponent id="viewBlueMarkersButton" text="Hide Blue Markers" onClick={() => {
+          <ButtonComponent
+            id="viewBlueMarkersButton"
+            text="Hide Blue Markers"
+            onClick={() => {
               props.proxyState["mapCursorMode"] = "default";
               props.proxyState["markerViewType"]["blue"] =
                 !props.proxyState["markerViewType"]["blue"];
-              document.getElementById("viewBlueMarkersButton").innerHTML = props.proxyState["markerViewType"]["blue"] ? "Hide Blue Markers" : "Show Blue Markers";
+              document.getElementById("viewBlueMarkersButton").innerHTML = props
+                .proxyState["markerViewType"]["blue"]
+                ? "Hide Blue Markers"
+                : "Show Blue Markers";
               dispatchEvent(props.eventsObject["filterEvent"]);
             }}
-           />
-          <ButtonComponent id="viewGreenMarkersButton" text="Hide Green Markers" onClick={() => {
+          />
+          <ButtonComponent
+            id="viewGreenMarkersButton"
+            text="Hide Green Markers"
+            onClick={() => {
               props.proxyState["mapCursorMode"] = "default";
               props.proxyState["markerViewType"]["green"] =
                 !props.proxyState["markerViewType"]["green"];
-              document.getElementById("viewGreenMarkersButton").innerHTML = props.proxyState["markerViewType"]["green"] ? "Hide Green Markers" : "Show Green Markers";
+              document.getElementById("viewGreenMarkersButton").innerHTML =
+                props.proxyState["markerViewType"]["green"]
+                  ? "Hide Green Markers"
+                  : "Show Green Markers";
               dispatchEvent(props.eventsObject["filterEvent"]);
-            }
-          }/>
+            }}
+          />
         </div>
       </div>
+       Bottom Row Menu container end ----------------------------------- */}
+
     </div>
   );
 }
