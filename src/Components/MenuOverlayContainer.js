@@ -151,7 +151,7 @@ export default function MenuOverlayContainer(props) {
       {/* Select Marker Type Div end ----------------------------------- */}
       
 
-      {/* Bottom Row Menu container start ----------------------------------- 
+      {/* Bottom Row Menu container start ----------------------------------- */} 
       <div id="bottomRowMenuContainer">
         <div className="viewMarkersButtonsDiv">
           <ButtonComponent
@@ -198,7 +198,7 @@ export default function MenuOverlayContainer(props) {
           />
         </div>
       </div>
-       Bottom Row Menu container end ----------------------------------- */}
+       {/* Bottom Row Menu container end ----------------------------------- */}
 
     </div>
   );

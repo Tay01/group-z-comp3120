@@ -43,7 +43,7 @@ a{
   z-index: 0;
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
-  grid-template-rows: 1fr 10fr 1fr;
+  grid-template-rows: 1fr 9fr 1fr 1fr;
   pointer-events: none;
 }
 
@@ -64,30 +64,21 @@ a{
 
 #bottomRowMenuContainer{
   grid-column: 1/4;
-  grid-row: 3/4;
+  grid-row: 4/5;
   text-align: center;
   align-content: center;
   align-items: center;
   pointer-events: none;
-  display: grid;
-  grid-template-columns: repeat(10,1fr);
-  grid-template-rows: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
 }
 
-.dropMarkerButtonsDiv{
-  grid-column: 1/5;
-  grid-row: 1/2;
-  pointer-events: auto;
-  display: grid;
-  grid-template-columns: repeat(5,1fr);
-}
+
 
 .viewMarkersButtonsDiv{
-  grid-column: 6/11;
-  grid-row: 1/2;
   pointer-events: auto;
-  display: grid;
-  grid-template-columns: repeat(5,1fr);
 
 }
 
