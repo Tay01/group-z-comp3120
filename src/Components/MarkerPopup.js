@@ -6,7 +6,7 @@ export default function MarkerPopup(props) {
     const [state, setState] = useState({"likes": 0, "dislikes": 0, "comments": [], content: props.content})
   return (
     <div>I am the default Marker Popup! <br></br>
-    {state.likes} Likes <br></br>
+    {state.likes} Likes <button onClick={() => {setState({...state, "likes": state.likes+=1})}}></button><br></br>
     {state.dislikes} Dislikes <br></br>
     </div>
   )

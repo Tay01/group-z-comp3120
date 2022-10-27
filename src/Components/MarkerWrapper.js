@@ -1,6 +1,8 @@
 import React from "react";
 import { state, useState } from "react";
 import { Loader, Marker, GoogleMap, InfoWindow } from "@googlemaps/js-api-loader";
+import MarkerPopup from "./MarkerPopup"
+import ReactDOM from "react-dom"
 
 
 class MarkerWrapper {
@@ -35,25 +37,14 @@ class MarkerWrapper {
 
     //create infowindow for the marker
     const infoWindow = new window.google.maps.InfoWindow({});
-    //make a div for the info window
-    var infoWindowDiv = document.createElement("div");
-    infoWindowDiv.className = "infoWindowDiv";
-
-    //infowindowdiv -> username
-    var infoWindowUsernameSection = document.createElement("div");
-    infoWindowUsernameSection.className = "infoWindowUsername";
-
-    //infowindowdiv -> likes
-    var infoWind;
-
     //infowindowdiv -> content
     var infoWindowContent = document.createElement("div");
     infoWindowContent.contentEditable = true;
     infoWindowContent.oninput = (e) => {
       this.infoWindowContentChange(e);
     };
-    infoWindowContent.innerHTML = this.metadata.markerContent;
     infoWindow.setContent(infoWindowContent);
+    ReactDOM.render(<MarkerPopup content={this.metadata.markerContent}/>, infoWindowContent)
 
     const marker = new window.google.maps.Marker({
       map: this.appState.mapObject,
