@@ -3,11 +3,43 @@ import { Loader, Marker, GoogleMap, InfoWindow } from "@googlemaps/js-api-loader
 import { state, useState } from "react";
 
 export default function MarkerPopup(props) {
-    const [state, setState] = useState({"likes": 0, "dislikes": 0, "comments": [], content: props.content})
+    const [state, setState] = useState(props.metadata)
+
+    if(props.infoWindow != undefined){
+      props.infoWindow.addListener("closeclick",() => {
+        props.updatefn(state)
+        console.log(state)
+      })
+    }
+
+    function mainContentChange(e){
+      setState({...state, mainContent: e.target.value})
+      console.log(state)
+    }
+
+
+
+    
   return (
-    <div>I am the default Marker Popup! <br></br>
-    {state.likes} Likes <button onClick={() => {setState({...state, "likes": state.likes+=1})}}></button><br></br>
-    {state.dislikes} Dislikes <br></br>
+    <div class="MarkerPopup">
+      <input type="textarea" class="MarkerPopupContent" defaultValue={state.mainContent} onChange={mainContentChange}>
+      </input>
+      <br></br>
+      <div class="MarkerPopupCreatorData">{state.creatorUser}</div>
+      {state.likes} Likes
+      <button
+        onClick={() => {
+          setState({ ...state, likes: (state.likes += 1) });
+        }}
+      >+</button>
+      <br></br>
+      {state.dislikes} Dislikes
+      <button
+        onClick={() => {
+          setState({ ...state, likes: (state.dislikes += 1) });
+        }}
+      >+</button>
+      <br></br>
     </div>
-  )
+  );
 }

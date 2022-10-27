@@ -9,6 +9,7 @@ export default function MapWrapper(props) {
   console.log("MapWrapper was initialised");
   //on initialisation, we want to set our state variables for the proxyState
   const appState = props.proxyState;
+  const username = props.user
   appState["userLocation"] = { lat: 0, lng: 0 };
   appState["markers"] = [];
   appState["markerPositions"] = [];
@@ -35,150 +36,7 @@ export default function MapWrapper(props) {
     getLocation();
   };
 
-  /*
-  class markerWrapper {
-    constructor(pos, color, metadata) {
-      this.docID = "default";
-      this.pos = pos;
-      this.color = color;
-      this.metadata = metadata;
-      if (metadata == undefined) {
-        //create default marker settings if none are provided
-        this.metadata = {
-          likes: 0,
-          dislikes: 0,
-          comments: [],
-          //  "markerContent": this.metadata.markerContent==undefined?"I am a default marker!":this.metadata.markerContent,
-        };
-
-        this.metadata.icon =
-          "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png";
-      }
-      this.DOMMarker = this.createDOMMarker();
-    }
-    //this object exists because though we reference a marker as one thing, it actually has two formats/states
-    //1: A metadata object that can be stored in the database
-    //2: A google maps marker object that is in the DOM and must be treated as such
-    //to merge these two states into one object, we create a wrapper object with methods that will simplify the process of handling markers.
-
-    createDOMMarker() {
-      //this method creates a google maps marker object and returns it
-
-      //create infowindow for the marker
-      const infoWindow = new window.google.maps.InfoWindow({});
-      //make a div for the info window
-      var infoWindowDiv = document.createElement("div");
-      infoWindowDiv.className = "infoWindowDiv";
-
-      //infowindowdiv -> username
-      var infoWindowUsernameSection = document.createElement("div");
-      infoWindowUsernameSection.className = "infoWindowUsername"
-
-      //infowindowdiv -> likes
-      var infoWind
-
-      //infowindowdiv -> content
-      var infoWindowContent = document.createElement("div");
-      infoWindowContent.contentEditable = true;
-      infoWindowContent.oninput = (e) => {
-        this.infoWindowContentChange(e);
-      };
-      infoWindowContent.innerHTML = this.metadata.markerContent;
-      infoWindow.setContent(infoWindowContent);
-
-      const marker = new window.google.maps.Marker({
-        map: appState.mapObject,
-        position: this.pos,
-        icon: this.metadata.icon,
-        infoWindow: infoWindow,
-      });
-
-      //bind event listeners
-      marker.addListener("click", () => {
-        onMarkerClick(this);
-      });
-      infoWindow.addListener("closeclick", () => {
-        this.update();
-      });
-
-      return marker;
-    }
-
-    getDOMMarker() {
-      return this.DOMMarker;
-    }
-
-    setMap(map) {
-      this.getDOMMarker().setMap(map);
-    }
-
-    openInfoWindow() {
-      this.getDOMMarker().infoWindow.open({
-        map: appState.mapObject,
-        anchor: this.getDOMMarker(),
-      });
-    }
-
-    delete() {
-      this.getDOMMarker().setMap(null);
-      //then do logic for db removal
-    }
-
-    async save() {
-      //save to db
-      console.log(this.metadata);
-      await fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          pos: this.pos,
-          color: this.color,
-          metadata: this.metadata,
-        }),
-      })
-        .then((res) => {
-          console.log(res);
-          return res.json();
-        })
-        .then((data) => {
-          console.log(data);
-          this.docID = data.id;
-        });
-    }
-
-    update() {
-      //update db
-      console.log("saving to db");
-      fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: this.docID,
-          payload: {
-            pos: this.pos,
-            color: this.color,
-            metadata: this.metadata,
-          },
-        }),
-      }).then((res) => console.log(res));
-    }
-
-    editMarkerContent(newContent) {
-      //edit infowindow content
-      this.metadata.markerContent = newContent;
-    }
-
-    infoWindowContentChange(e) {
-      console.log(e);
-      this.editMarkerContent(e.target.innerText);
-    }
-  }
-  */
-
+ 
   //Custom Controls for the map are created here
   function createCenterControl(map) {
     const controlButton = document.createElement("button");
@@ -206,7 +64,7 @@ export default function MapWrapper(props) {
     if (appState.mapCursorMode == "marker") {
       //if we are creating a new marker,,,
 
-      const marker = dropMarker(position, appState.markerDropType);
+      const marker = dropMarker(position, appState.markerDropType, undefined, undefined, username);
       marker.save();
       console.log("yeet");
     }
@@ -222,8 +80,8 @@ export default function MapWrapper(props) {
     }
   };
 
-  const dropMarker = (pos, color, markerSettings, id="default") => {
-    const marker = new MarkerWrapper(pos, color, markerSettings, appState, onMarkerClick, id);
+  const dropMarker = (pos, color, markerData=undefined, id, creatorUser) => {
+    const marker = new MarkerWrapper(pos, color, markerData, appState, onMarkerClick, id, creatorUser);
     appState["markers"].push(marker);
     return marker;
   };
@@ -295,7 +153,7 @@ export default function MapWrapper(props) {
         );
 
         newMarkers.forEach((newMarker) => {
-          dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata,newMarker[1]);
+          dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata, newMarker[1], newMarker[0].creatorUser);
         });
         filterMarkers();
       });

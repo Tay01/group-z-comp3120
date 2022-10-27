@@ -6,20 +6,24 @@ import ReactDOM from "react-dom"
 
 
 class MarkerWrapper {
-  constructor(pos, color, metadata, appState, onMarkerClick, id) {
+  constructor(pos, color, metadata, appState, onMarkerClick, id, creatorUser) {
     this.docID = id;
     this.pos = pos;
     this.color = color;
     this.appState = appState;
     this.metadata = metadata;
+    this.creatorUser = creatorUser
     this.onMarkerClick = onMarkerClick;
     if (metadata == undefined) {
+      console.log("metadata is undefined");
+      console.log(this.creatorUser)
       //create default marker settings if none are provided
       this.metadata = {
+        creatorUser: this.creatorUser,
         likes: 0,
         dislikes: 0,
         comments: [],
-        //  "markerContent": this.metadata.markerContent==undefined?"I am a default marker!":this.metadata.markerContent,
+        mainContent: "Enter text...",
       };
 
       this.metadata.icon =
@@ -39,12 +43,15 @@ class MarkerWrapper {
     const infoWindow = new window.google.maps.InfoWindow({});
     //infowindowdiv -> content
     var infoWindowContent = document.createElement("div");
-    infoWindowContent.contentEditable = true;
-    infoWindowContent.oninput = (e) => {
-      this.infoWindowContentChange(e);
-    };
+    ReactDOM.render(
+      <MarkerPopup metadata={this.metadata} updatefn={(popupContent) => {this.update(this.pos, this.color, popupContent)}} infoWindow={infoWindow}/>,
+      infoWindowContent
+    );
     infoWindow.setContent(infoWindowContent);
-    ReactDOM.render(<MarkerPopup content={this.metadata.markerContent}/>, infoWindowContent)
+    //const infoWindowMainContent = infoWindowContent.getElementsByClassName("MarkerPopupContent")[0];
+    
+
+    
 
     const marker = new window.google.maps.Marker({
       map: this.appState.mapObject,
@@ -58,9 +65,7 @@ class MarkerWrapper {
       this.onMarkerClick(this);
     });
     
-    infoWindow.addListener("closeclick", () => {
-      this.update();
-    });
+    
 
     return marker;
   }
@@ -85,7 +90,7 @@ class MarkerWrapper {
     //then do logic for db removal
   }
 
-  async save() {
+  async save(payload) {
     //save to db
     console.log(this.metadata);
     await fetch(
@@ -112,9 +117,10 @@ class MarkerWrapper {
       });
   }
 
-  update() {
+  update(pos,color,payload) {
     //update db
     console.log("saving to db");
+    console.log(pos, color, payload)
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
       method: "PUT",
       headers: {
@@ -123,23 +129,15 @@ class MarkerWrapper {
       body: JSON.stringify({
         id: this.docID,
         payload: {
-          pos: this.pos,
-          color: this.color,
-          metadata: this.metadata,
+          pos: pos,
+          color: color,
+          metadata: payload,
         },
       }),
     }).then((res) => console.log(res));
   }
 
-  editMarkerContent(newContent) {
-    //edit infowindow content
-    this.metadata.markerContent = newContent;
-  }
-
-  infoWindowContentChange(e) {
-    console.log(e);
-    this.editMarkerContent(e.target.innerText);
-  }
+ 
 }
 
 export default MarkerWrapper

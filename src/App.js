@@ -69,11 +69,12 @@ function App() {
     )
   }
 else if(isAuthenticated) {
+  console.log(user)
 
   return (
     <div className="App">
-      <MapWrapper proxyState={proxyState} />
-      <MenuOverlayContainer proxyState={proxyState} eventsObject={eventsObject}/>
+      <MapWrapper proxyState={proxyState} user={user.nickname}/>
+      <MenuOverlayContainer proxyState={proxyState} eventsObject={eventsObject} user={user.nickname}/>
 
 
     </div>
