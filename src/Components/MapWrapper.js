@@ -3,6 +3,7 @@ import { useState, useEffect, shouldComponentUpdate } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Loader, Marker, GoogleMap } from "@googlemaps/js-api-loader";
 import MarkerPopup from "./MarkerPopup";
+import MarkerWrapper from "./MarkerWrapper";
 
 export default function MapWrapper(props) {
   console.log("MapWrapper was initialised");
@@ -34,6 +35,7 @@ export default function MapWrapper(props) {
     getLocation();
   };
 
+  /*
   class markerWrapper {
     constructor(pos, color, metadata) {
       this.docID = "default";
@@ -64,6 +66,18 @@ export default function MapWrapper(props) {
 
       //create infowindow for the marker
       const infoWindow = new window.google.maps.InfoWindow({});
+      //make a div for the info window
+      var infoWindowDiv = document.createElement("div");
+      infoWindowDiv.className = "infoWindowDiv";
+
+      //infowindowdiv -> username
+      var infoWindowUsernameSection = document.createElement("div");
+      infoWindowUsernameSection.className = "infoWindowUsername"
+
+      //infowindowdiv -> likes
+      var infoWind
+
+      //infowindowdiv -> content
       var infoWindowContent = document.createElement("div");
       infoWindowContent.contentEditable = true;
       infoWindowContent.oninput = (e) => {
@@ -163,6 +177,7 @@ export default function MapWrapper(props) {
       this.editMarkerContent(e.target.innerText);
     }
   }
+  */
 
   //Custom Controls for the map are created here
   function createCenterControl(map) {
@@ -207,8 +222,8 @@ export default function MapWrapper(props) {
     }
   };
 
-  const dropMarker = (pos, color, markerSettings) => {
-    const marker = new markerWrapper(pos, color, markerSettings);
+  const dropMarker = (pos, color, markerSettings, id="default") => {
+    const marker = new MarkerWrapper(pos, color, markerSettings, appState, onMarkerClick, id);
     appState["markers"].push(marker);
     return marker;
   };
@@ -274,13 +289,13 @@ export default function MapWrapper(props) {
           (e) =>
             !appState.markers
               .map((marker) => {
-                return marker.markerPos;
+                return marker[0].markerPos;
               })
               .includes(e)
         );
 
         newMarkers.forEach((newMarker) => {
-          dropMarker(newMarker.pos, newMarker.color, newMarker.metadata);
+          dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata,newMarker[1]);
         });
         filterMarkers();
       });

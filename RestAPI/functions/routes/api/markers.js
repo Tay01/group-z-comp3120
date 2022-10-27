@@ -42,7 +42,7 @@ router.get("/", async (req, res) => {
     const markers = await db.collection("markers").get();
     var markerList = [];
     markers.forEach((marker) => {
-      markerList.push(marker.data());
+      markerList.push([marker.data(),marker.id]);
     });
     console.log(res)
     console.log("2")

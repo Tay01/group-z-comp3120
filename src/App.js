@@ -38,7 +38,7 @@ function App() {
   const proxyState = {};
   proxyState["markerDropType"] = "red"
   proxyState["markerViewType"] = {red: true, blue: true, green: true}
-  proxyState["mapMarkerMode"] = "view"
+  proxyState["mapCursorMode"] = "default"
 
 
   //some custom events for our app

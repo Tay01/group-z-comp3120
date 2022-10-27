@@ -29,7 +29,7 @@ app.use(cors(corsOptions));
 app.use('/api/markers', require('./routes/api/markers'));
 
 app.get('/', (req, res) => {
-    res.send('Hello');
+    res.send('Super Hello');
 });
 
-exports.app = functions.https.onRequest(app)
+exports.yeet = functions.https.onRequest(app)
