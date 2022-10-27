@@ -12,7 +12,7 @@ class MarkerWrapper {
     this.color = color;
     this.appState = appState;
     this.metadata = metadata;
-    this.creatorUser = creatorUser
+    this.creatorUser = appState.userState.user
     this.onMarkerClick = onMarkerClick;
     if (metadata == undefined) {
       console.log("metadata is undefined");
@@ -64,6 +64,16 @@ class MarkerWrapper {
     marker.addListener("click", () => {
       this.onMarkerClick(this);
     });
+
+    marker.addListener("mouseIn", () => {
+      console.log("mouse in");
+      this.openInfoWindow();
+    })
+
+    marker.addListener("mouseOut", () => {
+      console.log("out");
+      this.closeInfoWindow();
+      })
     
     
 
@@ -83,6 +93,10 @@ class MarkerWrapper {
       map: this.appState.mapObject,
       anchor: this.getDOMMarker(),
     });
+  }
+
+  closeInfoWindow() {
+    this.getDOMMarker().infoWindow.close();
   }
 
   delete() {

@@ -36,6 +36,8 @@ function App() {
 
   //use this when you dont want state to update the entire app, such as when you want to set some click behaviour
   const proxyState = {};
+  proxyState["userState"] = {user: user}
+  //proxyState["cursorControlState"] = {"markerControl" : "drop", "markerColor" : "red"}
   proxyState["markerDropType"] = "red"
   proxyState["markerViewType"] = {red: true, blue: true, green: true}
   proxyState["mapCursorMode"] = "default"
@@ -73,8 +75,14 @@ else if(isAuthenticated) {
 
   return (
     <div className="App">
-      <MapWrapper proxyState={proxyState} user={user.nickname}/>
-      <MenuOverlayContainer proxyState={proxyState} eventsObject={eventsObject} user={user.nickname}/>
+      <MapWrapper proxyState={proxyState}/>
+      {/* MenuOverlayContainer: These are the controls overlaying the map
+      Inputs: proxyState -> contains variables/state that other components outside this tree will need to reference
+      Inputs: eventsObject -> contains logic to fire custom events that other components outside this tree will need to reference
+      Inputs: user -> contains the user object from Auth0
+      
+      */}
+      <MenuOverlayContainer proxyState={proxyState} eventsObject={eventsObject}/>
 
 
     </div>

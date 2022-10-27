@@ -22,10 +22,10 @@ export default function MarkerPopup(props) {
     
   return (
     <div class="MarkerPopup">
-      <input type="textarea" class="MarkerPopupContent" defaultValue={state.mainContent} onChange={mainContentChange}>
-      </input>
+      <textarea class="MarkerPopupContent" defaultValue={state.mainContent} onChange={mainContentChange}>
+      </textarea>
       <br></br>
-      <div class="MarkerPopupCreatorData">{state.creatorUser}</div>
+      <div class="MarkerPopupCreatorData">Created by: {state.creatorUser}</div>
       {state.likes} Likes
       <button
         onClick={() => {
