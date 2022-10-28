@@ -89,6 +89,9 @@ class MarkerWrapper {
   }
 
   openInfoWindow() {
+    //this.getUpdated();
+
+
     this.getDOMMarker().infoWindow.open({
       map: this.appState.mapObject,
       anchor: this.getDOMMarker(),
@@ -150,6 +153,23 @@ class MarkerWrapper {
       }),
     }).then((res) => console.log(res));
   }
+
+  // async getUpdated(){
+  //   const data = await fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers/"+this.docID, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   }).then((res) => {
+  //     console.log(res);
+  //     return res.json();
+  //   }).then((data) => {
+  //     console.log(data);
+  //     this.metadata = data.metadata;
+  //     this.DOMMarker = this.createDOMMarker();
+      
+  //   })
+  // }
 
  
 }

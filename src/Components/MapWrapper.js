@@ -88,6 +88,7 @@ export default function MapWrapper(props) {
 
   const trackLocation = (successCB = () => {}, failureCB = () => {}) => {
     if (navigator.geolocation) {
+      console.log(" I CAN SEE YOU ")
       return navigator.geolocation.watchPosition(successCB, failureCB);
     } else {
       console.log("Geolocation is not supported by this browser.");
@@ -142,17 +143,15 @@ export default function MapWrapper(props) {
       })
       .then((data) => {
         const resultFromServer = data;
-        console.log(data);
-        var newMarkers = resultFromServer.filter(
-          (e) =>
-            !appState.markers
-              .map((marker) => {
-                return marker[0].markerPos;
-              })
-              .includes(e)
-        );
+        console.log(resultFromServer);
+        console.log(appState.markers)
+        var markerIDs = appState.markers.map((marker) => marker.docID)
+        console.log(markerIDs)
+        var newMarkers = resultFromServer.filter((marker) => !markerIDs.includes(marker[1]))
+        console.log(newMarkers)
 
         newMarkers.forEach((newMarker) => {
+          console.log("I have a new marker")
           dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata, newMarker[1], newMarker[0].creatorUser);
         });
         filterMarkers();
@@ -175,6 +174,7 @@ export default function MapWrapper(props) {
 
     //after map is loaded, we can bind event listeners to it
     map.addListener("click", onMapClick);
+    map.addListener("drag", getMarkersFromServer)
     window.addEventListener("filterEvent", filterMarkers);
 
     // Create the DIV to hold the control.

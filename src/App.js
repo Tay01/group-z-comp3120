@@ -36,7 +36,6 @@ function App() {
 
   //use this when you dont want state to update the entire app, such as when you want to set some click behaviour
   const proxyState = {};
-  proxyState["userState"] = {user: user}
   //proxyState["cursorControlState"] = {"markerControl" : "drop", "markerColor" : "red"}
   proxyState["markerDropType"] = "red"
   proxyState["markerViewType"] = {red: true, blue: true, green: true}
@@ -72,6 +71,7 @@ function App() {
   }
 else if(isAuthenticated) {
   console.log(user)
+  proxyState["userState"] = { user: user.nickname };
 
   return (
     <div className="App">
