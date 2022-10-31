@@ -32,4 +32,4 @@ app.get('/', (req, res) => {
     res.send('Super Hello');
 });
 
-exports.yeet = functions.https.onRequest(app)
+exports.app = functions.https.onRequest(app)
