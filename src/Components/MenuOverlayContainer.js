@@ -37,7 +37,6 @@ export default function MenuOverlayContainer(props) {
               id="settingsExpander"
               text="Settings"
               proxyState={props.proxyState}
-              align="Left"
             >
               <Dropdown openDown={true}>
                 <DropdownItem>
@@ -79,15 +78,14 @@ export default function MenuOverlayContainer(props) {
         class="menuButton"
         proxyState={props.proxyState}
       >
-        <Dropdown openDown={true} openLeft={true} openReverse={true}>
+        <Dropdown openDown={true} openLeft={true}>
           <DropdownItem>
             <ExpandableMenu
-              id="settingsButton"
+              id="accountExpander"
               text="Settings"
-              class="menuButton"
               proxyState={props.proxyState}
             >
-              <Dropdown openLeft={true}>
+              <Dropdown openDown={true}>
                 <DropdownItem>Nothing rude</DropdownItem>
                 <DropdownItem>Nothing rude</DropdownItem>
                 <DropdownItem>Nothing rude</DropdownItem>
@@ -118,6 +116,7 @@ export default function MenuOverlayContainer(props) {
                 onClick={() => {
                   props.proxyState["mapCursorMode"] = "marker";
                   props.proxyState["markerDropType"] = "red";
+
                 }}
               />
             </SelfExpanderItem>

@@ -4,7 +4,7 @@ import { state, useState } from 'react'
 export default function ExpandableMenu(props) {
     const [open, setOpen] = useState(false);
 
-
+  
   return (
     <div
       className={
@@ -13,14 +13,13 @@ export default function ExpandableMenu(props) {
           : "expandableMenu" + props.align
       }
       id={props.id == undefined ? "" : props.id}
+      style={{backgroundColor:open?"var(--menuColor)":"transparent"}}
     >
-      <div className="menuIconButton" onClick={() => setOpen(!open)}>
-        <div className="visualComponent">
+      
+        <div className="visualComponent" onClick={() => setOpen(!open)}>
           {props.visualComponent == undefined
             ? props.text
             : props.visualComponent}
-        </div>
-        <span></span>
       </div>
 
       {open && props.children}

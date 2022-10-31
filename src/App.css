@@ -3,16 +3,22 @@
   --text-color: black;
   --icon-size: 50px;
   --transformX-offset: calc(var(--icon-size)/-2);
+  --menuColor: #fff;
+  --dropdownWidth: 30vw;
+  --borderRadius: 5px;
+  font-family: Raleway, sans-serif;
 }
 
 @keyframes spawnLR{
     0%{
       opacity: 0%;
-      width: 0%;
+      width: 0vw;
+      margin-left: 25vw;
     }
     100%{
-      width: 100%;
+      width: 50vw;
       opacity: 100%;
+      margin-left: 0vw;
     }
   }
 
@@ -31,6 +37,7 @@ a{
   width: 100vw;
   height: 100vh;
   display: grid;
+  overflow:hidden;
   grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   pointer-events: none;
@@ -42,11 +49,22 @@ a{
   grid-row: 1/9;
   z-index: 0;
   display: grid;
+  overflow:hidden;
   grid-template-columns: 1fr 10fr 1fr;
   grid-template-rows: 1fr 9fr 1fr 1fr;
   pointer-events: none;
   margin: 5px 5px 5px 5px;
 }
+
+.menuOverlayContainer>*{
+  min-width: none;
+  min-height: none;
+  max-width: inherit;
+  max-height: inherit;
+  overflow: visible;
+
+}
+
 
 .menuIconButton{
   width: 100%;
@@ -59,10 +77,8 @@ a{
 
 
 
-.menuIconButton>*:hover{
-  transform: scale(1.00);
 
-}
+
 
 #bottomRowMenuContainer{
   grid-column: 1/4;
@@ -91,29 +107,39 @@ a{
 
 
 .expandableMenu{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
   pointer-events: auto;
 }
 
-.expandableMenuLeft{
-  pointer-events: auto;
-}
+
 
 .selfExpandableMenu{
   pointer-events: auto;
+  position: relative;
 }
 
 .dropdown{
-  position: absolute;
+  position: relative;
   pointer-events: none;
-  padding-top: var(--icon-size);
-  background-color: red;
-  width: 30vw;
-  z-index: -6;
-  transform: translateY(calc(-1* --var(--icon-size)));
+  border-radius: var(--borderRadius);
+  border: solid var(--menuColor);
+  
+  background-color: transparent;
+  width: var(--dropdownWidth);
+  z-index: 10;
+
   overflow: visible;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.dropdown>*{
+  width: 100%;
 }
 
 
@@ -123,10 +149,9 @@ a{
   pointer-events: none;
   position: absolute;
   justify-content: space-evenly;
-  overflow-x: hidden;
+  overflow-x: visible;
   overflow-y: visible;
   flex-direction: row;
-  transform: translateX(-50%);
   width: 0%;
   height: 100%;
   animation: spawnLR var(--speed) ease-in-out alternate both;
@@ -145,12 +170,10 @@ a{
   width: var(--icon-size)
 }
 
-.selfExpandOpen{
-  margin-left: 50%;
-}
 
 .selfExpandClosed{
   margin-left: 50%;
+  transform: translateX(calc(var(--icon-size)/-2));
 }
 
 .dropdownReverse>*{
@@ -164,7 +187,9 @@ a{
 
 .dropdownLeft{
   top: 0px;
+  text-align: right;
   transform: translateX(-100%);
+  right: calc(-1 * var(--icon-size));
 }
 
 .dropdownDown{
@@ -176,12 +201,22 @@ a{
 }
 
 .dropdownItem{
+  height: var(--icon-size);
   pointer-events: all;
-  display: inline-block;
   width: 100%;
-  background-color: rgb(0, 0, 0);
-  color: white;
-  text-align: left;
+  background-color: var(--menuColor);
+  border-radius: var(--borderRadius);
+  color: rgb(0, 0, 0);
+  text-align: inherit;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  font-size: large;
+  line-height: var(--icon-size);
+  vertical-align: middle;
+
 }
 
 .dropdownItem:hover{
@@ -189,12 +224,6 @@ a{
 }
 
 
-.accountButton{
-  grid-column: 2/3;
-  grid-row: 1/2;
-  justify-content: center;
-  align-items: center;
-}
 
 #mapWrapper{
   position: absolute;
@@ -214,17 +243,25 @@ a{
 #deleteMarkerButton{
   grid-column: 4/5;
   grid-row: 7/8;
+  text-align: right;
+  align-items: right;
 }
 
 #accountButton{
-  grid-column: 8/9;
+  position: absolute;
+  grid-column: 3/4;
   grid-row: 1/2;
-  transform: translateX(-50%);
+  max-width: var(--dropdownWidth);
+  justify-content: right;
+  align-items: right;
+  text-align: right;
 }
 
 #settingsButton{
+  position:absolute;
   grid-column: 1/2;
   grid-row: 1/2;
+  max-width: var(--dropdownWidth);
 
 }
 
@@ -262,11 +299,19 @@ a{
 
 
 .selectMarkerTypeDiv{
-  grid-column: 2/3;
+  position:absolute;
+  grid-column: 1/4;
   grid-row: 3/3;
   pointer-events: auto;
   display: grid;
   grid-template-columns: repeat(3,1fr);
+}
+.selectMarkerTypeDiv>*{
+  position:relative;
+  width: 50vw;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 #selectMarkerTypeButton{
