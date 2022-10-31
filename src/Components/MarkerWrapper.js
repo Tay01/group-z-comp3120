@@ -65,12 +65,12 @@ class MarkerWrapper {
       this.onMarkerClick(this);
     });
 
-    marker.addListener("mouseIn", () => {
-      console.log("mouse in");
+    marker.addListener("mouseover", () => {
+      console.log("hover");
       this.openInfoWindow();
     })
 
-    marker.addListener("mouseOut", () => {
+    marker.addListener("mouseout", () => {
       console.log("out");
       this.closeInfoWindow();
       })

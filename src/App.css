@@ -45,20 +45,22 @@ a{
   grid-template-columns: 1fr 10fr 1fr;
   grid-template-rows: 1fr 9fr 1fr 1fr;
   pointer-events: none;
+  margin: 5px 5px 5px 5px;
 }
 
 .menuIconButton{
-  height: 100%;
   width: 100%;
   position: relative;
-  transform: translateX(var(--transformX-offset));
+  
 
-  text-align: center;
+  text-align: left;
   align-items: center;
 }
 
+
+
 .menuIconButton>*:hover{
-  transform: scale(1.05);
+  transform: scale(1.00);
 
 }
 
@@ -90,7 +92,10 @@ a{
 
 .expandableMenu{
   pointer-events: auto;
-  margin-left: 50%;
+}
+
+.expandableMenuLeft{
+  pointer-events: auto;
 }
 
 .selfExpandableMenu{
@@ -98,11 +103,13 @@ a{
 }
 
 .dropdown{
+  position: absolute;
   pointer-events: none;
-  position:absolute;
-  top: var(--icon-size) + 3px;
+  padding-top: var(--icon-size);
+  background-color: red;
   width: 30vw;
-  height: 80vh;
+  z-index: -6;
+  transform: translateY(calc(-1* --var(--icon-size)));
   overflow: visible;
   display: inline-block;
   align-items: center;
@@ -161,7 +168,7 @@ a{
 }
 
 .dropdownDown{
-  top: var(--icon-size);
+  top: 0px;
 }
 
 .dropdownUp{
@@ -172,11 +179,13 @@ a{
   pointer-events: all;
   display: inline-block;
   width: 100%;
-  background-color: white;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  text-align: left;
 }
 
 .dropdownItem:hover{
-  background-color: #f1f1f1;
+  background-color: #2a2a2a;
 }
 
 

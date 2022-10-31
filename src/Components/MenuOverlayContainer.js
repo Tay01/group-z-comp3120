@@ -34,12 +34,12 @@ export default function MenuOverlayContainer(props) {
         <Dropdown openDown={true}>
           <DropdownItem>
             <ExpandableMenu
-              id="settingsButton"
+              id="settingsExpander"
               text="Settings"
-              class="menuButton"
               proxyState={props.proxyState}
+              align="Left"
             >
-              <Dropdown openRight={true}>
+              <Dropdown openDown={true}>
                 <DropdownItem>
                   <ButtonComponent
                     id="dropMarkerButton"

@@ -4,6 +4,7 @@ import Typewriter from 'typewriter-effect';
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import React, { useEffect } from "react";
+import Canvas from './Components/Canvas'
 
 //React
 import { setState, useState } from "react";
@@ -83,7 +84,7 @@ else if(isAuthenticated) {
       
       */}
       <MenuOverlayContainer proxyState={proxyState} eventsObject={eventsObject}/>
-
+      <Canvas proxyState={proxyState}/>
 
     </div>
   );

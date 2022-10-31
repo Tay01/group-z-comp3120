@@ -174,7 +174,7 @@ export default function MapWrapper(props) {
 
     //after map is loaded, we can bind event listeners to it
     map.addListener("click", onMapClick);
-    map.addListener("drag", getMarkersFromServer)
+    map.addListener("mousedown", getMarkersFromServer)
     window.addEventListener("filterEvent", filterMarkers);
 
     // Create the DIV to hold the control.
