@@ -202,7 +202,8 @@ a{
 
 .dropdownItem{
   height: var(--icon-size);
-  pointer-events: all;
+  pointer-events: auto;
+  -webkit-user-drag: none;
   width: 100%;
   background-color: var(--menuColor);
   border-radius: var(--borderRadius);
@@ -210,8 +211,7 @@ a{
   text-align: inherit;
   align-content: center;
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  flex-direction: row;
   position: relative;
   font-size: large;
   line-height: var(--icon-size);
@@ -219,9 +219,20 @@ a{
 
 }
 
-.dropdownItem:hover{
-  background-color: #2a2a2a;
+.sliderComponent{
+  height: 100%;
+  width: 100%;
+  line-height: normal;
+  font-size: small;
+  text-align: left;
+  justify-content: space-evenly;
+  display: inline-flex;
+  vertical-align: top;
+  align-items: center;
+  
+
 }
+
 
 
 

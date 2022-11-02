@@ -137,6 +137,7 @@ export default function MapWrapper(props) {
   }
 
   function getMarkersFromServer() {
+    
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
       method: "GET",
       // headers: {
@@ -181,6 +182,7 @@ export default function MapWrapper(props) {
     //after map is loaded, we can bind event listeners to it
     map.addListener("click", onMapClick);
     window.addEventListener("filterEvent", filterMarkers);
+    window.addEventListener("markerRangeChangedEvent", getMarkersFromServer);
 
     // Create the DIV to hold the control.
     const centerControlDiv = document.createElement("div");

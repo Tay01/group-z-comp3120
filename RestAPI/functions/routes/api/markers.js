@@ -54,6 +54,41 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/withRange", async (req, res) => {
+  if(!req.body.range){
+    var range = 1000;
+  }else{
+    var range = req.body.range;
+  }
+  //fetch the user's location
+  const user = await db.collection("users").doc(req.body.username).get();
+  if(!user.exists()){
+    return res.status(400).json({ errors: "User does not exist" });
+  }else{
+    var userPos = user.data().pos;
+  }
+
+  //calculate range into degrees
+  var degRange = range/111139
+
+  //get markers with pos value within range
+  var markerList = []
+
+  const markers = await db.collection("markers")
+  .where("pos.lat",">",userPos.lat-degRange)
+  .where("pos.lat","<",userPos.lat+degRange)
+  .where("pos.lng",">",userPos.lng-degRange)
+  .where("pos.lng","<",userPos.lng+degRange).get();
+
+  markers.forEach((marker) => {
+    markerList.push([marker.data(),marker.id]);
+  });
+
+  res.json(markerList);
+  
+
+});
+
 router.put("/", async (req, res) => {
   console.log(req.body);
   try {

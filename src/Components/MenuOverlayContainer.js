@@ -14,6 +14,7 @@ import SelfExpandableMenu from "./SelfExpandableMenu.js";
 //Think of these components as an image file, or an icon.
 import BurgerMenu from "./VisualComponents/BurgerMenu";
 import Marker from "./VisualComponents/Marker"
+import MenuSlider from "./MenuSlider.js";
 
 export default function MenuOverlayContainer(props) {
   /*this container is relatively positioned so that its components can be positioned absolutely within the overlay.
@@ -46,8 +47,6 @@ export default function MenuOverlayContainer(props) {
 
   return (
     <div className="menuOverlayContainer">
-
-
       {/* Top Left Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="settingsButton"
@@ -94,7 +93,6 @@ export default function MenuOverlayContainer(props) {
       </ExpandableMenu>
       {/* Top Left Menu Burger end ----------------------------------- */}
 
-
       {/* Top Right Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="accountButton"
@@ -111,7 +109,14 @@ export default function MenuOverlayContainer(props) {
               proxyState={props.proxyState}
             >
               <Dropdown openDown={true}>
-                <DropdownItem>Nothing rude</DropdownItem>
+                <DropdownItem>
+                  <MenuSlider title="Marker Range" units="KMS" releaseFn={
+                    (value) => {
+                      props.proxyState["markerRange"] = value
+                      window.dispatchEvent(new Event("markerRangeChange"))
+                    }
+                  }/>
+                </DropdownItem>
                 <DropdownItem>Nothing rude</DropdownItem>
                 <DropdownItem>Nothing rude</DropdownItem>
               </Dropdown>
@@ -126,25 +131,25 @@ export default function MenuOverlayContainer(props) {
       <div className="selectMarkerTypeDiv">
         <SelfExpandableMenu
           id="selectMarkerTypeButton"
-          visualComponent={<Marker color="white"/>}
+          visualComponent={<Marker color="white" />}
           text="Marker"
           proxyState={props.proxyState}
           menuState={state}
-          closeFn = {setCursorDefaultMode}
-          openFn = {() => {setState({...state, "selectMarkerControl": "open"})}}
+          closeFn={setCursorDefaultMode}
+          openFn={() => {
+            setState({ ...state, selectMarkerControl: "open" });
+          }}
         >
           <SelfExpander spawnLR={true}>
             <SelfExpanderItem>
               <ButtonComponent
                 id="dropRedMarkerButton"
                 className="dropMarkerButton"
-                visualComponent={<Marker color="red"/>}
+                visualComponent={<Marker color="red" />}
                 text="Red"
-
                 onClick={() => {
                   props.proxyState["mapCursorMode"] = "marker";
                   props.proxyState["markerDropType"] = "red";
-
                 }}
               />
             </SelfExpanderItem>
@@ -152,7 +157,7 @@ export default function MenuOverlayContainer(props) {
               <ButtonComponent
                 id="dropBlueMarkerButton"
                 className="dropMarkerButton"
-                visualComponent={<Marker color="blue"/>}
+                visualComponent={<Marker color="blue" />}
                 text="Blue"
                 onClick={() => {
                   props.proxyState["mapCursorMode"] = "marker";
@@ -164,7 +169,7 @@ export default function MenuOverlayContainer(props) {
               <ButtonComponent
                 id="dropGreenMarkerButton"
                 className="dropMarkerButton"
-                visualComponent={<Marker color="green"/>}
+                visualComponent={<Marker color="green" />}
                 text="Green"
                 onClick={() => {
                   props.proxyState["mapCursorMode"] = "marker";
@@ -176,9 +181,8 @@ export default function MenuOverlayContainer(props) {
         </SelfExpandableMenu>
       </div>
       {/* Select Marker Type Div end ----------------------------------- */}
-      
 
-      {/* Bottom Row Menu container start ----------------------------------- */} 
+      {/* Bottom Row Menu container start ----------------------------------- */}
       <div id="bottomRowMenuContainer">
         <div className="viewMarkersButtonsDiv">
           <ButtonComponent
@@ -225,8 +229,7 @@ export default function MenuOverlayContainer(props) {
           />
         </div>
       </div>
-       {/* Bottom Row Menu container end ----------------------------------- */}
-
+      {/* Bottom Row Menu container end ----------------------------------- */}
     </div>
   );
 }

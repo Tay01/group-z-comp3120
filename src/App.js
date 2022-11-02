@@ -41,6 +41,7 @@ function App() {
   proxyState["markerDropType"] = "red"
   proxyState["markerViewType"] = {red: true, blue: true, green: true}
   proxyState["mapCursorMode"] = "default"
+  proxyState["markerRange"] = 1000
 
 
   //some custom events for our app

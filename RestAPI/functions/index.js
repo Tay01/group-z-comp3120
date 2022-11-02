@@ -26,8 +26,16 @@ const corsOptions = {
 //Add all urls to CORS whitelist - change later for security
 app.use(cors(corsOptions));
 
+//markers
 app.use('/api/markers', require('./routes/api/markers'));
 
+
+
+//user
+app.use('/api/user', require('./routes/api/user'));
+
+
+//other
 app.get('/', (req, res) => {
     res.send('Super Hello');
 });
