@@ -19,6 +19,31 @@ export default function MenuOverlayContainer(props) {
   /*this container is relatively positioned so that its components can be positioned absolutely within the overlay.
   this will allow us to have buttons that appear over the map, but are unrelated to map controls. */
   
+  const [state, setState] = React.useState({
+    //define states that will control the menu items here
+    //these states will be passed to the menu items as props
+    //the menu items will then use these states to determine how to render themselves
+
+    "selectMarkerControl": "closed",
+    
+
+  });
+
+  window.addEventListener("markerDropEvent", () => {
+    setState({...state, "selectMarkerControl": "closed"})
+    console.log("marker dropped event")
+  })
+
+  //helper functions to pass to our props for easy state changes
+  const setCursorDefaultMode = () => {
+    setState({
+      ...state,
+      "selectMarkerControl": "closed"
+    })
+    props.proxyState["mapCursorMode"] = "default"
+  }
+
+
   return (
     <div className="menuOverlayContainer">
 
@@ -104,6 +129,9 @@ export default function MenuOverlayContainer(props) {
           visualComponent={<Marker color="white"/>}
           text="Marker"
           proxyState={props.proxyState}
+          menuState={state}
+          closeFn = {setCursorDefaultMode}
+          openFn = {() => {setState({...state, "selectMarkerControl": "open"})}}
         >
           <SelfExpander spawnLR={true}>
             <SelfExpanderItem>

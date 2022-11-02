@@ -46,8 +46,12 @@ function App() {
   //some custom events for our app
   
   const filterEvent = new Event("filterEvent");
+  const markerDropEvent = new Event("markerDropEvent");
+  const switchFocusEvent = new Event("switchFocusEvent");
   const eventsObject = {
     filterEvent: filterEvent,
+    markerDropEvent: markerDropEvent,
+    switchFocusEvent: switchFocusEvent
   };
 
   if (isLoading) {
@@ -76,7 +80,7 @@ else if(isAuthenticated) {
 
   return (
     <div className="App">
-      <MapWrapper proxyState={proxyState}/>
+      <MapWrapper proxyState={proxyState} eventsObject={eventsObject}/>
       {/* MenuOverlayContainer: These are the controls overlaying the map
       Inputs: proxyState -> contains variables/state that other components outside this tree will need to reference
       Inputs: eventsObject -> contains logic to fire custom events that other components outside this tree will need to reference

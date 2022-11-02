@@ -9,6 +9,7 @@ export default function MapWrapper(props) {
   console.log("MapWrapper was initialised");
   //on initialisation, we want to set our state variables for the proxyState
   const appState = props.proxyState;
+  const eventsObject = props.eventsObject;
   const username = props.user
   appState["userLocation"] = { lat: 0, lng: 0 };
   appState["markers"] = [];
@@ -67,6 +68,11 @@ export default function MapWrapper(props) {
       const marker = dropMarker(position, appState.markerDropType, undefined, undefined, username);
       marker.save();
       console.log("yeet");
+      appState.mapCursorMode = "default";
+      dispatchEvent(eventsObject.markerDropEvent);
+
+      
+
     }
   };
 
@@ -81,7 +87,7 @@ export default function MapWrapper(props) {
   };
 
   const dropMarker = (pos, color, markerData=undefined, id, creatorUser) => {
-    const marker = new MarkerWrapper(pos, color, markerData, appState, onMarkerClick, id, creatorUser);
+    const marker = new MarkerWrapper(pos, color, markerData, appState, eventsObject, onMarkerClick, id, creatorUser);
     appState["markers"].push(marker);
     return marker;
   };
@@ -174,7 +180,6 @@ export default function MapWrapper(props) {
 
     //after map is loaded, we can bind event listeners to it
     map.addListener("click", onMapClick);
-    map.addListener("mousedown", getMarkersFromServer)
     window.addEventListener("filterEvent", filterMarkers);
 
     // Create the DIV to hold the control.

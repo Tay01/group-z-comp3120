@@ -2,9 +2,11 @@ import React from "react";
 import { state, useState } from "react";
 
 export default function SelfExpandableMenu(props) {
-  const [open, setOpen] = useState(false);
 
-  if(open){
+  
+  
+
+  if(props.menuState.selectMarkerControl == "open"){
     return (
       <div className="selfExpandableMenu" id={props.id==undefined?"":props.id}>
         
@@ -21,7 +23,7 @@ export default function SelfExpandableMenu(props) {
   else{
   return (
     <div className="selfExpandableMenu" id={props.id == undefined ? "" : props.id}>
-      <div className="menuIconButton" onClick={() => setOpen(!open)}>
+      <div className="menuIconButton" onClick={props.openFn}>
         {props.visualComponent == undefined ? (
           <div className="selfExpandClosed">{props.text}</div>
         ) : (
@@ -30,7 +32,7 @@ export default function SelfExpandableMenu(props) {
         <span></span>
       </div>
 
-      {open && props.children}
+      {props.menuState == "open" && props.children}
     </div>
   );
         }

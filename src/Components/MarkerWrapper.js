@@ -6,14 +6,16 @@ import ReactDOM from "react-dom"
 
 
 class MarkerWrapper {
-  constructor(pos, color, metadata, appState, onMarkerClick, id, creatorUser) {
+  constructor(pos, color, metadata, appState, eventsObject, onMarkerClick, id, creatorUser) {
     this.docID = id;
     this.pos = pos;
     this.color = color;
     this.appState = appState;
+    this.eventsObject = eventsObject
     this.metadata = metadata;
     this.creatorUser = appState.userState.user
     this.onMarkerClick = onMarkerClick;
+    this.isChanged = false;
     if (metadata == undefined) {
       console.log("metadata is undefined");
       console.log(this.creatorUser)
@@ -44,7 +46,7 @@ class MarkerWrapper {
     //infowindowdiv -> content
     var infoWindowContent = document.createElement("div");
     ReactDOM.render(
-      <MarkerPopup metadata={this.metadata} updatefn={(popupContent) => {this.update(this.pos, this.color, popupContent)}} infoWindow={infoWindow}/>,
+      <MarkerPopup metadata={this.metadata} updatefn={(popupContent) => {this.localUpdate(popupContent)}} infoWindow={infoWindow}/>,
       infoWindowContent
     );
     infoWindow.setContent(infoWindowContent);
@@ -67,13 +69,14 @@ class MarkerWrapper {
 
     marker.addListener("mouseover", () => {
       console.log("hover");
+      window.dispatchEvent(this.eventsObject.switchFocusEvent);
+      console.log("event dispatched")
       this.openInfoWindow();
     })
 
-    marker.addListener("mouseout", () => {
-      console.log("out");
-      this.closeInfoWindow();
-      })
+    
+
+    
     
     
 
@@ -88,6 +91,14 @@ class MarkerWrapper {
     this.getDOMMarker().setMap(map);
   }
 
+  switchFocusEvent(){
+    if(this.isChanged){
+    this.updateRecordInDB(this.pos, this.color, this.metadata);
+    this.isChanged = false;
+    }
+    this.closeInfoWindow();
+  }
+
   openInfoWindow() {
     //this.getUpdated();
 
@@ -96,9 +107,12 @@ class MarkerWrapper {
       map: this.appState.mapObject,
       anchor: this.getDOMMarker(),
     });
+
+    window.addEventListener("switchFocusEvent", this.switchFocusEvent.bind(this));
   }
 
   closeInfoWindow() {
+    window.removeEventListener("switchFocusEvent",this.switchFocusEvent.bind(this));
     this.getDOMMarker().infoWindow.close();
   }
 
@@ -107,7 +121,7 @@ class MarkerWrapper {
     //then do logic for db removal
   }
 
-  async save(payload) {
+  async createRecordInDB(payload) {
     //save to db
     console.log(this.metadata);
     await fetch(
@@ -134,7 +148,7 @@ class MarkerWrapper {
       });
   }
 
-  update(pos,color,payload) {
+  updateRecordInDB(pos,color,payload) {
     //update db
     console.log("saving to db");
     console.log(pos, color, payload)
@@ -152,6 +166,12 @@ class MarkerWrapper {
         },
       }),
     }).then((res) => console.log(res));
+  }
+
+  localUpdate(payload){
+    this.isChanged = true;
+    this.metadata = payload;
+    console.log(this.metadata);
   }
 
   // async getUpdated(){

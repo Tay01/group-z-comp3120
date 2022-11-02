@@ -39,7 +39,6 @@ export default function Canvas(props) {
                 
             });
             
-            console.log(props.proxyState.f)
             ctx.fillText("x: " + e.clientX + " y: " + e.clientY, e.clientX, e.clientY)
             ctx.stroke()
         })
