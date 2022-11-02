@@ -137,13 +137,16 @@ export default function MapWrapper(props) {
   }
 
   function getMarkersFromServer() {
-    
-    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
-      method: "GET",
-      // headers: {
-      //   "Access-Control-Allow-Origin" : "https://group-z.web.app/",
-      // }
-    })
+
+    fetch("http://us-central1-group-z.cloudfunctions.net/app/api/markers/withRange", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: appState.userState.username,
+        range: appState.markerRange,
+    })})
       .then((res) => {
         console.log(res);
         return res.json();

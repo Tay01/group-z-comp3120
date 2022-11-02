@@ -79,6 +79,17 @@ else if(isAuthenticated) {
   console.log(user)
   proxyState["userState"] = { user: user.nickname };
 
+  //login or get user data
+  fetch("http://us-central1-group-z.cloudfunctions.net/app/api/user/init", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user.nickname,
+      })
+    }).then(console.log)
+
   return (
     <div className="App">
       <MapWrapper proxyState={proxyState} eventsObject={eventsObject}/>

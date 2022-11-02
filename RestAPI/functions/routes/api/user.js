@@ -36,3 +36,5 @@ router.post("/update", async (req, res) => {
         res.status(500).send(`Server Error ${error}`);
     }
 })
+
+module.exports = router;

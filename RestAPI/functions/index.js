@@ -14,7 +14,7 @@ admin.initializeApp({
 
 const app = express();
 
-app.use(express.json());
+//app.use(express.json());
 
 // Later Use. For more security.
 const corsOptions = {
@@ -22,6 +22,8 @@ const corsOptions = {
     credentials: true,
     optionSuccessStatus: 200,
 }
+
+app.options('*', cors()) // include before other routes
 
 //Add all urls to CORS whitelist - change later for security
 app.use(cors(corsOptions));
