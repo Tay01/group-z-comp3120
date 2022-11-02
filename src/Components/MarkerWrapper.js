@@ -6,13 +6,14 @@ import ReactDOM from "react-dom"
 
 
 class MarkerWrapper {
-  constructor(pos, color, metadata, appState, onMarkerClick, id, creatorUser) {
+  constructor(pos, color, metadata, appState, onMarkerClick, id, creatorUser, timestamp) {
     this.docID = id;
     this.pos = pos;
     this.color = color;
     this.appState = appState;
     this.metadata = metadata;
     this.creatorUser = appState.userState.user
+    this.timestamp = timestamp;
     this.onMarkerClick = onMarkerClick;
     if (metadata == undefined) {
       console.log("metadata is undefined");
@@ -111,7 +112,7 @@ class MarkerWrapper {
     //save to db
     console.log(this.metadata);
     await fetch(
-      "https://us-central1-group-z.cloudfunctions.net/app/api/markers",
+      "/api/markers",
       {
         method: "POST",
         headers: {
@@ -121,6 +122,7 @@ class MarkerWrapper {
           pos: this.pos,
           color: this.color,
           metadata: this.metadata,
+          timestamp: this.timestamp,
         }),
       }
     )
@@ -134,11 +136,11 @@ class MarkerWrapper {
       });
   }
 
-  update(pos,color,payload) {
+  update(pos,color,payload, timestamp) {
     //update db
     console.log("saving to db");
     console.log(pos, color, payload)
-    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
+    fetch("/api/markers", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -149,6 +151,7 @@ class MarkerWrapper {
           pos: pos,
           color: color,
           metadata: payload,
+          timestamp: timestamp,
         },
       }),
     }).then((res) => console.log(res));
