@@ -9,6 +9,7 @@ import Profile from "./Profile.js";
 import SelfExpander from "./SelfExpander.js";
 import SelfExpanderItem from "./SelfExpanderItem.js";
 import SelfExpandableMenu from "./SelfExpandableMenu.js";
+import CommunitiesPage from "./CommunitiesPage.js";
 
 //VisualComponents - these are simple, reusable visual components that can be used to graphically represent a more complex component.
 //Think of these components as an image file, or an icon.
@@ -49,7 +50,7 @@ export default function MenuOverlayContainer(props) {
     <div className="menuOverlayContainer">
       {/* Top Left Menu Burger start ----------------------------------- */}
       <ExpandableMenu
-        id="settingsButton"
+        id="topLeftExpandableMenu"
         visualComponent={<BurgerMenu />}
         text="Settings"
         class="menuButton"
@@ -58,8 +59,8 @@ export default function MenuOverlayContainer(props) {
         <Dropdown openDown={true}>
           <DropdownItem>
             <ExpandableMenu
-              id="settingsExpander"
-              text="Settings"
+              id="firstLeftExpander"
+              text="Profile"
               proxyState={props.proxyState}
             >
               <Dropdown openDown={true}>
@@ -88,7 +89,19 @@ export default function MenuOverlayContainer(props) {
               </Dropdown>
             </ExpandableMenu>
           </DropdownItem>
-          <DropdownItem>Communities</DropdownItem>
+          <DropdownItem>
+            <ExpandableMenu
+              id="secondLeftExpander"
+              text="Communities"
+              proxyState={props.proxyState}
+            >
+              <Dropdown openDown={true}>
+                <DropdownItem>
+                  <CommunitiesPage appState={props.proxyState}></CommunitiesPage>
+                  </DropdownItem>
+                </Dropdown>
+              </ExpandableMenu>
+              </DropdownItem>
         </Dropdown>
       </ExpandableMenu>
       {/* Top Left Menu Burger end ----------------------------------- */}
