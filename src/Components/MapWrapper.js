@@ -65,7 +65,7 @@ export default function MapWrapper(props) {
     //A second timestamp can be added in the future for reference.
     //30000ms will be adjusted in the future.
     var timestamp = Timestamp.fromDate(new Date(Date.now() + 30000));
-    timestamp.toDate()
+    console.log(timestamp.toDate())
     if (appState.mapCursorMode == "marker") {
       //if we are creating a new marker,,,
 

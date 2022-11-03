@@ -50,3 +50,16 @@ app.use('/api/user', require('./routes/api/user'));
 // });
 
 exports.app = functions.https.onRequest(app)
+
+
+exports.scheduledDelete = functions.pubsub.schedule('every 10 minutes').onRun((context) => {
+    console.log('This will be run every 10 minutes!');
+    const db = admin.firestore();
+    const now = new Date();
+    const cutoff = now.getTime() - 1000 * 60 * 60 * 24 * 7;
+    const old = new Date(cutoff).toISOString();
+    const query = db.collection('markers').where('timestamp', '<', old).limit(100);
+    return new Promise((resolve, reject) => {
+        deleteQueryBatch(db, query, resolve).catch(reject);
+    });
+})

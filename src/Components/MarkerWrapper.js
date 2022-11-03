@@ -150,7 +150,7 @@ class MarkerWrapper {
       });
   }
 
-  update(pos,color,payload) {
+  update(pos,color,payload, timestamp) {
     //update db
     console.log("saving to db");
     console.log(pos, color, payload)
