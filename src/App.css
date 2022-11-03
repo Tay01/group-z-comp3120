@@ -1,3 +1,7 @@
+@import url(https://fonts.googleapis.com/css?family=Special+Elite);
+@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+
+
 :root{
   --speed: 500ms;
   --text-color: black;
@@ -361,33 +365,46 @@ a{
 .landingpage {
   justify-content: center;
   color: white;
-  font-size: 150px;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 100px;
+  font-family: "Special Elite";
 }
 
 
 
-.landingpage .loginpage {
-  display: flex;
- 
-}
 
 .loginButton{
-  font-size: 80px;
-  background-color: white;
-  border-radius: 10px;
-  width: auto;
-  height: auto;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  background-color: none;
+  width: 200px;
+  height: 200px;
+  padding: 180px;
+  margin-left: 600px;
+  align-items: center;
 
 }
-.loginButton :hover{
-  background-color: gray;
 
+
+.loginButton:hover{
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
 .App {
-  background: none;
+  background-color: none;
 }
 
 

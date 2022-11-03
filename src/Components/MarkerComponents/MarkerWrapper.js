@@ -185,7 +185,7 @@ class MarkerWrapper {
     console.log("saving to db");
     console.log(bodyData)
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },

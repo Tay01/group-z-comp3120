@@ -110,7 +110,7 @@ router.post("/withRange", async (req, res) => {
 
 });
 
-router.put("/", async (req, res) => {
+router.patch("/", async (req, res) => {
   console.log(req.body);
   try {
     const marker = await db.collection("markers").doc(req.body.id).get();

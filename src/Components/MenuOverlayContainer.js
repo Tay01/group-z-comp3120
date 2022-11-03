@@ -1,21 +1,20 @@
 import React from "react";
 //Components - GUI
-import ButtonComponent from "../Components/ButtonComponent.js";
-import ExpandableMenu from "../Components/ExpandableMenu";
-import Dropdown from "../Components/Dropdown";
-import DropdownItem from "../Components/DropdownItem";
-import LogoutButton from "../Components/LogoutButton.js";
-import Profile from "../Components/Profile.js";
-import SelfExpander from "../Components/SelfExpander.js";
-import SelfExpanderItem from "../Components/SelfExpanderItem.js";
-import SelfExpandableMenu from "../Components/SelfExpandableMenu.js";
-import CommunitiesPage from "../Components/CommunitiesPage.js";
+import ButtonComponent from "./ButtonComponent.js";
+import ExpandableMenu from "./ExpandableMenu";
+import Dropdown from "./Dropdown";
+import DropdownItem from "./DropdownItem";
+import LogoutButton from "./LogoutButton.js";
+import Profile from "./Profile.js";
+import SelfExpander from "./SelfExpander.js";
+import SelfExpanderItem from "./SelfExpanderItem.js";
+import SelfExpandableMenu from "./SelfExpandableMenu.js";
 
 //VisualComponents - these are simple, reusable visual components that can be used to graphically represent a more complex component.
 //Think of these components as an image file, or an icon.
-import BurgerMenu from "../Components/VisualComponents/BurgerMenu";
-import Marker from "../Components/VisualComponents/Marker"
-import MenuSlider from "../Components/MenuSlider.js";
+import BurgerMenu from "./VisualComponents/BurgerMenu";
+import Marker from "./VisualComponents/Marker"
+import MenuSlider from "./MenuSlider.js";
 
 export default function MenuOverlayContainer(props) {
   /*this container is relatively positioned so that its components can be positioned absolutely within the overlay.
@@ -31,10 +30,10 @@ export default function MenuOverlayContainer(props) {
 
   });
 
-  //EVENT LISTENERS FOR THE ENTIRE GUI MENU
-  //bind functions to trigger for certain events here. These functions can be passed to the menu items as props
-  
-  
+  window.addEventListener("markerDropEvent", () => {
+    setState({...state, "selectMarkerControl": "closed"})
+    console.log("marker dropped event")
+  })
 
   //helper functions to pass to our props for easy state changes
   const setCursorDefaultMode = () => {
@@ -42,32 +41,26 @@ export default function MenuOverlayContainer(props) {
       ...state,
       "selectMarkerControl": "closed"
     })
-    props.appState["mapCursorMode"] = "default"
+    props.proxyState["mapCursorMode"] = "default"
   }
 
-  window.addEventListener("markerDropEvent", setCursorDefaultMode);
-
-  //GLOSSARY OF GUI ITEMS
-  //ExpandableMenu :: A small div with a visual button that contains a 'Dropdown' div. The Dropdown div is hidden until clicked.
-  //Dropdown :: Intended for use with an expandable menu, this is a div that contains a list of 'DropdownItem' components.
-  //DropdownItem :: Think of this as the "<li>" tag, if the Dropdown is the "<ul>" tag. You can put whatever you like in a DropdownItem, but it mainly exists for styling.
 
   return (
     <div className="menuOverlayContainer">
       {/* Top Left Menu Burger start ----------------------------------- */}
       <ExpandableMenu
-        id="topLeftExpandableMenu"
+        id="settingsButton"
         visualComponent={<BurgerMenu />}
         text="Settings"
         class="menuButton"
-        appState={props.appState}
+        proxyState={props.proxyState}
       >
         <Dropdown openDown={true}>
           <DropdownItem>
             <ExpandableMenu
-              id="firstLeftExpander"
-              text="Profile"
-              appState={props.appState}
+              id="settingsExpander"
+              text="Settings"
+              proxyState={props.proxyState}
             >
               <Dropdown openDown={true}>
                 <DropdownItem>
@@ -75,7 +68,7 @@ export default function MenuOverlayContainer(props) {
                     id="dropMarkerButton"
                     text="Drop Marker"
                     onClick={() => {
-                      props.appState["mapCursorMode"] = "marker";
+                      props.proxyState["mapCursorMode"] = "marker";
                     }}
                   />
                 </DropdownItem>
@@ -84,7 +77,7 @@ export default function MenuOverlayContainer(props) {
                     id="deleteMarkerButton"
                     text="Delete Marker"
                     onClick={() => {
-                      props.appState["mapCursorMode"] = "delete";
+                      props.proxyState["mapCursorMode"] = "delete";
                     }}
                   />
                 </DropdownItem>
@@ -95,19 +88,7 @@ export default function MenuOverlayContainer(props) {
               </Dropdown>
             </ExpandableMenu>
           </DropdownItem>
-          <DropdownItem>
-            <ExpandableMenu
-              id="secondLeftExpander"
-              text="Communities"
-              appState={props.appState}
-            >
-              <Dropdown openDown={true}>
-                <DropdownItem>
-                  <CommunitiesPage appState={props.appState}></CommunitiesPage>
-                  </DropdownItem>
-                </Dropdown>
-              </ExpandableMenu>
-              </DropdownItem>
+          <DropdownItem>Communities</DropdownItem>
         </Dropdown>
       </ExpandableMenu>
       {/* Top Left Menu Burger end ----------------------------------- */}
@@ -118,25 +99,25 @@ export default function MenuOverlayContainer(props) {
         visualComponent={<BurgerMenu />}
         text="Account"
         class="menuButton"
-        appState={props.appState}
+        proxyState={props.proxyState}
       >
         <Dropdown openDown={true} openLeft={true}>
           <DropdownItem>
             <ExpandableMenu
               id="accountExpander"
               text="Settings"
-              appState={props.appState}
+              proxyState={props.proxyState}
             >
               <Dropdown openDown={true}>
                 <DropdownItem>
-                  <MenuSlider title="Marker Range" units="M" min={10} max={5000} releaseFn={
+                  <MenuSlider title="Marker Range" units="KMS" releaseFn={
                     (value) => {
-                      props.appState["markerRange"] = value
-                      window.dispatchEvent(new Event("markerRangeChangedEvent"))
+                      props.proxyState["markerRange"] = value
+                      window.dispatchEvent(new Event("markerRangeChange"))
                     }
                   }/>
                 </DropdownItem>
-                <DropdownItem>Nothing rude</DropdownItem>
+                <DropdownItem> Your profile </DropdownItem>
                 <DropdownItem>Nothing rude</DropdownItem>
               </Dropdown>
             </ExpandableMenu>
@@ -152,7 +133,7 @@ export default function MenuOverlayContainer(props) {
           id="selectMarkerTypeButton"
           visualComponent={<Marker color="white" />}
           text="Marker"
-          appState={props.appState}
+          proxyState={props.proxyState}
           menuState={state}
           closeFn={setCursorDefaultMode}
           openFn={() => {
@@ -167,8 +148,8 @@ export default function MenuOverlayContainer(props) {
                 visualComponent={<Marker color="red" />}
                 text="Red"
                 onClick={() => {
-                  props.appState["mapCursorMode"] = "marker";
-                  props.appState["markerDropType"] = "red";
+                  props.proxyState["mapCursorMode"] = "marker";
+                  props.proxyState["markerDropType"] = "red";
                 }}
               />
             </SelfExpanderItem>
@@ -179,8 +160,8 @@ export default function MenuOverlayContainer(props) {
                 visualComponent={<Marker color="blue" />}
                 text="Blue"
                 onClick={() => {
-                  props.appState["mapCursorMode"] = "marker";
-                  props.appState["markerDropType"] = "blue";
+                  props.proxyState["mapCursorMode"] = "marker";
+                  props.proxyState["markerDropType"] = "blue";
                 }}
               />
             </SelfExpanderItem>
@@ -191,8 +172,8 @@ export default function MenuOverlayContainer(props) {
                 visualComponent={<Marker color="green" />}
                 text="Green"
                 onClick={() => {
-                  props.appState["mapCursorMode"] = "marker";
-                  props.appState["markerDropType"] = "green";
+                  props.proxyState["mapCursorMode"] = "marker";
+                  props.proxyState["markerDropType"] = "green";
                 }}
               />
             </SelfExpanderItem>
@@ -208,11 +189,11 @@ export default function MenuOverlayContainer(props) {
             id="viewRedMarkersButton"
             text="Hide Red Markers"
             onClick={() => {
-              props.appState["mapCursorMode"] = "default";
-              props.appState["markerViewType"]["red"] =
-                !props.appState["markerViewType"]["red"];
+              props.proxyState["mapCursorMode"] = "default";
+              props.proxyState["markerViewType"]["red"] =
+                !props.proxyState["markerViewType"]["red"];
               document.getElementById("viewRedMarkersButton").innerHTML = props
-                .appState["markerViewType"]["red"]
+                .proxyState["markerViewType"]["red"]
                 ? "Hide Red Markers"
                 : "Show Red Markers";
               dispatchEvent(props.eventsObject["filterEvent"]);
@@ -222,11 +203,11 @@ export default function MenuOverlayContainer(props) {
             id="viewBlueMarkersButton"
             text="Hide Blue Markers"
             onClick={() => {
-              props.appState["mapCursorMode"] = "default";
-              props.appState["markerViewType"]["blue"] =
-                !props.appState["markerViewType"]["blue"];
+              props.proxyState["mapCursorMode"] = "default";
+              props.proxyState["markerViewType"]["blue"] =
+                !props.proxyState["markerViewType"]["blue"];
               document.getElementById("viewBlueMarkersButton").innerHTML = props
-                .appState["markerViewType"]["blue"]
+                .proxyState["markerViewType"]["blue"]
                 ? "Hide Blue Markers"
                 : "Show Blue Markers";
               dispatchEvent(props.eventsObject["filterEvent"]);
@@ -236,11 +217,11 @@ export default function MenuOverlayContainer(props) {
             id="viewGreenMarkersButton"
             text="Hide Green Markers"
             onClick={() => {
-              props.appState["mapCursorMode"] = "default";
-              props.appState["markerViewType"]["green"] =
-                !props.appState["markerViewType"]["green"];
+              props.proxyState["mapCursorMode"] = "default";
+              props.proxyState["markerViewType"]["green"] =
+                !props.proxyState["markerViewType"]["green"];
               document.getElementById("viewGreenMarkersButton").innerHTML =
-                props.appState["markerViewType"]["green"]
+                props.proxyState["markerViewType"]["green"]
                   ? "Hide Green Markers"
                   : "Show Green Markers";
               dispatchEvent(props.eventsObject["filterEvent"]);
