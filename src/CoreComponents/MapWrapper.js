@@ -2,26 +2,23 @@ import React from "react";
 import { useState, useEffect, shouldComponentUpdate } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Loader, Marker, GoogleMap } from "@googlemaps/js-api-loader";
-import MarkerPopup from "./MarkerPopup";
-import MarkerWrapper from "./MarkerWrapper";
+import MarkerPopup from "../Components/MarkerComponents/MarkerPopup";
+import MarkerWrapper from "../Components/MarkerComponents/MarkerWrapper";
 import { Timestamp } from "firebase/firestore";
 
 
 export default function MapWrapper(props) {
   console.log("MapWrapper was initialised");
   //on initialisation, we want to set our state variables for the proxyState
-  const appState = props.proxyState;
+  const appState = props.appState;
   const eventsObject = props.eventsObject;
   const username = props.user
   appState["markers"] = [];
   appState["markerPositions"] = [];
 
-  //set to false if you want the map to render. Otherwise, it is just here to limit api calls
-  if (false) {
-    return <div id="mapWrapper" style={{ backgroundColor: "red" }}></div>;
-  }
 
-  //define the loader for the map
+
+  //DO NOT TOUCH
   const loader = new Loader({
     apiKey: "AIzaSyDu_da3gQIs8G9RB9_CLdDRNyNCXUW-EJ8",
     version: "weekly",
@@ -32,7 +29,7 @@ export default function MapWrapper(props) {
   //create a reference to the map, so we can call map methods
   const mapRef = React.createRef();
 
-  //define custom methods for the map
+  //CUSTOM METHODS FOR MAP CONTROLS
   const setCenter = (map) => {
     map.setCenter(appState.userLocation);
     getLocation();
@@ -54,27 +51,34 @@ export default function MapWrapper(props) {
     return controlButton;
   }
 
-  // //event listeners for the map
+  //Functions for use with EventListeners
   const onMapClick = (e) => {
     const position = {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
     };
-    //This timestamp is for TTL Policy. Should delete 30 seconds after being placed.
-    //A second timestamp can be added in the future for reference.
-    //30000ms will be adjusted in the future.
-    var timestamp = Timestamp.fromDate(new Date(Date.now() + 30000));
-    timestamp.toDate()
+    
+    
     if (appState.mapCursorMode == "marker") {
       //if we are creating a new marker,,,
+      
+      //This timestamp is for TTL Policy. Should delete 30 seconds after being placed.
+      //A second timestamp can be added in the future for reference.
+      //30000ms will be adjusted in the future.
+      var timestamp = Timestamp.fromDate(new Date(Date.now() + 30000));
+      timestamp.toDate();
 
-      const marker = dropMarker(position, appState.markerDropType, undefined, undefined, username, timestamp);
+      const marker = dropMarker(
+        position,
+        appState.markerDropType,
+        undefined,
+        undefined,
+        username,
+        timestamp
+      );
       marker.createRecordInDB();
       appState.mapCursorMode = "default";
       dispatchEvent(eventsObject.markerDropEvent);
-
-      
-
     }
   };
 
@@ -125,20 +129,34 @@ export default function MapWrapper(props) {
     }
   };
 
+  function filterMarkersRange(){
+    getMarkersFromServer().then(
+      () => {
+        appState.markers.forEach((marker) => {
+          if (marker.distanceFromUser > appState.markerRange) {
+            console.log("do Something")
+          }
+        });
+      }
+    )
+    
+  }
+
   function filterMarkers() {
-    console.log("filtering markers");
-    console.log(appState.markers);
+    getMarkersFromServer().then(
     appState.markers.forEach((marker) => {
       if (!appState["markerViewType"][marker.color]) {
         marker.setMap(null);
       } else {
         marker.setMap(appState.mapObject);
       }
-    });
+    }))
     console.log(appState.markers);
+    
   }
 
-  function getMarkersFromServer() {
+  async function getMarkersFromServer() {
+    appState.markers = [];
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers/withRange", {
       method: "POST",
       headers: {
@@ -154,7 +172,7 @@ export default function MapWrapper(props) {
       })
       .then((data) => {
         const resultFromServer = data;
-        console.log(resultFromServer);
+        console.log("RESULT FROM SERVER: " + resultFromServer);
         console.log(appState.markers)
         var markerIDs = appState.markers.map((marker) => marker.docID)
         console.log(markerIDs)
@@ -163,9 +181,9 @@ export default function MapWrapper(props) {
 
         newMarkers.forEach((newMarker) => {
           console.log("I have a new marker")
+          console.log(newMarker[1])
           dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata, newMarker[1], newMarker[0].creatorUser, newMarker[0].timestamp);
         });
-        filterMarkers();
       });
   }
 
@@ -183,10 +201,11 @@ export default function MapWrapper(props) {
       icon: "http://maps.google.com/mapfiles/ms/micons/man.png",
     });
 
-    //after map is loaded, we can bind event listeners to it
+    //AFTER MAPLOAD -> BIND EVENT LISTENERS
     map.addListener("click", onMapClick);
     window.addEventListener("filterEvent", filterMarkers);
     window.addEventListener("markerRangeChangedEvent", getMarkersFromServer);
+    window.addEventListener("markerRangeChangedEvent", filterMarkersRange)
 
     // Create the DIV to hold the control.
     const centerControlDiv = document.createElement("div");
