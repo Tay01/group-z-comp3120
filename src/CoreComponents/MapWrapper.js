@@ -65,6 +65,9 @@ export default function MapWrapper(props) {
 
   //Functions for use with EventListeners
   const onMapClick = (e) => {
+    console.log("IM CLICKING")
+    e.stop()
+    e.cancelBubble = true;
     const clickPosition = {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
@@ -91,7 +94,6 @@ export default function MapWrapper(props) {
         },
         undefined
       );
-      marker.createRecordInDB();
       appState.mapCursorMode = "default";
       dispatchEvent(eventsObject.markerDropEvent);
     }

@@ -33,10 +33,8 @@ export default function MenuOverlayContainer(props) {
 
   //EVENT LISTENERS FOR THE ENTIRE GUI MENU
   //bind functions to trigger for certain events here. These functions can be passed to the menu items as props
-  window.addEventListener("markerDropEvent", () => {
-    setState({...state, "selectMarkerControl": "closed"})
-    console.log("marker dropped event")
-  })
+  
+  
 
   //helper functions to pass to our props for easy state changes
   const setCursorDefaultMode = () => {
@@ -46,6 +44,8 @@ export default function MenuOverlayContainer(props) {
     })
     props.appState["mapCursorMode"] = "default"
   }
+
+  window.addEventListener("markerDropEvent", setCursorDefaultMode);
 
   //GLOSSARY OF GUI ITEMS
   //ExpandableMenu :: A small div with a visual button that contains a 'Dropdown' div. The Dropdown div is hidden until clicked.
