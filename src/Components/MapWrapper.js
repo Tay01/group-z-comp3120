@@ -11,7 +11,6 @@ export default function MapWrapper(props) {
   const appState = props.proxyState;
   const eventsObject = props.eventsObject;
   const username = props.user
-  appState["userLocation"] = { lat: 0, lng: 0 };
   appState["markers"] = [];
   appState["markerPositions"] = [];
 
@@ -66,7 +65,7 @@ export default function MapWrapper(props) {
       //if we are creating a new marker,,,
 
       const marker = dropMarker(position, appState.markerDropType, undefined, undefined, username);
-      marker.save();
+      marker.createRecordInDB();
       console.log("yeet");
       appState.mapCursorMode = "default";
       dispatchEvent(eventsObject.markerDropEvent);
@@ -137,14 +136,13 @@ export default function MapWrapper(props) {
   }
 
   function getMarkersFromServer() {
-
-    fetch("http://us-central1-group-z.cloudfunctions.net/app/api/markers/withRange", {
+    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers/withRange", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: appState.userState.username,
+        username: appState.userState.user,
         range: appState.markerRange,
     })})
       .then((res) => {

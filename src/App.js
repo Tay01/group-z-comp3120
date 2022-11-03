@@ -79,16 +79,33 @@ else if(isAuthenticated) {
   console.log(user)
   proxyState["userState"] = { user: user.nickname };
 
-  //login or get user data
-  fetch("https://us-central1-group-z.cloudfunctions.net/app/api/user/init", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username: user.nickname,
-    }),
-  }).then(console.log);
+  //first get user Location, then initialise the map
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition((position) => {
+      proxyState["userState"]["userLocation"] = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+
+      //login or get user data
+      fetch(
+        "https://us-central1-group-z.cloudfunctions.net/app/api/user/init",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: user.nickname,
+            pos: proxyState["userState"]["userLocation"],
+          }),
+        }
+      ).then(console.log);
+    })
+  }else{
+    console.log("why mang")
+  }
+
 
   return (
     <div className="App">

@@ -39,7 +39,7 @@ app.use('/api/user', require('./routes/api/user'));
 
 //other
 app.get('/', (req, res) => {
-    res.send('Super Hello');
+    res.send('DIck balls and Hello');
 });
 
 exports.app = functions.https.onRequest(app)

@@ -7,16 +7,12 @@ const db = admin.firestore();
 
 router.post("/init", async (req, res) => {
     try{
-        const user = await db.collection("users").doc(req.body.username).get();
-        if(!user.exists){
-            let userData = await db.collection("users").doc(req.body.username).set({
-                username: req.body.username,
-                pos: req.body.pos})
-        }else{
-            let userData = user.data();
-        }
-        console.log(userData);
-        res.status(200).send(userData);
+        let user = await db.collection("users").doc(req.body.username).set({
+          username: req.body.username,
+          pos: req.body.pos,
+        });
+        console.log(user);
+        res.status(200).send(user);
     }
     catch(error){
         console.log(error)
