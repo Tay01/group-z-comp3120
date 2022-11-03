@@ -7,14 +7,10 @@ import Typewriter from 'typewriter-effect';
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
-  return <button className="loginButton" onClick={() => loginWithRedirect()}>{ <Typewriter id="landingtext"
-  options={{
-    strings: ['Login or signup'],
-    autoStart: true,
-    loop: true,
-    pauseFor: 10000,
-  }}
-/>}</button>;
+  return (<img src="https://is2-ssl.mzstatic.com/image/thumb/Purple115/v4/cd/a0/29/cda029c2-9cda-4689-f248-c7a800bc9919/source/256x256bb.jpg" width="20px" height="20px"
+  className="loginButton" id="loggymark"
+  onClick={() => loginWithRedirect()} /> )
 };
+  
 
 export default LoginButton;

@@ -24,8 +24,7 @@ function App() {
 
   //once the component renders
   useEffect(() => {
-    document.body.style.backgroundImage = 'url("https://wallpaperaccess.com/full/1713147.jpg")' 
-  }, [])
+    document.body.style.backgroundColor="black"}, [])
 
   const { user, isAuthenticated, isLoading } = useAuth0();
  
@@ -54,7 +53,7 @@ function App() {
     return (
       <section className="landingpage">
       {/* <LoginWrapper /> */}
-      <LoginButton className="loginpage" />
+      <LoginButton />
       <Typewriter id="landingtext"
   options={{
     strings: ['Hello welcome to PINGER'],
