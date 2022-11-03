@@ -4,6 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Loader, Marker, GoogleMap } from "@googlemaps/js-api-loader";
 import MarkerPopup from "./MarkerPopup";
 import MarkerWrapper from "./MarkerWrapper";
+import { Timestamp } from "firebase/firestore";
+
 
 export default function MapWrapper(props) {
   console.log("MapWrapper was initialised");
@@ -58,15 +60,16 @@ export default function MapWrapper(props) {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
     };
-    console.log(e);
-    console.log(position);
-    console.log(appState.mapCursorMode);
+    //This timestamp is for TTL Policy. Should delete 30 seconds after being placed.
+    //A second timestamp can be added in the future for reference.
+    //30000ms will be adjusted in the future.
+    var timestamp = Timestamp.fromDate(new Date(Date.now() + 30000));
+    timestamp.toDate()
     if (appState.mapCursorMode == "marker") {
       //if we are creating a new marker,,,
 
-      const marker = dropMarker(position, appState.markerDropType, undefined, undefined, username);
+      const marker = dropMarker(position, appState.markerDropType, undefined, undefined, username, timestamp);
       marker.createRecordInDB();
-      console.log("yeet");
       appState.mapCursorMode = "default";
       dispatchEvent(eventsObject.markerDropEvent);
 
@@ -85,8 +88,8 @@ export default function MapWrapper(props) {
     }
   };
 
-  const dropMarker = (pos, color, markerData=undefined, id, creatorUser) => {
-    const marker = new MarkerWrapper(pos, color, markerData, appState, eventsObject, onMarkerClick, id, creatorUser);
+  const dropMarker = (pos, color, markerData=undefined, id, creatorUser, timestamp) => {
+    const marker = new MarkerWrapper(pos, color, markerData, appState, onMarkerClick, id, creatorUser, timestamp);
     appState["markers"].push(marker);
     return marker;
   };
@@ -160,7 +163,7 @@ export default function MapWrapper(props) {
 
         newMarkers.forEach((newMarker) => {
           console.log("I have a new marker")
-          dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata, newMarker[1], newMarker[0].creatorUser);
+          dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata, newMarker[1], newMarker[0].creatorUser, newMarker[0].timestamp);
         });
         filterMarkers();
       });

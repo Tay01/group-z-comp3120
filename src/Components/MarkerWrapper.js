@@ -6,7 +6,7 @@ import ReactDOM from "react-dom"
 
 
 class MarkerWrapper {
-  constructor(pos, color, metadata, appState, eventsObject, onMarkerClick, id, creatorUser) {
+  constructor(pos, color, metadata, appState, eventsObject, onMarkerClick, id, creatorUser, timestamp) {
     this.docID = id;
     this.pos = pos;
     this.color = color;
@@ -14,6 +14,7 @@ class MarkerWrapper {
     this.eventsObject = eventsObject
     this.metadata = metadata;
     this.creatorUser = appState.userState.user
+    this.timestamp = timestamp;
     this.onMarkerClick = onMarkerClick;
     this.isChanged = false;
     if (metadata == undefined) {
@@ -135,6 +136,7 @@ class MarkerWrapper {
           pos: this.pos,
           color: this.color,
           metadata: this.metadata,
+          timestamp: this.timestamp,
         }),
       }
     )
@@ -148,7 +150,7 @@ class MarkerWrapper {
       });
   }
 
-  updateRecordInDB(pos,color,payload) {
+  update(pos,color,payload) {
     //update db
     console.log("saving to db");
     console.log(pos, color, payload)
@@ -163,6 +165,7 @@ class MarkerWrapper {
           pos: pos,
           color: color,
           metadata: payload,
+          timestamp: timestamp,
         },
       }),
     }).then((res) => console.log(res));
