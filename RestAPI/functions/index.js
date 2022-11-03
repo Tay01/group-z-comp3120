@@ -55,8 +55,8 @@ app.get('/', (req, res) => {
 exports.app = functions.https.onRequest(app)
 
 
-exports.scheduledDelete = functions.pubsub.schedule('every 10 minutes').onRun((context) => {
-    console.log('This will be run every 10 minutes!');
+exports.scheduledDelete = functions.pubsub.schedule('every 1 minutes').onRun((context) => {
+    console.log('This will be run every 1 minutes!');
     const db = admin.firestore();
     const now = new Date();
     const cutoff = now.getTime() - 1000 * 60 * 60 * 24 * 7;
@@ -65,4 +65,32 @@ exports.scheduledDelete = functions.pubsub.schedule('every 10 minutes').onRun((c
     return new Promise((resolve, reject) => {
         deleteQueryBatch(db, query, resolve).catch(reject);
     });
+
+    async function deleteQueryBatch(db, query, resolve) {
+        const snapshot = await query.get();
+
+        const batchSize = snapshot.size;
+        if (batchSize === 0) {
+            // When there are no documents left, we are done
+            resolve();
+            return;
+        }
+
+        // Delete documents in a batch
+        const batch = db.batch();
+        snapshot.docs.forEach((doc) => {
+            batch.delete(doc.ref);
+            //add expired record into markers collection
+            db.collection('markers').doc(doc.id).set({
+                expired: "expired"
+            })
+        });
+        await batch.commit();
+
+        // Recurse on the next process tick, to avoid
+        // exploding the stack.
+        process.nextTick(() => {
+            deleteQueryBatch(db, query, resolve);
+        });
+    }
 })
