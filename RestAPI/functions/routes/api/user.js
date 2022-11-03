@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator");
 
 
 const admin = require("firebase-admin");
-const { updateDoc, FieldValue, Query } = require("@google-cloud/firestore");
+const { updateDoc, FieldValue } = require("@google-cloud/firestore");
 const db = admin.firestore();
 
 router.post("/init", async (req, res) => {
@@ -13,19 +13,19 @@ router.post("/init", async (req, res) => {
     let user = await db
       .collection("users")
       .doc(req.body.username)
-      .create({
+      .update({
         username: req.body.username,
         pos: req.body.pos,
-        friends: []
       });
     }catch{
       let user = await db.collection("users").doc(req.body.username).set({
         username: req.body.username,
         pos: req.body.pos,
+        friends: []
       });
     }
 
-    console.log(user);
+
     res.status(200).send(user);
   } catch (error) {
     console.log(error);
