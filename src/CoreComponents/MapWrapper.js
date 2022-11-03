@@ -164,7 +164,7 @@ export default function MapWrapper(props) {
 
   async function getMarkersFromServer() {
     appState.markers.forEach((currentMarker) => {
-      currentMarker.pullUpdatesFromDB();})
+      currentMarker.pullUpdate();})
       
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers/withRange", {
       method: "POST",

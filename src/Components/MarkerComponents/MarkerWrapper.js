@@ -111,6 +111,15 @@ class MarkerWrapper {
     return this.DOMMarker;
   }
 
+  getMetaData(){
+    return {
+      id: this.id,
+      color: this.color,
+      creator: this.creator,
+      timestamp: this.timestamp
+    }
+  }
+
   setMap(map) {
     this.getDOMMarker().setMap(map);
   }
@@ -156,8 +165,6 @@ class MarkerWrapper {
         },
         body: JSON.stringify({
           pos: this.pos,
-          metaData: this.metaData,
-          bodyData: this.bodyData,
         }),
       }
     )
@@ -168,10 +175,12 @@ class MarkerWrapper {
       .then((data) => {
         console.log(data);
         this.id = data.id;
+        this.updateRecordInDB(this.bodyData)
+
       });
   }
 
-  update(bodyData) {
+  updateRecordInDB(bodyData) {
     //update db
     console.log("saving to db");
     console.log(bodyData)
@@ -181,8 +190,12 @@ class MarkerWrapper {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: this.docID,
-        payload: this.bodyData,
+        id: this.id,
+        payload: {
+          pos: this.pos,
+          metaData: this.getMetaData(),
+          bodyData: this.bodyData
+        }
       }),
     }).then((res) => console.log(res));
   }

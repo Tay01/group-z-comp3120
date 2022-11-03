@@ -54,6 +54,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async(req,res) => {
+  try {
+    const marker = await db.collection("markers").doc(req.params.id).get();
+    res.json(marker.data());
+  } catch (error) {
+    res.status(500).send(`Server Error ${error}`);
+  }
+  
+})
+
 router.post("/withRange", async (req, res) => {
   try{
   if(!req.body.range){
