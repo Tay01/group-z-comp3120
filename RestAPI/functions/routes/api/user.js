@@ -8,7 +8,7 @@ const db = admin.firestore();
 router.post("/init", async (req, res) => {
     try{
         const user = await db.collection("users").doc(req.body.username).get();
-        if(!user.exists()){
+        if(!user.exists){
             let userData = await db.collection("users").doc(req.body.username).set({
                 username: req.body.username,
                 pos: req.body.pos})
@@ -20,7 +20,7 @@ router.post("/init", async (req, res) => {
     }
     catch(error){
         console.log(error)
-        res.status(500).send(`Server Error ${error}`);
+        res.status(500).send(req.body);
     }
 });
 

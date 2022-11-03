@@ -55,6 +55,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/withRange", async (req, res) => {
+  try{
   if(!req.body.range){
     var range = 1000;
   }else{
@@ -85,7 +86,10 @@ router.post("/withRange", async (req, res) => {
   });
 
   res.json(markerList);
-  
+}catch (error) {
+  res.status(500).send(`Server Error ${error}`);
+}
+
 
 });
 
