@@ -4,15 +4,27 @@ const { check, validationResult } = require("express-validator");
 
 
 const admin = require("firebase-admin");
-const { updateDoc, FieldValue } = require("@google-cloud/firestore");
+const { updateDoc, FieldValue, Query } = require("@google-cloud/firestore");
 const db = admin.firestore();
 
 router.post("/init", async (req, res) => {
   try {
-    let user = await db.collection("users").doc(req.body.username).set({
-      username: req.body.username,
-      pos: req.body.pos,
-    });
+    try{
+    let user = await db
+      .collection("users")
+      .doc(req.body.username)
+      .create({
+        username: req.body.username,
+        pos: req.body.pos,
+        friends: []
+      });
+    }catch{
+      let user = await db.collection("users").doc(req.body.username).set({
+        username: req.body.username,
+        pos: req.body.pos,
+      });
+    }
+
     console.log(user);
     res.status(200).send(user);
   } catch (error) {
@@ -34,7 +46,7 @@ router.post("/update", async (req, res) => {
   }
 });
 
-router.put("/", async (req, res) => {
+router.post("/addfriend", async (req, res) => {
   try {
     let userData = db.collection("users").doc(req.body.username).update({
         friends: FieldValue.arrayUnion(req.body.friend)
@@ -47,5 +59,19 @@ router.put("/", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+router.post("/getfriends", async (req, res) => {
+  try {
+    let userData = await db.collection("users").doc(req.body.username).get();
+    console.log(userData);
+    res.status(200).send(userData.data());
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(`Server Error ${error}`);
+  }
+});
+
+
+
 
 module.exports = router;
