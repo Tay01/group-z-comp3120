@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Content from "./Components/Content";
-import LoginButton from "./Components/LoginButton";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { setState, useState } from "react";
 import App from "./App";
 
 ReactDOM.render(

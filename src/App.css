@@ -201,7 +201,7 @@ a{
 }
 
 .dropdownItem{
-  height: var(--icon-size);
+  min-height: var(--icon-size);
   pointer-events: auto;
   -webkit-user-drag: none;
   width: 100%;
@@ -268,7 +268,7 @@ a{
   text-align: right;
 }
 
-#settingsButton{
+#topLeftExpandableMenu{
   position:absolute;
   grid-column: 1/2;
   grid-row: 1/2;

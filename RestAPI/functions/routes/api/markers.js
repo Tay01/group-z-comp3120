@@ -63,11 +63,15 @@ router.post("/withRange", async (req, res) => {
   }
   //fetch the user's location
   const user = await db.collection("users").doc(req.body.username).get();
-  if(!user.exists()){
+  if(!user.exists){
     return res.status(400).json({ errors: "User does not exist" });
   }else{
-    var userPos = user.data().pos;
+    var userPos = user.data();
   }
+
+  console.log(userPos.pos.lat)
+  console.log(req.body)
+  console.log(user)
 
   //calculate range into degrees
   var degRange = range/111139
@@ -75,14 +79,17 @@ router.post("/withRange", async (req, res) => {
   //get markers with pos value within range
   var markerList = []
 
-  const markers = await db.collection("markers")
-  .where("pos.lat",">",userPos.lat-degRange)
-  .where("pos.lat","<",userPos.lat+degRange)
-  .where("pos.lng",">",userPos.lng-degRange)
-  .where("pos.lng","<",userPos.lng+degRange).get();
+  const markers = await db.collection("markers").get();
 
   markers.forEach((marker) => {
-    markerList.push([marker.data(),marker.id]);
+    let mlat = marker.data().pos.lat
+    let mlng = marker.data().pos.lng
+    if((mlat <= userPos.pos.lat + degRange) && (mlat >= userPos.pos.lat - degRange)){
+      if((mlng <= userPos.pos.lng + degRange) && (mlng >= userPos.pos.lng - degRange)){
+        markerList.push([marker.data(), marker.id]);
+      }
+    }
+    
   });
 
   res.json(markerList);

@@ -122,7 +122,7 @@ class MarkerWrapper {
     //then do logic for db removal
   }
 
-  async createRecordInDB(payload) {
+  async createRecordInDB() {
     //save to db
     console.log(this.metadata);
     await fetch(
@@ -165,7 +165,7 @@ class MarkerWrapper {
           pos: pos,
           color: color,
           metadata: payload,
-          timestamp: timestamp,
+          timestamp: this.timestamp,
         },
       }),
     }).then((res) => console.log(res));

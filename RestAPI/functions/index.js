@@ -38,6 +38,9 @@ app.use('/api/user', require('./routes/api/user'));
 
 
 //other
+app.get('/', (req, res) => {
+    res.send('DIck balls and Hello');
+});
 // app.get('/', (req, res) => {
 //     admin.firestore().collection('markers').onSnapshot(snapshot => {
 //         let changes = snapshot.docChanges();
