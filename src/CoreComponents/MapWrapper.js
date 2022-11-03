@@ -12,6 +12,18 @@ export default function MapWrapper(props) {
   //on initialisation, we want to set our state variables for the proxyState
   const appState = props.appState;
   const eventsObject = props.eventsObject;
+  const functionsObject = { //object for passing functions to markers etc. in order to assign the markerWrapper as "this"
+    "onMarkerClick": (markerWrapper) => {
+        //each marker should hold a reference to this "onMarkerClick" function, where pos is set on the creation of the marker.
+        if (appState.mapCursorMode == "delete") {
+          markerWrapper.delete();
+        }
+        if (appState.mapCursorMode == "default") {
+          markerWrapper.openInfoWindow();
+        }
+  },
+
+  }
   const username = props.user
   appState["markers"] = [];
   appState["markerPositions"] = [];
@@ -53,7 +65,7 @@ export default function MapWrapper(props) {
 
   //Functions for use with EventListeners
   const onMapClick = (e) => {
-    const position = {
+    const clickPosition = {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
     };
@@ -68,13 +80,16 @@ export default function MapWrapper(props) {
       var timestamp = new Date(Date.now() + 30000).toISOString();;
       console.log(timestamp);
 
+      //all we need to provide dropMarker when creating a new marker is position and metadata
       const marker = dropMarker(
-        position,
-        appState.markerDropType,
-        undefined,
-        undefined,
-        username,
-        timestamp
+        clickPosition,
+        {
+          id: "unassigned",
+          color: appState.markerDropType,
+          creator: appState.userState.user,
+          timestamp: timestamp
+        },
+        undefined
       );
       marker.createRecordInDB();
       appState.mapCursorMode = "default";
@@ -82,18 +97,10 @@ export default function MapWrapper(props) {
     }
   };
 
-  const onMarkerClick = (markerWrapper) => {
-    //each marker should hold a reference to this "onMarkerClick" function, where pos is set on the creation of the marker.
-    if (appState.mapCursorMode == "delete") {
-      markerWrapper.delete();
-    }
-    if (appState.mapCursorMode == "default") {
-      markerWrapper.openInfoWindow();
-    }
-  };
+  
 
-  const dropMarker = (pos, color, markerData=undefined, id, creatorUser, timestamp) => {
-    const marker = new MarkerWrapper(pos, color, markerData, appState, onMarkerClick, id, creatorUser, timestamp);
+  const dropMarker = (pos, metaData, bodyData) => {
+    const marker = new MarkerWrapper(pos, metaData, bodyData, eventsObject, functionsObject, appState.mapObject);
     appState["markers"].push(marker);
     return marker;
   };
@@ -156,7 +163,9 @@ export default function MapWrapper(props) {
   }
 
   async function getMarkersFromServer() {
-    appState.markers = [];
+    appState.markers.forEach((currentMarker) => {
+      currentMarker.pullUpdatesFromDB();})
+      
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers/withRange", {
       method: "POST",
       headers: {
@@ -181,8 +190,12 @@ export default function MapWrapper(props) {
 
         newMarkers.forEach((newMarker) => {
           console.log("I have a new marker")
-          console.log(newMarker[1])
-          dropMarker(newMarker[0].pos, newMarker[0].color, newMarker[0].metadata, newMarker[1], newMarker[0].creatorUser, newMarker[0].timestamp);
+          console.log(newMarker[0])
+          let metaData = newMarker[0].metaData
+          if(metaData.id == "unassigned"){
+            metaData.id = newMarker[1]
+          }
+          dropMarker(newMarker[0].pos, newMarker[0].metaData, newMarker[0].bodyData);
         });
       });
   }

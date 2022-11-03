@@ -4,15 +4,17 @@ import { state, useState } from "react";
 import { useEffect } from 'react';
 
 export default function MarkerPopup(props) {
-    const [state, setState] = useState(props.metadata)
+    const [state, setState] = useState(props.bodyData)
+
+    const metaData = props.metaData
 
     
 
 
     if(props.infoWindow != undefined){
       props.infoWindow.addListener("closeclick",() => {
-        props.updatefn(state.metadata)
-        console.log(state.metadata)
+        props.updatefn(state)
+        console.log(state)
       })
       
     }
@@ -43,7 +45,7 @@ export default function MarkerPopup(props) {
       <textarea class="MarkerPopupContent" defaultValue={state.mainContent} onChange={mainContentChange}>
       </textarea>
       <br></br>
-      <div class="MarkerPopupCreatorData">Created by: {state.creatorUser}</div>
+      <div class="MarkerPopupCreatorData">Created by: {metaData.creator}</div>
       {state.likes} Likes
       <button
         onClick={likesChange}
