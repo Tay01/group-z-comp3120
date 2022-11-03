@@ -80,8 +80,8 @@ export default function MapWrapper(props) {
       //This timestamp is for TTL Policy. Should delete 30 seconds after being placed.
       //A second timestamp can be added in the future for reference.
       //30000ms will be adjusted in the future.
-      var timestamp = Timestamp.fromDate(new Date(Date.now() + 30000));
-      timestamp.toDate();
+      var timestamp = new Date(Date.now() + 30000).toISOString();;
+      console.log(timestamp);
 
       //all we need to provide dropMarker when creating a new marker is position and metadata
       const marker = dropMarker(
