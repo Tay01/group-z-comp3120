@@ -94,7 +94,7 @@ class MarkerWrapper {
 
   switchFocusEvent(){
     if(this.isChanged){
-    this.updateRecordInDB(this.pos, this.color, this.metadata);
+    this.updateRecordInDB(this.pos, this.color, this.metadata, this.timestamp);
     this.isChanged = false;
     }
     this.closeInfoWindow();
@@ -141,7 +141,7 @@ class MarkerWrapper {
       }
     )
       .then((res) => {
-        console.log(res);
+        console.log(res.json());
         return res.json();
       })
       .then((data) => {
@@ -153,7 +153,7 @@ class MarkerWrapper {
   update(pos,color,payload, timestamp) {
     //update db
     console.log("saving to db");
-    console.log(pos, color, payload)
+    console.log(pos, color, payload, timestamp)
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
       method: "PUT",
       headers: {
