@@ -19,7 +19,7 @@ app.use(express.json());
 // Later Use. For more security.
 const corsOptions = {
     origin: "*",
-    credentials: true,
+    credentials: false,
     optionSuccessStatus: 200,
 }
 
@@ -36,8 +36,15 @@ app.use('/api/user', require('./routes/api/user'));
 
 
 //other
-app.get('/', (req, res) => {
-    res.send('Super Hello');
-});
+// app.get('/', (req, res) => {
+//     admin.firestore().collection('markers').onSnapshot(snapshot => {
+//         let changes = snapshot.docChanges();
+//         changes.forEach(change => {
+//             if (change.type == 'added') {
+//                 res.send(change.doc.data());
+//             }
+//         })
+//     })
+// });
 
 exports.app = functions.https.onRequest(app)

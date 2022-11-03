@@ -125,7 +125,7 @@ class MarkerWrapper {
     //save to db
     console.log(this.metadata);
     await fetch(
-      "https://us-central1-group-z.cloudfunctions.net/app/api/markers",
+      "/api/markers",
       {
         method: "POST",
         headers: {
@@ -152,7 +152,7 @@ class MarkerWrapper {
     //update db
     console.log("saving to db");
     console.log(pos, color, payload)
-    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
+    fetch("/api/markers", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
