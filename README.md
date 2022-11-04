@@ -71,10 +71,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### Authentication 
 
-LoginButton visible if not logged in.
-Logout Button only visible if already logged in. 
-Welcome email sent first time user logs in 
-Auth0 logs for breached passwords 
+#Login with username and password, google or twitter
+#LoginButton visible if not logged in.
+#Logout Button only visible if already logged in. 
+#Welcome email sent first time user logs in 
+#Auth0 logs for breached passwords 
 
 ![image](https://user-images.githubusercontent.com/100017925/200089405-8c560c60-499e-4acb-8d51-f9ab6bf003c5.png)
 
