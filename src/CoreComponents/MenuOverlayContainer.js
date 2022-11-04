@@ -4,6 +4,7 @@ import ButtonComponent from "../Components/ButtonComponent.js";
 import ExpandableMenu from "../Components/ExpandableMenu";
 import Dropdown from "../Components/Dropdown";
 import DropdownItem from "../Components/DropdownItem";
+import DropdownSection from "../Components/DropdownSection";
 import LogoutButton from "../Components/LogoutButton.js";
 import Profile from "../Components/Profile.js";
 import SelfExpander from "../Components/SelfExpander.js";
@@ -16,6 +17,7 @@ import CommunitiesPage from "../Components/CommunitiesPage.js";
 import BurgerMenu from "../Components/VisualComponents/BurgerMenu";
 import Marker from "../Components/VisualComponents/Marker"
 import MenuSlider from "../Components/MenuSlider.js";
+import FriendsList from "../Components/FriendsList.js";
 
 export default function MenuOverlayContainer(props) {
   /*this container is relatively positioned so that its components can be positioned absolutely within the overlay.
@@ -101,13 +103,15 @@ export default function MenuOverlayContainer(props) {
               text="Communities"
               appState={props.appState}
             >
-              <Dropdown openDown={true}>
-                <DropdownItem>
-                  <CommunitiesPage appState={props.appState}></CommunitiesPage>
-                  </DropdownItem>
+              <Dropdown id="secondLeftDropdown" openDown={true}>
+                <DropdownSection>
+                  <CommunitiesPage>
+                    <FriendsList appState={props.appState}/>
+                  </CommunitiesPage>
+                  </DropdownSection>
                 </Dropdown>
               </ExpandableMenu>
-              </DropdownItem>
+            </DropdownItem>
         </Dropdown>
       </ExpandableMenu>
       {/* Top Left Menu Burger end ----------------------------------- */}

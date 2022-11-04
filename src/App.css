@@ -7,7 +7,9 @@
   --text-color: black;
   --icon-size: 50px;
   --transformX-offset: calc(var(--icon-size)/-2);
-  --menuColor: #fff;
+  --menuColorPage: #fff;
+  --menuColorShadow: rgb(230, 230, 230);
+  --menuColorHeader: rgb(247, 247, 247);
   --dropdownWidth: 30vw;
   --borderRadius: 5px;
   font-family: Raleway, sans-serif;
@@ -129,7 +131,7 @@ a{
   position: relative;
   pointer-events: none;
   border-radius: var(--borderRadius);
-  border: solid var(--menuColor);
+  border: solid var(--menuColorHeader);
   
   background-color: transparent;
   width: var(--dropdownWidth);
@@ -209,7 +211,7 @@ a{
   pointer-events: auto;
   -webkit-user-drag: none;
   width: 100%;
-  background-color: var(--menuColor);
+  background-color: var(--menuColorHeader);
   border-radius: var(--borderRadius);
   color: rgb(0, 0, 0);
   text-align: inherit;
@@ -428,3 +430,33 @@ a{
   padding: "0 5px";
   text-align: "center";
 }
+
+.menuSection{
+  width: 100%;
+  height: 100px;
+  border-top: 1px solid var(--menuColorShadow);
+  background-color: var(--menuColorPage);
+  border-radius: 1px;
+  padding-top: 0px;
+  height:fit-content;
+  min-height: 10px;
+  -webkit-user-drag: none;
+  pointer-events: auto;
+}
+
+.menuSection>*{
+  min-height: auto;
+  line-height: 5px;
+  -webkit-user-drag: none;
+}
+
+.menuSection>button{
+  line-height: 100%;
+}
+
+
+
+#secondLeftDropdown>.dropdownItem{
+  height: fit-content;
+}
+
