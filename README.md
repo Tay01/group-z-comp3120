@@ -67,8 +67,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-#Auth 
+### Features and Functionality 
 
-LoginButton visible if not logged in. Logout Button only visible if already logged in. 
-Profile displays google account profile image, username and email 
+### Authentication 
+
+LoginButton visible if not logged in.
+Logout Button only visible if already logged in. 
 Welcome email sent first time user logs in 
+Auth0 logs for breached passwords 
+
+![image](https://user-images.githubusercontent.com/100017925/200089405-8c560c60-499e-4acb-8d51-f9ab6bf003c5.png)
+
+
