@@ -55,22 +55,22 @@ app.get('/', (req, res) => {
 exports.app = functions.https.onRequest(app)
 
 
-exports.scheduledDelete = functions.pubsub.schedule('every 1 minutes').onRun((context) => {
-    console.log('This will be run every 1 minutes!');
+exports.scheduledDelete = functions.pubsub.schedule('every 555 minutes').onRun((context) => {
+    console.log('This will be run every 555 minutes!');
     const db = admin.firestore();
-    const now = new Date();
-    const cutoff = now.getTime() - 1000 * 60 * 60 * 24 * 7;
-    const old = new Date(cutoff).toISOString();
-    const query = db.collection('markers').where('timestamp', '<', old).limit(100);
+    const now = Date.now();
+
+    const query = db.collection('markers').where('metaData.timestamp', '<', now).limit(100);
     return new Promise((resolve, reject) => {
         deleteQueryBatch(db, query, resolve).catch(reject);
     });
 
     async function deleteQueryBatch(db, query, resolve) {
         const snapshot = await query.get();
-
+        console.log("Checkpoint 1: " + snapshot)
         const batchSize = snapshot.size;
         if (batchSize === 0) {
+            console.log("Checkpoint 2: " + batchSize)
             // When there are no documents left, we are done
             resolve();
             return;
@@ -79,11 +79,8 @@ exports.scheduledDelete = functions.pubsub.schedule('every 1 minutes').onRun((co
         // Delete documents in a batch
         const batch = db.batch();
         snapshot.docs.forEach((doc) => {
+            console.log("Checkpoint 3: " + doc)
             batch.delete(doc.ref);
-            //add expired record into markers collection
-            db.collection('markers').doc(doc.id).set({
-                expired: "expired"
-            })
         });
         await batch.commit();
 
