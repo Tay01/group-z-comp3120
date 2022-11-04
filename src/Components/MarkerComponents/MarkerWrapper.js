@@ -208,15 +208,22 @@ class MarkerWrapper {
   async pullUpdate(){
     //send this marker's id to DB, get back the latest version of the marker
     //update this marker's bodyData
+    try{
 
-    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers/" + this.id, {
+    fetch("/api/markers/" + this.id, {
       method: "GET"
     }).then((res) => {
+      try{
       return res.json();
+      }catch(err){
+        return false}
       }).then((data) => {
         console.log(data);
         this.bodyData = data.bodyData;
       });
+    }catch{
+      return false
+    }
   }
 
 

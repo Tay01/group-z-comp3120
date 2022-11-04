@@ -166,9 +166,15 @@ export default function MapWrapper(props) {
 
   async function getMarkersFromServer() {
     appState.markers.forEach((currentMarker) => {
-      currentMarker.pullUpdate();})
       
-    fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers/withRange", {
+      let isReal = currentMarker.pullUpdate();
+      if (!isReal) {
+        appState.markers.remove(currentMarker)
+      }
+      
+    })
+      
+    fetch("/api/markers/withRange", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -220,7 +226,8 @@ export default function MapWrapper(props) {
     map.addListener("click", onMapClick);
     window.addEventListener("filterEvent", filterMarkers);
     window.addEventListener("markerRangeChangedEvent", getMarkersFromServer);
-    window.addEventListener("markerRangeChangedEvent", filterMarkersRange)
+    window.addEventListener("markerRangeChangedEvent", filterMarkersRange);
+    window.setInterval(getMarkersFromServer, 10000);
 
     // Create the DIV to hold the control.
     const centerControlDiv = document.createElement("div");
