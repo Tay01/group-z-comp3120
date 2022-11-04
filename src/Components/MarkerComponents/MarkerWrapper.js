@@ -10,15 +10,14 @@ class MarkerWrapper {
   //Marker wrapper data can be considered in two parts:
   // 1. bodyData:: the data that is dynamic, subject to change, like likes and core content.
   // 2. metaData:: the data that is static, like the color and position of the marker.
-  constructor(pos, metaData, bodyData, eventsObject, functionsObject, map, timestamp) {
+  constructor(pos, metaData, bodyData, eventsObject, functionsObject, map) {
     //guess pos is technically metadata but its so important i dont think we wanna bother wrapping and unwrapping all the time
     this.pos = pos;
     //metadata must be defined, and contain the following:
     this.id = metaData.id;
     this.color = metaData.color;
     this.creator = metaData.creator;
-    //this can not be in metaData.
-    this.timestamp = timestamp;
+    this.timestamp = metaData.timestamp;
 
     //side effects of metadata
     this.icon = "http://maps.google.com/mapfiles/ms/icons/" + this.color + "-dot.png";
@@ -116,7 +115,8 @@ class MarkerWrapper {
     return {
       id: this.id,
       color: this.color,
-      creator: this.creator
+      creator: this.creator,
+      timestamp: this.timestamp
     }
   }
 
