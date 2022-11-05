@@ -11,7 +11,7 @@ class MarkerWrapper {
   //Marker wrapper data can be considered in two parts:
   // 1. bodyData:: the data that is dynamic, subject to change, like likes and core content.
   // 2. metaData:: the data that is static, like the color and position of the marker.
-  constructor(pos, metaData, bodyData, eventsObject, functionsObject, map) {
+  constructor(pos, metaData, bodyData, appState, eventsObject, functionsObject, map) {
     //guess pos is technically metadata but its so important i dont think we wanna bother wrapping and unwrapping all the time
     this.pos = pos;
     //metadata must be defined, and contain the following:
@@ -37,9 +37,13 @@ class MarkerWrapper {
 
     //instance attributes that are not passed or sent
     this.isChanged = false;
+    
 
     //events object must be passed in order to access events to dispatch
     this.eventsObject = eventsObject
+    
+    //state
+    this.appState = appState;
     
     
     //functions object must be passed in order to access functions to call, and must contain at least the onMarkerClick
@@ -64,32 +68,18 @@ class MarkerWrapper {
   createDOMMarker() {
     //this method creates a google maps marker object and returns it
 
-    const infoWindow = new window.google.maps.InfoWindow({});
+    this.infoWindow = new window.google.maps.InfoWindow({});
     var infoWindowContent = document.createElement("div");
-    const root = createRoot(infoWindowContent);
-    root.render(
-      <MarkerPopup
-        metaData={
-          {id: this.id,
-          color: this.color,
-          creator: this.creator,
-          timestamp: this.timestamp}
-        }
-        bodyData={this.bodyData}
-        updatefn={(popupContent) => {
-          this.localUpdate(popupContent);
-        }}
-        infoWindow={infoWindow}
-      />
-    );
+    this.root = createRoot(infoWindowContent);
+    
 
-    infoWindow.setContent(infoWindowContent);
+    this.infoWindow.setContent(infoWindowContent);
   
     const marker = new window.google.maps.Marker({
       map: this.map,
       position: this.pos,
       icon: this.icon,
-      infoWindow: infoWindow,
+      infoWindow: this.infoWindow,
     });
 
     //bind event listeners
@@ -103,9 +93,27 @@ class MarkerWrapper {
       console.log("event dispatched")
       this.openInfoWindow();
     })
-
-  
+    this.renderRoot();
     return marker;
+  }
+
+  renderRoot(){
+    this.root.render(
+      <MarkerPopup
+        metaData={{
+          id: this.id,
+          color: this.color,
+          creator: this.creator,
+          timestamp: this.timestamp,
+        }}
+        bodyData={this.bodyData}
+        updatefn={(popupContent) => {
+          this.localUpdate(popupContent);
+        }}
+        infoWindow={this.infoWindow}
+        isCreatorUser={this.creator == this.appState.userState.user}
+      />
+    );
   }
 
   getDOMMarker() {

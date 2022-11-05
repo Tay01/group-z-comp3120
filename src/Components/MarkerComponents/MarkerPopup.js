@@ -8,6 +8,15 @@ export default function MarkerPopup(props) {
 
     const metaData = props.metaData
 
+    const mainContentRef = React.useRef();
+
+    useEffect(() => {
+      if(!props.isCreatorUser) {
+      mainContentRef.current.setAttribute("readonly", true)
+    }
+    }, [])
+
+
     
 
 
@@ -42,7 +51,7 @@ export default function MarkerPopup(props) {
     
   return (
     <div class="MarkerPopup">
-      <textarea class="MarkerPopupContent" defaultValue={state.mainContent} onChange={mainContentChange}>
+      <textarea class="MarkerPopupContent" ref={mainContentRef} defaultValue={state.mainContent} onChange={mainContentChange}>
       </textarea>
       <br></br>
       <div class="MarkerPopupCreatorData">Created by: {metaData.creator}</div>
