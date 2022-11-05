@@ -63,7 +63,7 @@ export default function MenuOverlayContainer(props) {
       {/* Top Left Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="topLeftExpandableMenu"
-        visualComponent={<BurgerMenu ref={topLeftRef}/>}
+        visualComponent={<BurgerMenu ref={topLeftRef} />}
         propRef={topLeftRef}
         text="Settings"
         class="menuButton"
@@ -76,25 +76,7 @@ export default function MenuOverlayContainer(props) {
               text="Profile"
               appState={props.appState}
             >
-              <Dropdown openDown={true}>
-                <DropdownItem>
-                  <ButtonComponent
-                    id="dropMarkerButton"
-                    text="Drop Marker"
-                    onClick={() => {
-                      props.appState["mapCursorMode"] = "marker";
-                    }}
-                  />
-                </DropdownItem>
-                <DropdownItem>
-                  <ButtonComponent
-                    id="deleteMarkerButton"
-                    text="Delete Marker"
-                    onClick={() => {
-                      props.appState["mapCursorMode"] = "delete";
-                    }}
-                  />
-                </DropdownItem>
+              <Dropdown openDown={true} class="subMenu">
                 <DropdownItem>
                   {" "}
                   <LogoutButton />
@@ -108,15 +90,15 @@ export default function MenuOverlayContainer(props) {
               text="Communities"
               appState={props.appState}
             >
-              <Dropdown id="secondLeftDropdown" openDown={true}>
+              <Dropdown id="secondLeftDropdown" openDown={true} class="subMenu">
                 <DropdownSection>
                   <CommunitiesPage>
-                    <FriendsList appState={props.appState}/>
+                    <FriendsList appState={props.appState} />
                   </CommunitiesPage>
-                  </DropdownSection>
-                </Dropdown>
-              </ExpandableMenu>
-            </DropdownItem>
+                </DropdownSection>
+              </Dropdown>
+            </ExpandableMenu>
+          </DropdownItem>
         </Dropdown>
       </ExpandableMenu>
       {/* Top Left Menu Burger end ----------------------------------- */}
@@ -124,7 +106,7 @@ export default function MenuOverlayContainer(props) {
       {/* Top Right Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="accountButton"
-        visualComponent={<BurgerMenu ref={topRightRef}/>}
+        visualComponent={<BurgerMenu ref={topRightRef} />}
         propRef={topRightRef}
         text="Account"
         class="menuButton"
@@ -137,21 +119,25 @@ export default function MenuOverlayContainer(props) {
               text="Settings"
               appState={props.appState}
             >
-              <Dropdown openDown={true}>
+              <Dropdown openDown={true} class="subMenu">
                 <DropdownItem>
-                  <MenuSlider title="Marker Range" units="M" min={10} max={5000} releaseFn={
-                    (value) => {
-                      props.appState["markerRange"] = value
-                      window.dispatchEvent(new Event("markerRangeChangedEvent"))
-                    }
-                  }/>
+                  <MenuSlider
+                    title="Marker Range"
+                    units="M"
+                    min={10}
+                    max={5000}
+                    releaseFn={(value) => {
+                      props.appState["markerRange"] = value;
+                      window.dispatchEvent(
+                        new Event("markerRangeChangedEvent")
+                      );
+                    }}
+                  />
                 </DropdownItem>
-                <DropdownItem>Nothing rude</DropdownItem>
-                <DropdownItem>Nothing rude</DropdownItem>
+
               </Dropdown>
             </ExpandableMenu>
           </DropdownItem>
-          <DropdownItem>Communities</DropdownItem>
         </Dropdown>
       </ExpandableMenu>
       {/* Top Right Menu Burger end ----------------------------------- */}
