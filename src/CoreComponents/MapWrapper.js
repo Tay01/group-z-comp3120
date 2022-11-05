@@ -28,26 +28,7 @@ export default function MapWrapper(props) {
 
   }
   const username = props.user
-  const zoomMap = {
-    "18": 1,
-    "17": 1.5,
-    "16": 3,
-    "15": 6,
-    "14": 12,
-    "13": 24,
-    "12": 48,
-    "11": 96,
-    "10": 192,
-    "9": 384,
-    "8": 768,
-    "7": 1536,
-    "6": 3072,
-    "5": 6144,
-    "4": 12288,
-    "3": 24576,
-    "2": 49152,
-    "1": 98304,
-  }
+  
   appState["markers"] = [];
   appState["markerPositions"] = [];
 
@@ -250,9 +231,15 @@ export default function MapWrapper(props) {
 
     var rangecircle = {
       url: radarcircle,
-      scaledSize: new window.google.maps.Size(1000, 1000),
+      scaledSize: new window.google.maps.Size(
+        appState.markerRange*180 / (2 ** (22-18)),
+        appState.markerRange*180 / (2 ** (22-18))
+      ),
+      anchor: new window.google.maps.Point(
+        (appState.markerRange*180 / 2 ** (22 - 18))/2,
+        (appState.markerRange*180 / 2 ** (22 - 18))/2
+      ),
       origin: new window.google.maps.Point(0, 0),
-      anchor: new window.google.maps.Point(500, 500)
 
     }
 
@@ -264,35 +251,40 @@ export default function MapWrapper(props) {
       icon: rangecircle,
     });
 
-    map.addListener('zoom_changed', function () {
+    function updateCircleRange(){
     var zoom = map.getZoom();
     console.log(zoom);
     // iterate over markers and call setVisible
     setTimeout(() => {
       rangecircle.scaledSize = new window.google.maps.Size(
-        1000 * (1 / zoomMap[zoom]),
-        1000 * (1 / zoomMap[zoom])
+        appState.markerRange*160 / (2 ** (22-zoom)),
+        appState.markerRange*160 / (2 ** (22-zoom))
       );
       rangecircle.anchor = new window.google.maps.Point(
-        (1000 * (1 / zoomMap[zoom]))/2,
-        (1000 * (1 / zoomMap[zoom]))/2
+        (appState.markerRange*160 / 2 ** (22 - zoom))/2,
+        (appState.markerRange*160 / 2 ** (22 - zoom))/2
       );
       userRangeCircle.setPosition(appState.userLocation);
       userRangeCircle.setIcon(rangecircle);
 
-    }, 100)
+    }, 200)
     
     //userRangeCircle.setOptions({icon: rangecircle});
-    })
+    }
+
+    
+    
 
     
 
     //AFTER MAPLOAD -> BIND EVENT LISTENERS
     map.addListener("click", onMapClick);
+    map.addListener("zoom_changed", updateCircleRange);
     window.addEventListener("filterEvent", filterMarkers);
     window.addEventListener("markerRangeChangedEvent", getMarkersFromServer);
     window.addEventListener("markerRangeChangedEvent", filterMarkersRange);
-    window.setInterval(getMarkersFromServer, 10000);
+    window.setInterval(getMarkersFromServer, 100000);
+    window.addEventListener("markerRangeChangedEvent", updateCircleRange);
 
     // Create the DIV to hold the control.
     const centerControlDiv = document.createElement("div");
