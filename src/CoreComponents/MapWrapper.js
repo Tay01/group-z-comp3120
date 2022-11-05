@@ -7,6 +7,8 @@ import MarkerWrapper from "../Components/MarkerComponents/MarkerWrapper";
 import { Timestamp } from "firebase/firestore";
 import Globals from "../Globals.js";
 
+import radarcircle from "../icons/radarcircle.svg";
+
 
 export default function MapWrapper(props) {
   console.log("MapWrapper was initialised");
@@ -26,6 +28,26 @@ export default function MapWrapper(props) {
 
   }
   const username = props.user
+  const zoomMap = {
+    "18": 1,
+    "17": 1.5,
+    "16": 3,
+    "15": 6,
+    "14": 12,
+    "13": 24,
+    "12": 48,
+    "11": 96,
+    "10": 192,
+    "9": 384,
+    "8": 768,
+    "7": 1536,
+    "6": 3072,
+    "5": 6144,
+    "4": 12288,
+    "3": 24576,
+    "2": 49152,
+    "1": 98304,
+  }
   appState["markers"] = [];
   appState["markerPositions"] = [];
 
@@ -215,16 +237,55 @@ export default function MapWrapper(props) {
   loader.load().then(() => {
     //define map
     const map = new window.google.maps.Map(mapRef.current, {
-      center: { lat: -34.397, lng: 150.644 },
+      center: appState.userLocation,
       zoom: 18,
       disableDefaultUI: true,
     });
     //define the user marker
     const userMarker = new window.google.maps.Marker({
-      position: { lat: -34.397, lng: 150.644 },
+      position: appState.userLocation,
       map: map,
       icon: "http://maps.google.com/mapfiles/ms/micons/man.png",
     });
+
+    var rangecircle = {
+      url: radarcircle,
+      scaledSize: new window.google.maps.Size(1000, 1000),
+      origin: new window.google.maps.Point(0, 0),
+      anchor: new window.google.maps.Point(500, 500)
+
+    }
+
+    
+
+    const userRangeCircle = new window.google.maps.Marker({
+      position: appState.userLocation,
+      map: map,
+      icon: rangecircle,
+    });
+
+    map.addListener('zoom_changed', function () {
+    var zoom = map.getZoom();
+    console.log(zoom);
+    // iterate over markers and call setVisible
+    setTimeout(() => {
+      rangecircle.scaledSize = new window.google.maps.Size(
+        1000 * (1 / zoomMap[zoom]),
+        1000 * (1 / zoomMap[zoom])
+      );
+      rangecircle.anchor = new window.google.maps.Point(
+        (1000 * (1 / zoomMap[zoom]))/2,
+        (1000 * (1 / zoomMap[zoom]))/2
+      );
+      userRangeCircle.setPosition(appState.userLocation);
+      userRangeCircle.setIcon(rangecircle);
+
+    }, 100)
+    
+    //userRangeCircle.setOptions({icon: rangecircle});
+    })
+
+    
 
     //AFTER MAPLOAD -> BIND EVENT LISTENERS
     map.addListener("click", onMapClick);
@@ -253,6 +314,10 @@ export default function MapWrapper(props) {
       (pos) => {
         console.log(pos);
         userMarker.setPosition({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
+        userRangeCircle.setPosition({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
