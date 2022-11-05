@@ -124,7 +124,8 @@ export default function MenuOverlayContainer(props) {
       {/* Top Right Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="accountButton"
-        visualComponent={<BurgerMenu />}
+        visualComponent={<BurgerMenu ref={topRightRef}/>}
+        propRef={topRightRef}
         text="Account"
         class="menuButton"
         appState={props.appState}

@@ -17,9 +17,9 @@ export default function ExpandableMenu(props) {
     >
       
         <div className="visualComponent" onClick={() => {
-          if(open){
+          if(open && props.visualComponent != undefined){
             props.propRef.current.classList.remove("expandableMenuOpenClass")
-          }else{
+          }else if(props.visualComponent != undefined){
             props.propRef.current.classList.add("expandableMenuOpenClass");
           }
           setOpen(!open)
