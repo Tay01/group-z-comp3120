@@ -193,6 +193,8 @@ class MarkerWrapper {
     //update db
     console.log("saving to db");
     console.log(bodyData)
+    bodyData.remove("likes")
+    bodyData.remove("dislikes")
     fetch("https://us-central1-group-z.cloudfunctions.net/app/api/markers", {
       method: "PATCH",
       headers: {
@@ -203,14 +205,14 @@ class MarkerWrapper {
         payload: {
           pos: this.pos,
           metaData: this.getMetaData(),
-          bodyData: this.bodyData
+          bodyData: bodyData,
         }
       }),
     }).then((res) => console.log(res));
   }
 
   localUpdate(bodyData){
-    this.bodyData = bodyData;
+    this.bodyData.mainContent = bodyData.mainContent;
     this.isChanged = true;
   }
 
