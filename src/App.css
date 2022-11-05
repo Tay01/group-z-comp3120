@@ -7,7 +7,7 @@
   --text-color: rgb(255, 255, 255);
   --icon-size: 50px;
   --transformX-offset: calc(var(--icon-size)/-2);
-  --menuColorPage: transparent
+  --menuColorPage: transparent;
   --menuColorShadow: rgb(13, 3, 3);
   --menuColorHeader: rgba(0, 0, 0, 0.039);
   --dropdownWidth: 30vw;

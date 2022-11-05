@@ -121,7 +121,7 @@ export default function MapWrapper(props) {
       console.log(timestamp);
 
       //all we need to provide dropMarker when creating a new marker is position and metadata
-      const marker = dropMarker(
+      dropMarker(
         clickPosition,
         {
           id: "unassigned",
@@ -232,9 +232,9 @@ export default function MapWrapper(props) {
 
         newMarkers.forEach((newMarker) => {
           console.log("I have a new marker");
-          console.log(newMarker[0]);
+          console.log(newMarker[1]);
           let metaData = newMarker[0].metaData;
-          if (metaData.id == "unassigned") {
+          if (metaData != undefined && metaData.id == "unassigned") {
             metaData.id = newMarker[1];
           }
           dropMarker(
@@ -255,6 +255,7 @@ export default function MapWrapper(props) {
       zoom: 18,
       disableDefaultUI: true,
       styles: customMapStyle,
+      gestureHandling: "greedy",
     });
     //define the user marker
     const userMarker = new window.google.maps.Marker({
