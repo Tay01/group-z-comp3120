@@ -54,12 +54,17 @@ export default function MenuOverlayContainer(props) {
   //Dropdown :: Intended for use with an expandable menu, this is a div that contains a list of 'DropdownItem' components.
   //DropdownItem :: Think of this as the "<li>" tag, if the Dropdown is the "<ul>" tag. You can put whatever you like in a DropdownItem, but it mainly exists for styling.
 
+  const topLeftRef = React.createRef();
+  const topRightRef = React.createRef();
+  const bottomLeftRef = React.createRef();
+
   return (
     <div className="menuOverlayContainer">
       {/* Top Left Menu Burger start ----------------------------------- */}
       <ExpandableMenu
         id="topLeftExpandableMenu"
-        visualComponent={<BurgerMenu />}
+        visualComponent={<BurgerMenu ref={topLeftRef}/>}
+        propRef={topLeftRef}
         text="Settings"
         class="menuButton"
         appState={props.appState}
