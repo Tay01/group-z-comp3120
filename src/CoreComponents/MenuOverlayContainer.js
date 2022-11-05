@@ -60,87 +60,92 @@ export default function MenuOverlayContainer(props) {
 
   return (
     <div className="menuOverlayContainer">
-      {/* Top Left Menu Burger start ----------------------------------- */}
-      <ExpandableMenu
-        id="topLeftExpandableMenu"
-        visualComponent={<BurgerMenu ref={topLeftRef} />}
-        propRef={topLeftRef}
-        text="Settings"
-        class="menuButton"
-        appState={props.appState}
-      >
-        <Dropdown openDown={true}>
-          <DropdownItem>
-            <ExpandableMenu
-              id="firstLeftExpander"
-              text="Profile"
-              appState={props.appState}
-            >
-              <Dropdown openDown={true} class="subMenu">
-                <DropdownItem>
-                  {" "}
-                  <LogoutButton />
-                </DropdownItem>
-              </Dropdown>
-            </ExpandableMenu>
-          </DropdownItem>
-          <DropdownItem>
-            <ExpandableMenu
-              id="secondLeftExpander"
-              text="Communities"
-              appState={props.appState}
-            >
-              <Dropdown id="secondLeftDropdown" openDown={true} class="subMenu">
-                <DropdownSection>
-                  <CommunitiesPage>
-                    <FriendsList appState={props.appState} />
-                  </CommunitiesPage>
-                </DropdownSection>
-              </Dropdown>
-            </ExpandableMenu>
-          </DropdownItem>
-        </Dropdown>
-      </ExpandableMenu>
-      {/* Top Left Menu Burger end ----------------------------------- */}
+      <div id="topBar">
+        {/* Top Left Menu Burger start ----------------------------------- */}
+        <ExpandableMenu
+          id="topLeftExpandableMenu"
+          visualComponent={<BurgerMenu ref={topLeftRef} />}
+          propRef={topLeftRef}
+          text="Settings"
+          class="menuButton"
+          appState={props.appState}
+        >
+          <Dropdown openDown={true}>
+            <DropdownItem>
+              <ExpandableMenu
+                id="firstLeftExpander"
+                text="Profile"
+                appState={props.appState}
+              >
+                <Dropdown openDown={true} class="subMenu">
+                  <DropdownItem>
+                    {" "}
+                    <LogoutButton />
+                  </DropdownItem>
+                </Dropdown>
+              </ExpandableMenu>
+            </DropdownItem>
+            <DropdownItem>
+              <ExpandableMenu
+                id="secondLeftExpander"
+                text="Communities"
+                appState={props.appState}
+              >
+                <Dropdown
+                  id="secondLeftDropdown"
+                  openDown={true}
+                  class="subMenu"
+                >
+                  <DropdownSection>
+                    <CommunitiesPage>
+                      <FriendsList appState={props.appState} />
+                    </CommunitiesPage>
+                  </DropdownSection>
+                </Dropdown>
+              </ExpandableMenu>
+            </DropdownItem>
+          </Dropdown>
+        </ExpandableMenu>
+        {/* Top Left Menu Burger end ----------------------------------- */}
 
-      {/* Top Right Menu Burger start ----------------------------------- */}
-      <ExpandableMenu
-        id="accountButton"
-        visualComponent={<BurgerMenu ref={topRightRef} />}
-        propRef={topRightRef}
-        text="Account"
-        class="menuButton"
-        appState={props.appState}
-      >
-        <Dropdown openDown={true} openLeft={true}>
-          <DropdownItem>
-            <ExpandableMenu
-              id="accountExpander"
-              text="Settings"
-              appState={props.appState}
-            >
-              <Dropdown openDown={true} class="subMenu">
-                <DropdownItem>
-                  <MenuSlider
-                    title="Marker Range"
-                    units="M"
-                    min={10}
-                    max={5000}
-                    releaseFn={(value) => {
-                      props.appState["markerRange"] = value;
-                      window.dispatchEvent(
-                        new Event("markerRangeChangedEvent")
-                      );
-                    }}
-                  />
-                </DropdownItem>
-
-              </Dropdown>
-            </ExpandableMenu>
-          </DropdownItem>
-        </Dropdown>
-      </ExpandableMenu>
-      {/* Top Right Menu Burger end ----------------------------------- */}
+        {/* Top Right Menu Burger start ----------------------------------- */}
+        <ExpandableMenu
+          id="accountButton"
+          visualComponent={<BurgerMenu ref={topRightRef} />}
+          propRef={topRightRef}
+          text="Account"
+          class="menuButton"
+          appState={props.appState}
+        >
+          <Dropdown openDown={true} openLeft={true}>
+            <DropdownItem>
+              <ExpandableMenu
+                id="accountExpander"
+                text="Settings"
+                appState={props.appState}
+              >
+                <Dropdown openDown={true} class="subMenu">
+                  <DropdownItem>
+                    <MenuSlider
+                      title="Marker Range"
+                      units="M"
+                      min={10}
+                      max={5000}
+                      releaseFn={(value) => {
+                        props.appState["markerRange"] = value;
+                        window.dispatchEvent(
+                          new Event("markerRangeChangedEvent")
+                        );
+                      }}
+                    />
+                  </DropdownItem>
+                </Dropdown>
+              </ExpandableMenu>
+            </DropdownItem>
+          </Dropdown>
+        </ExpandableMenu>
+        {/* Top Right Menu Burger end ----------------------------------- */}
+      </div>
 
       {/* Select Marker Type Div start ----------------------------------- */}
       <div className="selectMarkerTypeDiv">
