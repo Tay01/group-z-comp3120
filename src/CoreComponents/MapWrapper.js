@@ -103,7 +103,7 @@ export default function MapWrapper(props) {
   
 
   const dropMarker = (pos, metaData, bodyData) => {
-    const marker = new MarkerWrapper(pos, metaData, bodyData, eventsObject, functionsObject, appState.mapObject);
+    const marker = new MarkerWrapper(pos, metaData, bodyData, appState, eventsObject, functionsObject, appState.mapObject);
     appState["markers"].push(marker);
     return marker;
   };
@@ -184,7 +184,11 @@ export default function MapWrapper(props) {
         const resultFromServer = data;
         console.log("RESULT FROM SERVER: " + resultFromServer);
         console.log(appState.markers);
-        var markerIDs = appState.markers.map((marker) => marker.id);
+        var markerIDs = []
+        appState.markers.forEach((marker) => {
+          markerIDs.push(marker.id);
+          marker.pullUpdate()
+        })
         var newMarkers = resultFromServer.filter(
           (marker) => !markerIDs.includes(marker[1])
         );
@@ -207,57 +211,6 @@ export default function MapWrapper(props) {
 
   }
 
-  async function getMarkersAndDelete() {
-    appState.markers.forEach((cm) => {
-      cm.delete()
-    })
-    appState.markers = [];
-    // appState.markers.forEach((currentMarker) => {
-      
-    //   let isReal = currentMarker.pullUpdate();
-    //   if (!isReal) {
-    //     currentMarker.delete();
-    //     appState.markers.remove(currentMarker)
-    //     console.log(appState)
-
-    //   }
-      
-    // })
-
-      
-    fetch(Globals.API_BASEURL+"/markers/withRange", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: appState.userState.user,
-        range: appState.markerRange,
-    })})
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((data) => {
-        const resultFromServer = data;
-        console.log("RESULT FROM SERVER: " + resultFromServer);
-        console.log(appState.markers)
-        var markerIDs = appState.markers.map((marker) => marker.id)
-        console.log(markerIDs)
-        var newMarkers = resultFromServer.filter((marker) => !markerIDs.includes(marker[1]))
-        console.log(newMarkers)
-
-        newMarkers.forEach((newMarker) => {
-          console.log("I have a new marker")
-          console.log(newMarker[0])
-          let metaData = newMarker[0].metaData
-          if(metaData.id == "unassigned"){
-            metaData.id = newMarker[1]
-          }
-          dropMarker(newMarker[0].pos, newMarker[0].metaData, newMarker[0].bodyData);
-        });
-      });
-  }
 
   loader.load().then(() => {
     //define map
