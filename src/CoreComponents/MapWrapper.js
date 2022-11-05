@@ -45,6 +45,39 @@ export default function MapWrapper(props) {
   //create a reference to the map, so we can call map methods
   const mapRef = React.createRef();
 
+  //making some custom styles
+  const customMapStyle = [
+    {
+      featureType: "poi",
+      elementType: "labels",
+      stylers: [
+        { visibility: "simplified" },
+      ],
+    },
+    {
+      featureType: "all",
+      elementType: "labels.text.stroke",
+      stylers: [
+        { visibility: "off" },
+      ],
+    },
+    {
+      featureType: "all",
+      elementType: "geometry.stroke",
+      stylers: [
+        { visibility: "simplified" },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry.stroke",
+      stylers: [
+        { visibility: "simplified" },
+      ],
+    }
+
+  ];
+
   //CUSTOM METHODS FOR MAP CONTROLS
   const setCenter = (map) => {
     map.setCenter(appState.userLocation);
@@ -221,6 +254,7 @@ export default function MapWrapper(props) {
       center: appState.userLocation,
       zoom: 18,
       disableDefaultUI: true,
+      styles: customMapStyle,
     });
     //define the user marker
     const userMarker = new window.google.maps.Marker({

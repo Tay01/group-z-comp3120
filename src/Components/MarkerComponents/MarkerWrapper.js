@@ -21,7 +21,7 @@ class MarkerWrapper {
     this.timestamp = metaData.timestamp;
 
     //side effects of metadata
-    this.icon = "http://maps.google.com/mapfiles/ms/icons/" + this.color + "-dot.png";
+    this.icon = "http://maps.google.com/mapfiles/ms/icons/" + this.color + ".png";
     
     //bodyData is optional at instanciation, and if undefined we will define it
     if (bodyData == undefined) {

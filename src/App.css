@@ -216,6 +216,10 @@ html, body {
   right: 0px;
 }
 
+.dropdownLeft>*{
+  text-align: right;
+}
+
 .dropdownDown{
   top: calc(1 * var(--icon-size));
 }
@@ -235,7 +239,7 @@ html, body {
   
   text-align: inherit;
   align-content: center;
-  display: flex;
+  display: inline-block;
   flex-direction: row;
   position: relative;
   font-size: large;
@@ -245,7 +249,10 @@ html, body {
 }
 
 .subMenu{
+  display:inline-block;
+  flex-direction: row;
   position: relative;
+  height:fit-content;
   top:auto;
   left:auto;
   right:auto;
@@ -271,7 +278,6 @@ html, body {
   font-size: small;
   text-align: left;
   justify-content: space-evenly;
-  display: inline-flex;
   vertical-align: top;
   align-items: center;
   
@@ -317,6 +323,12 @@ html, body {
   text-align: right;
   float: right;
   
+}
+
+#accountExpander>*{
+  text-align: right;
+  float:right;
+  align-items: right;
 }
 
 #topLeftExpandableMenu{
@@ -520,4 +532,11 @@ html, body {
   padding: 0px;
   margin: 0px;
 
+}
+
+
+#friendsList{
+  height: fit-content;
+  font-size: xx-small;
+  line-height: normal;
 }
