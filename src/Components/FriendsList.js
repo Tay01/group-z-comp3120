@@ -55,7 +55,7 @@ export default function FriendsList(props) {
   console.log(state);
   return (
     <div id="friendsList">
-      {(Object.keys(state.friends).length != 0)?state.friends.map((friend) => {
+      {(Object.keys(state.friends).length > 0)?state.friends.map((friend) => {
         return <p key={friend}>{friend}</p>;
       }):<p>You have ZERO FRIENDS</p>}
       <input ref={inputRef} type="text" id="addFriendTextInput"></input>
