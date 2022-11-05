@@ -55,8 +55,8 @@ app.get('/', (req, res) => {
 exports.app = functions.https.onRequest(app)
 
 
-exports.scheduledDelete = functions.pubsub.schedule('every 555 minutes').onRun((context) => {
-    console.log('This will be run every 555 minutes!');
+exports.scheduledDelete = functions.pubsub.schedule('every 1 minutes').onRun((context) => {
+    console.log('This will be run every 1 minutes!');
     const db = admin.firestore();
     const now = Date.now();
 

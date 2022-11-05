@@ -4,6 +4,7 @@ import { Loader, Marker, GoogleMap, InfoWindow } from "@googlemaps/js-api-loader
 import MarkerPopup from "./MarkerPopup"
 import ReactDOM from "react-dom"
 import { createRoot } from "react-dom";
+import Globals from "../../Globals";
 
 
 class MarkerWrapper {
@@ -208,22 +209,20 @@ class MarkerWrapper {
   async pullUpdate(){
     //send this marker's id to DB, get back the latest version of the marker
     //update this marker's bodyData
-    try{
-
-    fetch("/api/markers/" + this.id, {
+   
+    fetch(Globals.API_BASEURL + "/markers/" + this.id, {
       method: "GET"
     }).then((res) => {
-      try{
-      return res.json();
-      }catch(err){
-        return false}
+      if(res.status == 200){
+        return res.json();
+      }else{
+        return false
+      }
       }).then((data) => {
-        console.log(data);
-        this.bodyData = data.bodyData;
+        data==false?this.bodyData = data.bodyData:this.bodyData = this.bodyData;
+        return data
       });
-    }catch{
-      return false
-    }
+    
   }
 
 

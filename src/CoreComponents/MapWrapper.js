@@ -5,6 +5,7 @@ import { Loader, Marker, GoogleMap } from "@googlemaps/js-api-loader";
 import MarkerPopup from "../Components/MarkerComponents/MarkerPopup";
 import MarkerWrapper from "../Components/MarkerComponents/MarkerWrapper";
 import { Timestamp } from "firebase/firestore";
+import Globals from "../Globals.js";
 
 
 export default function MapWrapper(props) {
@@ -80,7 +81,7 @@ export default function MapWrapper(props) {
       //This timestamp is for TTL Policy. Should delete 30 seconds after being placed.
       //A second timestamp can be added in the future for reference.
       //30000ms will be adjusted in the future.
-      const timestamp = Date.now();
+      const timestamp = Date.now() + 30*1000;
       console.log(timestamp);
 
       //all we need to provide dropMarker when creating a new marker is position and metadata
@@ -164,17 +165,67 @@ export default function MapWrapper(props) {
     
   }
 
-  async function getMarkersFromServer() {
-    appState.markers.forEach((currentMarker) => {
-      
-      let isReal = currentMarker.pullUpdate();
-      if (!isReal) {
-        appState.markers.remove(currentMarker)
-      }
-      
+  async function getMarkersFromServer(){
+    fetch(Globals.API_BASEURL + "/markers/withRange", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: appState.userState.user,
+        range: appState.markerRange,
+      }),
     })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        const resultFromServer = data;
+        console.log("RESULT FROM SERVER: " + resultFromServer);
+        console.log(appState.markers);
+        var markerIDs = appState.markers.map((marker) => marker.id);
+        var newMarkers = resultFromServer.filter(
+          (marker) => !markerIDs.includes(marker[1])
+        );
+        console.log(newMarkers);
+
+        newMarkers.forEach((newMarker) => {
+          console.log("I have a new marker");
+          console.log(newMarker[0]);
+          let metaData = newMarker[0].metaData;
+          if (metaData.id == "unassigned") {
+            metaData.id = newMarker[1];
+          }
+          dropMarker(
+            newMarker[0].pos,
+            newMarker[0].metaData,
+            newMarker[0].bodyData
+          );
+        });
+      });
+
+  }
+
+  async function getMarkersAndDelete() {
+    appState.markers.forEach((cm) => {
+      cm.delete()
+    })
+    appState.markers = [];
+    // appState.markers.forEach((currentMarker) => {
       
-    fetch("/api/markers/withRange", {
+    //   let isReal = currentMarker.pullUpdate();
+    //   if (!isReal) {
+    //     currentMarker.delete();
+    //     appState.markers.remove(currentMarker)
+    //     console.log(appState)
+
+    //   }
+      
+    // })
+
+      
+    fetch(Globals.API_BASEURL+"/markers/withRange", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -191,7 +242,7 @@ export default function MapWrapper(props) {
         const resultFromServer = data;
         console.log("RESULT FROM SERVER: " + resultFromServer);
         console.log(appState.markers)
-        var markerIDs = appState.markers.map((marker) => marker.docID)
+        var markerIDs = appState.markers.map((marker) => marker.id)
         console.log(markerIDs)
         var newMarkers = resultFromServer.filter((marker) => !markerIDs.includes(marker[1]))
         console.log(newMarkers)
