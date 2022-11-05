@@ -148,7 +148,7 @@ router.get("/:id/dislike", async (req, res) => {
       res.status(404).send("Marker not found");
     } else {
       await db.collection("markers").doc(req.params.id).update({
-        dislikes: FieldValue.increment(1),
+        dislikes: FieldValue.increment(-1),
       });
       res.status(200).send("Marker disliked");
     }
