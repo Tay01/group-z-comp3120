@@ -3,8 +3,8 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 
 const admin = require("firebase-admin");
+const { updateDoc, FieldValue } = require("@google-cloud/firestore");
 const db = admin.firestore();
-
 
 router.post(
   "/",
@@ -119,6 +119,38 @@ router.patch("/", async (req, res) => {
     } else {
       await db.collection("markers").doc(req.body.id).update(req.body.payload);
       res.status(200).send("Marker updated");
+    }
+  } catch (error) {
+    res.status(500).send(`Server Error ${error}`);
+  }
+});
+
+router.get("/:id/like", async (req, res) => {
+  try {
+    const marker = await db.collection("markers").doc(req.params.id).get();
+    if (!marker.exists) {
+      res.status(404).send("Marker not found");
+    } else {
+      await db.collection("markers").doc(req.params.id).update({
+        likes: FieldValue.increment(1),
+      });
+      res.status(200).send("Marker liked");
+    }
+  } catch (error) {
+    res.status(500).send(`Server Error ${error}`);
+  }
+});
+
+router.get("/:id/dislike", async (req, res) => {
+  try {
+    const marker = await db.collection("markers").doc(req.params.id).get();
+    if (!marker.exists) {
+      res.status(404).send("Marker not found");
+    } else {
+      await db.collection("markers").doc(req.params.id).update({
+        dislikes: FieldValue.increment(1),
+      });
+      res.status(200).send("Marker disliked");
     }
   } catch (error) {
     res.status(500).send(`Server Error ${error}`);

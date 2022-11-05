@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.208305bb.css",
-    "main.js": "/static/js/main.86c92afc.js",
-    "static/media/radarcircle.svg": "/static/media/radarcircle.283f2e10d648dcaacee595618f6a6fcb.svg",
+    "main.js": "/static/js/main.3b460d80.js",
+    "static/media/radarcircle.svg": "/static/media/radarcircle.c1090f8fedbb95b74ff5d50101533f6b.svg",
     "index.html": "/index.html",
     "main.208305bb.css.map": "/static/css/main.208305bb.css.map",
-    "main.86c92afc.js.map": "/static/js/main.86c92afc.js.map"
+    "main.3b460d80.js.map": "/static/js/main.3b460d80.js.map"
   },
   "entrypoints": [
     "static/css/main.208305bb.css",
-    "static/js/main.86c92afc.js"
+    "static/js/main.3b460d80.js"
   ]
 }

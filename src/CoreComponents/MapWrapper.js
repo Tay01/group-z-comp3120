@@ -249,6 +249,7 @@ export default function MapWrapper(props) {
       position: appState.userLocation,
       map: map,
       icon: rangecircle,
+      clickable: false,
     });
 
     function updateCircleRange(){

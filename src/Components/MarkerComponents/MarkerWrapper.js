@@ -209,9 +209,9 @@ class MarkerWrapper {
     }).then((res) => console.log(res));
   }
 
-  localUpdate(updatedBodyData){
+  localUpdate(bodyData){
+    this.bodyData = bodyData;
     this.isChanged = true;
-    this.bodyData = updatedBodyData;
   }
 
   async pullUpdate(){
