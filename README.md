@@ -193,15 +193,18 @@ Our planning was not as structured as we liked and we tended to communicate thro
 
 ### After click (select marker colour)
 
-![image](https://user-images.githubusercontent.com/100017925/200164506-86942701-4d06-4c8f-9748-bafcbfce4143.png)
+![image](https://user-images.githubusercontent.com/100017925/200168175-d35a3e1d-36af-4237-9fc1-3a9a4117ce17.png)
+
 
 ### After dropping coloured markers (red, blue, green) 
 
-![image](https://user-images.githubusercontent.com/100017925/200164542-06007300-1964-4cb5-9da5-2a54cc216f4e.png)
+![image](https://user-images.githubusercontent.com/100017925/200168198-e7a6dac6-fc3e-4a34-8199-6bcc31fcc1df.png)
+
 
 ### After clicking hide blue markers, the blue marker is hidden 
 
-![image](https://user-images.githubusercontent.com/100017925/200164559-40345860-c41f-4617-ac0b-e687df390ef8.png)
+![image](https://user-images.githubusercontent.com/100017925/200168213-17a249c0-55ec-4cc9-8fab-e01b5a909fe8.png)
+
 
 ### Adding a comment to a marker, can also increase or decrease like count 
 
