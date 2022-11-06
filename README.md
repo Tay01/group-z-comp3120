@@ -67,17 +67,154 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-### Features and Functionality 
 
-### Authentication 
 
-#Login with username and password, google or twitter
-#LoginButton visible if not logged in.
-#Logout Button only visible if already logged in. 
-#Welcome email sent first time user logs in 
-#Auth0 logs for breached passwords 
+### All Figures are at the bottom of each section
+I.E. 
 
-![image](https://user-images.githubusercontent.com/100017925/200089405-8c560c60-499e-4acb-8d51-f9ab6bf003c5.png)
-User icon is from - <a href="https://www.flaticon.com/free-icons/man-avatar" title="man avatar icons">Man avatar icons created by Valueinvestor - Flaticon</a> 
+### OUTLINE
+-------
+Our application (Pinger) aims to host a platform for individuals and businesses to communicate with each other, primarily using their location. Pinger is a location-based social media platform that aims to bring users closer together using their proximity as a means to communicate with each other. 
+
+The applications target demographic is everyone, regardless of age, gender, race, etc In extension of this we aim to target local businesses and local emergency services to help grow or service a province. In summary anyone with a mobile-phone and connection to the internet with location services can use this app.
+
+As for data sources, our primary source is Google Maps. The application utilises Google Maps API to allow us to render a map onto the users screen. With access to the full auite of Google Maps, integration of the map is easy as the infrastructure has been built by Google. Along side this we use Google Firebase to store our own data and manage client CRUD operations.
+
+GITHUB REPO
+-----------
+
+### MVP Reflection
+--------------
+## As per our MVP, we set out to achieve the following features;
+    *Be able to use the app,
+    *Have the user see their location and it be keyed to their user account,
+    *Be able to perform CRUD operations based on geographical location,
+    *Heatmap functionality,
+    *Multiple reporting types,
+    *Functioning database,
+    *Authentication,
+    *Real time information.
+    *Real time profile, locale
+
+### As for what we achieved based on the list above;
+   * A functional and usable application,
+   * The user can see their location and it is stored in the database (Figure 1),
+    * The user can perform all CRUD operations based around geographical location (Figure 2),
+   * Multiple reporting types (Figure 3),
+     * A Functioning cloud Database,
+    * Authentication to access the application using Auth0,
+    * Real-Time updating using Pub/Sub functions with Google Cloud Functions.
+    
+
+### Additional Milestones achieved that were not mentioned in the MVP;
+   * A fully functioning API,
+    * Application is hosted on the Internet (group-z.web.app),
+    * The full integration of a cloud type database which was never intended to be used,
+    * A Time To Live Function for markers, built for a self-sustaining Database (Figure 4),
+    * Welcome email functionality to all new users 
+    * Monitoring real time user passwords with breach protection 
+
+### Source Code Guide
+-------------------
+
+## The React components that render on the screen are located in the folder named:
+* src,
+* src/Components,
+* src/CoreComponents,
+* src/DebuggingOrDeprecated,
+* src/icons
+
+### The Backend logic, including API, google cloud functions and live builds are in the folder named:
+
+* RestAPI,
+* RestAPI/functions, (API and functions)
+* RestAPI/public (build)
+    
+### Next Steps
+—--------
+Our next steps would first be in taking a step back. We have learnt a lot in the past few weeks about how projects are managed, how to work as a team, and what each component in the Full Stack Development cycle does and its importance. As the project had to be done hastly we feel as if we did not have enough time to plan out basic sketches of what the product will do and feel like. Proper diagrams and mockups would be made to give us an idea for what we are building, with this we can then choose what is realistically achievable and what technologies will best help us achieve that.
+
+Moving on to the technologies that will choose to develop with, in hindsight we might have been better off using React Native. React Native is a better framework for our application as we would like it to be a social media app that users can use on their phones. As for the other technologies we choose throughout this assignment such as NodeJS, Google Firebase and Auth0, we feel as if these were the right choices.
+
+Our planning was not as structured as we liked and we tended to communicate through a telecommunications application, Discord, and decided on what eachother were going to do and proceed. This did not cause any problems throughout, however if we kept ths up more than likely a conflict would occur. The use of Trello, or use Github and its full capabilities.
+
+## Roles
+—----
+### Taylan (45948801)
+### Joshua
+### Ishaq
+
+### Joshua managed the frontend of the application. This included the google maps api, all user functionality, all marker functionality and much of the UI
+### Taylan’s role was to manage the BackEnd. This included integrating the Database and cloud functions and building the API.
+### Ishaq looked after auth and security. This includes breach protection for users, a real time profile pulled from socials, an email provider setup for welcome emails and instructions and the landing page. 
+
+
+
+
+### Landing page 
+
+
+![image](https://user-images.githubusercontent.com/100017925/200164241-4e755082-7dac-4f07-94d0-94226fec2d7b.png)
+
+
+### Login with Auth0 
+
+![image](https://user-images.githubusercontent.com/100017925/200164318-dc4393e2-0ec1-41a0-9e03-53f6c37679ae.png)
+
+### After logging in 
+
+![image](https://user-images.githubusercontent.com/100017925/200164336-e638c1d1-3168-40c6-b3e5-847036a226f5.png)
+
+### Left menu 
+
+![image](https://user-images.githubusercontent.com/100017925/200164343-42948d07-dd6d-405c-a6a1-09c587c22bcd.png)
+
+### Profile section
+
+![image](https://user-images.githubusercontent.com/100017925/200164363-5abe4528-5cd9-4a32-8e97-99bdab26056d.png)
+
+#### Add friends 
+
+![image](https://user-images.githubusercontent.com/100017925/200164407-f6ac37a1-c533-4f72-aa8c-91758bbe1afd.png)
+
+### Right Menu 
+
+![image](https://user-images.githubusercontent.com/100017925/200164434-18d5e006-0984-47f3-9f5c-d36a18f1530c.png)
+
+
+### Right Menu after clicking dropdown
+
+![image](https://user-images.githubusercontent.com/100017925/200164456-2712187a-8b8b-424a-8db2-981c56414e85.png)
+
+
+### Selecting marker (click on marker button in center bottom) this is before click
+
+![image](https://user-images.githubusercontent.com/100017925/200164481-5439d7b5-f5cf-4fd1-85bf-f0aeda0bd734.png)
+
+### After click (select marker colour)
+
+![image](https://user-images.githubusercontent.com/100017925/200164506-86942701-4d06-4c8f-9748-bafcbfce4143.png)
+
+### After dropping coloured markers (red, blue, green) 
+
+![image](https://user-images.githubusercontent.com/100017925/200164542-06007300-1964-4cb5-9da5-2a54cc216f4e.png)
+
+### After clicking hide blue markers, the blue marker is hidden 
+
+![image](https://user-images.githubusercontent.com/100017925/200164559-40345860-c41f-4617-ac0b-e687df390ef8.png)
+
+### Adding a comment to a marker, can also increase or decrease like count 
+
+![image](https://user-images.githubusercontent.com/100017925/200164609-3d7e2172-e577-41bc-815b-82cd4adbc2cd.png)
+
+
+### Return to current location by clicking on center location on top of map 
+
+![image](https://user-images.githubusercontent.com/100017925/200164586-05674765-3d79-473d-9f79-a6e0883da897.png)
+
+
+
+
+
 
 
