@@ -136,12 +136,12 @@ Our next steps would first be in taking a step back. We have learnt a lot in the
 
 Moving on to the technologies that will choose to develop with, in hindsight we might have been better off using React Native. React Native is a better framework for our application as we would like it to be a social media app that users can use on their phones. As for the other technologies we choose throughout this assignment such as NodeJS, Google Firebase and Auth0, we feel as if these were the right choices.
 
-Our planning was not as structured as we liked and we tended to communicate through a telecommunications application, Discord, and decided on what eachother were going to do and proceed. This did not cause any problems throughout, however if we kept ths up more than likely a conflict would occur. The use of Trello, or use Github and its full capabilities.
+Our planning was not as structured as we liked and we tended to communicate through a telecommunications application, Discord, and decided on what eachother were going to do and proceed. This did not cause any problems, but long term it could have damaged our ability to communicate and organise effectively as one. The use of Trello, or use Github and its full capabilities.
 
 ## Roles
 —----
 ### Taylan (45948801)
-### Joshua
+### Joshua (46558098)
 ### Ishaq
 
 ### Joshua managed the frontend of the application. This included the google maps api, all user functionality, all marker functionality and much of the UI

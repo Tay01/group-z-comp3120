@@ -1,6 +1,12 @@
 deployed here - https://group-z.web.app/
 
 * You can deploy yourself by ..
+- If you have a unix based system/ shell, you can run "npm run coolbuild" from the ./group-z-comp3120 folder
+- Otherwise...
+    - Run "npm build"
+    - copy the files from "./build into ./RestAPI/public
+    - log into firebase CLI with credentials that have service-account-user level permissions
+    - run "firebase deploy" or "firebase deploy --only functions" if you want to only update the backend cloud functions.
 
 
 
