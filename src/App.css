@@ -444,6 +444,11 @@ html, body {
 
 }
 
+.incase_image{
+  width: 30%;
+  height: 80%;
+}
+
 .logoutbutton{
   background-color: gray;
   border-radius: 10vh;
