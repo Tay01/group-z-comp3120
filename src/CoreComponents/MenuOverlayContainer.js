@@ -17,11 +17,16 @@ import CommunitiesPage from "../Components/CommunitiesPage.js";
 import BurgerMenu from "../Components/VisualComponents/BurgerMenu";
 import Marker from "../Components/VisualComponents/Marker"
 import MenuSlider from "../Components/MenuSlider.js";
+import { useAuth0 } from "@auth0/auth0-react";
 import FriendsList from "../Components/FriendsList.js";
 
 export default function MenuOverlayContainer(props) {
   /*this container is relatively positioned so that its components can be positioned absolutely within the overlay.
   this will allow us to have buttons that appear over the map, but are unrelated to map controls. */
+
+  const { user, isAuthenticated, isLoading} = useAuth0();
+  const { user_metadata} = useAuth0();
+
   
   const [state, setState] = React.useState({
     //define states that will control the menu items here
@@ -79,7 +84,7 @@ export default function MenuOverlayContainer(props) {
               >
                 <Dropdown openDown={true} class="subMenu">
                   <DropdownItem>
-                    {" "}
+                    <Profile />
                     <LogoutButton />
                   </DropdownItem>
                 </Dropdown>
