@@ -205,7 +205,8 @@ Our planning was not as structured as we liked and we tended to communicate thro
 
 ### Adding a comment to a marker, can also increase or decrease like count 
 
-![image](https://user-images.githubusercontent.com/100017925/200164609-3d7e2172-e577-41bc-815b-82cd4adbc2cd.png)
+
+![image](https://user-images.githubusercontent.com/100017925/200164669-79bf6253-28c4-41da-b237-e7e96436cff7.png)
 
 
 ### Return to current location by clicking on center location on top of map 
