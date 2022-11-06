@@ -142,7 +142,7 @@ Our planning was not as structured as we liked and we tended to communicate thro
 —----
 ### Taylan (45948801)
 ### Joshua (46558098)
-### Ishaq
+### Ishaq (46098569)
 
 ### Joshua managed the frontend of the application. This included the google maps api, all user functionality, all marker functionality and much of the UI
 ### Taylan’s role was to manage the BackEnd. This included integrating the Database and cloud functions and building the API.
