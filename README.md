@@ -78,5 +78,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 #Auth0 logs for breached passwords 
 
 ![image](https://user-images.githubusercontent.com/100017925/200089405-8c560c60-499e-4acb-8d51-f9ab6bf003c5.png)
+User icon is from - <a href="https://www.flaticon.com/free-icons/man-avatar" title="man avatar icons">Man avatar icons created by Valueinvestor - Flaticon</a> 
 
 
