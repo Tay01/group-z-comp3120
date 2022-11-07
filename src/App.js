@@ -8,14 +8,11 @@ import React, { useEffect } from "react";
 
 
 
-//Components
-import LoginButton from "./Components/LoginButton";
-
-
 //Components - Main
 //These are the major, complex sections that make up our overall App. They can be pages or represent large components, such as the map
 import MapWrapper from "./CoreComponents/MapWrapper.js";
 import MenuOverlayContainer from "./CoreComponents/MenuOverlayContainer.js";
+import LoginPage from './CoreComponents/LoginPage';
 
 
 
@@ -51,18 +48,7 @@ function App() {
 
   if (!isAuthenticated){
     return (
-      <section className="landingpage">
-      {/* <LoginWrapper /> */}
-      <LoginButton />
-      <Typewriter id="landingtext"
-  options={{
-    strings: ['Hello welcome to PINGER'],
-    autoStart: true,
-    loop: true,
-    pauseFor: 1500,
-  }}
-/>
-      </section>
+      <LoginPage />
     )
   }
 else if(isAuthenticated) {

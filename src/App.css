@@ -13,6 +13,20 @@
   --dropdownWidth: 30vw;
   --borderRadius: 5px;
   font-family: Raleway, sans-serif;
+
+  --loginpage-speed: 1s;
+  --loginpage-delay: 1s;
+  --loginpage-delay-offset: 50ms;
+
+  --loginpage-ping-thickness: 2px;
+  --loginpage-ping-color: rgb(255, 0, 0);
+  --loginpage-ping2-opacity: 0.5;
+  --loginpage-ping-length: 2.5s;
+  --loginpage-ping-offset: 50ms;
+  --loginpage-ping-bezier: cubic-bezier(.52,.01,.5,1);
+
+  --loginpage-font-main: 2em;
+  --loginpage-font-sub: 1em;
 }
 
 @keyframes spawnLR{
@@ -557,4 +571,287 @@ html, body {
   height: fit-content;
   font-size: xx-small;
   line-height: normal;
+}
+
+
+#start-loginpage-below{
+  -ms-content-zooming: none;
+}
+
+#loginbody{
+    background: rgb(252, 255, 255);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    vertical-align: center;
+}
+
+#loginbody>*{
+    position: absolute;
+    overflow: hidden;
+    color: black;
+}
+
+@keyframes textrise {
+    0%{
+        opacity: 0;
+        top: 120%;
+    }
+
+
+    100%{
+        top: 0%;
+        opacity: 1;
+    }
+}
+
+@keyframes pingGrow{
+    0%{
+        transform: scale(0.1);
+        opacity: 0;
+    }
+
+    10%{
+        transform: scale(1);
+        opacity: 1;
+    }
+    35%{
+        transform: scale(0.5);
+        opacity: 0.2;
+    }
+    45%{
+        transform: scale(0.5);
+        opacity: 0.2;
+    }
+  
+
+    100%{
+        transform: scale(50);
+        opacity: 0;
+    }
+}
+
+@keyframes pingGrow2{
+    0%{
+        transform: scale(0.1);
+        opacity: 0;
+    }
+
+   15%{
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+    35%{
+        transform: scale(0.4);
+        opacity: 0;
+    }
+
+
+
+    100%{
+        transform: scale(50);
+        opacity: 0;
+    }
+}
+
+
+#ping1{
+    position: absolute;
+    animation: pingGrow var(--loginpage-ping-length);
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-fill-mode: forwards;
+    height: 10vw;
+    width: 10vw;
+    top: 50%;
+    left: 50%;
+    margin-left: -5vw;
+    margin-top: -5vw;
+    z-index: 1;
+    opacity: 0;
+    background-color: red;
+    border-radius: 100%;
+    background-color: transparent;
+    border-color: red;
+    border-style: solid;
+    border-width: var(--loginpage-ping-thickness);
+}
+
+#ping2{
+    position: absolute;
+    animation: pingGrow2 var(--loginpage-ping-length);
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-delay: var(--loginpage-ping-offset);
+    animation-fill-mode: forwards;
+    height: 10vw;
+    width: 10vw;
+    top: 50%;
+    left: 50%;
+    margin-left: -5vw;
+    margin-top: -5vw;
+    opacity: 0;
+    z-index: 2;
+    background-color: red;
+    border-radius: 100%;
+    background-color: transparent;
+    border-color: red;
+    border-style: solid;
+    border-width: var(--loginpage-ping-thickness);
+}
+
+
+
+
+
+#textcontainer{
+    height: auto;
+    font-size: var(--loginpage-font-main);
+    position:fixed;
+    overflow: visible;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0%);
+    min-width: 80px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+#textcontainer>*{
+    position: relative;
+    top: 120%;
+    opacity: 0;
+}
+
+
+
+#loginP{
+    animation: textrise var(--loginpage-speed);
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--loginpage-delay) + calc(1*var(--loginpage-delay-offset)));
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-iteration-count: 1;
+
+}
+
+#loginI{
+    animation: textrise var(--loginpage-speed);
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--loginpage-delay) + calc(2*var(--loginpage-delay-offset)));
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-iteration-count: 1;
+    overflow: visible;
+
+}
+
+#loginN{
+    animation: textrise var(--loginpage-speed);
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--loginpage-delay) + calc(3*var(--loginpage-delay-offset)));
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-iteration-count: 1;
+
+}
+
+#loginG{
+    animation: textrise var(--loginpage-speed);
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--loginpage-delay) + calc(4*var(--loginpage-delay-offset)));
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-iteration-count: 1;
+
+}
+
+#loginE{
+    animation: textrise var(--loginpage-speed);
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--loginpage-delay) + calc(5*var(--loginpage-delay-offset)));
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-iteration-count: 1;
+
+}
+
+#loginR{
+    animation: textrise var(--loginpage-speed);
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--loginpage-delay) + calc(6*var(--loginpage-delay-offset)));
+    animation-timing-function: var(--loginpage-ping-bezier);
+    animation-iteration-count: 1;
+
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.letter{
+    font-size: var(--loginpage-font-main);
+    color: black;
+}
+
+#theloginbutton{
+    z-index: 10;
+    animation: fade 1s;
+    animation-delay: calc(var(--loginpage-delay) + var(--loginpage-speed));
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    position: absolute;
+    opacity: 0;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: fit-content;
+    height: 30px;
+    background-color:transparent;
+    border-radius: 10px;
+    border: transparent solid 3px;
+    color: rgb(0, 0, 0);
+    font-size: var(--loginpage-font-sub);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s;
+    transition-property: background-color, color;
+}
+
+#theloginbutton:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes screenrise{
+    0%{
+        top: 130%;
+    }
+    100%{
+        top: -50%;
+    }
+}
+
+#screenout{
+    position: fixed;
+    width: 300%;
+    height: 200%;
+    rotate: 8deg;
+    background-color: rgb(255, 255, 255);
+    top: 130%;
+    animation-fill-mode: forwards;
+    z-index: 100;
+    
+}
+
+.tsc{
+    animation: screenrise 1s ease-in-out;
+    
 }
